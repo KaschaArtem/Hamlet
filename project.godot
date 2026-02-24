@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="Hamlet"
+run/main_scene="uid://bt60cfqb2a2ip"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SceneManager="*uid://c16iybwjkamlr"
 
 [physics]
 

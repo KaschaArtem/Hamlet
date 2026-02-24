@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://bt60cfqb2a2ip"]
+
+[ext_resource type="Script" uid="uid://bllqekj2xx2x4" path="res://scripts/menu/main_menu.gd" id="1_tkwx8"]
+
+[node name="MainMenu" type="Node3D" unique_id=176675296 node_paths=PackedStringArray("new_game_button", "continue_button", "settings_button", "exit_game_button")]
+script = ExtResource("1_tkwx8")
+new_game_button = NodePath("CanvasLayer/VBoxContainer/NewGameButton")
+continue_button = NodePath("CanvasLayer/VBoxContainer/ContinueButton")
+settings_button = NodePath("CanvasLayer/VBoxContainer/SettingsButton")
+exit_game_button = NodePath("CanvasLayer/VBoxContainer/ExitGameButton")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1548957448]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=1156416864]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -22.0
+offset_right = 20.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NewGameButton" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=457119693]
+layout_mode = 2
+text = "New Game"
+
+[node name="ContinueButton" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1909151593]
+layout_mode = 2
+disabled = true
+text = "Continue"
+
+[node name="SettingsButton" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1143097747]
+layout_mode = 2
+text = "Settings"
+
+[node name="ExitGameButton" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=340629557]
+layout_mode = 2
+text = "Exit Game"
+
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/ExitGameButton" to="." method="_on_exit_game_button_pressed"]
