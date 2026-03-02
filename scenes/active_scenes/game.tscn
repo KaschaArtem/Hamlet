@@ -30,13 +30,16 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=171625142 node_paths=PackedStringArray("ground")]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3, 2, 3)
+transform = Transform3D(1, 0, 0, 0, 0.49999997, 0.86602545, 0, -0.86602545, 0.49999997, 0, 0, 0)
+projection = 2
 fov = 60.0
+size = 0.06
 script = ExtResource("1_amqpi")
 ground = NodePath("../Ground")
 
-[node name="Ground" type="Node3D" parent="." unique_id=1711545239]
+[node name="Ground" type="Node3D" parent="." unique_id=1711545239 node_paths=PackedStringArray("camera")]
 script = ExtResource("1_r0i7r")
+camera = NodePath("../Camera3D")
 tile_scene = ExtResource("2_amqpi")
 house_scene = ExtResource("4_5uvhb")
 field_scene = ExtResource("3_6djtn")

@@ -1,8 +1,10 @@
 @tool
 extends Node
 
-const GRID_SIZE = 30
+const GRID_SIZE = 31
 const TILE_SIZE = 0.5
+
+@export var camera: Camera3D
 
 @export var tile_scene: PackedScene
 @export var house_scene: PackedScene
@@ -44,3 +46,7 @@ func generate_grid():
 			)
 			add_child(tile)
 			apply_chess_color(tile, x, z)
+
+	var center = GRID_SIZE / 2
+	ground_grid[center][center] = 1
+	camera.update_position()

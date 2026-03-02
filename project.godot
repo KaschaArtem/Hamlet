@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 SceneManager="*uid://c16iybwjkamlr"
 
+[debug]
+
+gdscript/warnings/integer_division=0
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
