@@ -9,7 +9,7 @@ extends Node
 
 func _ready() -> void:
 	pass
-	
+
 
 func _on_new_game_button_pressed() -> void:
 	SceneManager.change_scene("res://scenes/active_scenes/game.tscn")

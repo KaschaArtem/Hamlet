@@ -13,6 +13,9 @@ sky = SubResource("Sky_oh5ud")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_ggqa2"]
+size = Vector2(15, 15)
+
 [node name="Game" type="Node3D" unique_id=691731226]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=414650152]
@@ -23,3 +26,10 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=171625142]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 2, 0)
+fov = 60.0
+
+[node name="Ground" type="Node3D" parent="." unique_id=1711545239]
+
+[node name="Plane" type="MeshInstance3D" parent="Ground" unique_id=1466200524]
+mesh = SubResource("PlaneMesh_ggqa2")
