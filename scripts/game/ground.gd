@@ -7,11 +7,13 @@ const GRID_CENTER = GRID_SIZE / 2
 
 @export var camera: Camera3D
 
-@export var main_tile_scene: PackedScene
-@export var tile_scene: PackedScene
-@export var house_scene: PackedScene
-@export var field_scene: PackedScene
-@export var pasture_scene: PackedScene
+@export var main_tile_scene: PackedScene   # index 999
+@export var tile_scene: PackedScene        # index 0
+@export var house_scene: PackedScene       # index 1
+@export var field_scene: PackedScene       # index 2
+@export var pasture_scene: PackedScene     # index 3
+@export var tree_scene: PackedScene        # index -1
+@export var water_scene: PackedScene       # index -2
 
 var ground_grid = []
 

@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://dncobx6fil0al" path="res://scenes/game_scenes/objects_scenes/house.tscn" id="4_5uvhb"]
 [ext_resource type="PackedScene" uid="uid://cjxhndyn3jg3" path="res://scenes/game_scenes/objects_scenes/main_tile.tscn" id="4_g754w"]
 [ext_resource type="PackedScene" uid="uid://d1p02ukg7kcfy" path="res://scenes/game_scenes/objects_scenes/pasture.tscn" id="5_g754w"]
+[ext_resource type="PackedScene" uid="uid://dlure545d2ipp" path="res://scenes/game_scenes/objects_scenes/tree.tscn" id="8_inwm1"]
+[ext_resource type="PackedScene" uid="uid://bktngcc427rq0" path="res://scenes/game_scenes/objects_scenes/water.tscn" id="9_cq3oe"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ggqa2"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -42,6 +44,8 @@ tile_scene = ExtResource("2_amqpi")
 house_scene = ExtResource("4_5uvhb")
 field_scene = ExtResource("3_6djtn")
 pasture_scene = ExtResource("5_g754w")
+tree_scene = ExtResource("8_inwm1")
+water_scene = ExtResource("9_cq3oe")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=171625142 node_paths=PackedStringArray("ground")]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
