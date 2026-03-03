@@ -27,7 +27,7 @@ func get_city_bounds(grid):
 func update_position():
 	var bounds = get_city_bounds(ground.ground_grid)
 	var x = ((bounds["right"] - bounds["left"]) + bounds["left"]) * 0.5
-	var y = max(bounds["right"] - bounds["left"], bounds["bottom"] - bounds["top"]) * 0.1
+	var y = max(bounds["right"] - bounds["left"], bounds["bottom"] - bounds["top"]) * 0.15
 	var z = ((bounds["bottom"] - bounds["top"]) + bounds["top"]) * 0.5
 	
 	self.position = Vector3(x_offset + x, y_offset + y, z_offset + z)
