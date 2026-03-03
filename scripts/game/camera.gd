@@ -1,8 +1,8 @@
 extends Node
 
 const x_offset = 0.0
-const y_offset = 2.0
-const z_offset = 1.5
+const y_offset = 2.5
+const z_offset = 0.0
 
 @export var ground: Node3D
 
@@ -26,8 +26,8 @@ func get_city_bounds(grid):
 
 func update_position():
 	var bounds = get_city_bounds(ground.ground_grid)
-	var x = ((bounds["right"] - bounds["left"]) + bounds["left"]) * 0.5
-	var y = max(bounds["right"] - bounds["left"], bounds["bottom"] - bounds["top"]) * 0.15
-	var z = ((bounds["bottom"] - bounds["top"]) + bounds["top"]) * 0.5
+	var x = (bounds["left"] + bounds["right"]) * 0.25
+	var y = max(bounds["right"] - bounds["left"], bounds["bottom"] - bounds["top"]) * 0.35
+	var z = (bounds["top"] + bounds["bottom"]) * 0.25
 	
 	self.position = Vector3(x_offset + x, y_offset + y, z_offset + z)
