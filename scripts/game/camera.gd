@@ -1,11 +1,15 @@
 extends Camera3D
 
-const x_offset = 0.0
-const y_offset = 2.5
-const z_offset = 0.0
+const X_OFFSET = 0.0
+const Y_OFFSET = 2.5
+const Z_OFFSET = 0.0
 const ROTATION_SPEED = 1.2
 
 @export var ground: Node3D
+
+func _ready():
+	update_position()
+
 
 func update_position():
 	var bounds = ground.get_city_bounds()
@@ -13,7 +17,7 @@ func update_position():
 	var y = max(bounds["right"] - bounds["left"], bounds["bottom"] - bounds["top"]) * 0.35
 	var z = (bounds["top"] + bounds["bottom"]) * 0.25
 	
-	self.position = Vector3(x_offset + x, y_offset + y, z_offset + z)
+	self.position = Vector3(X_OFFSET + x, Y_OFFSET + y, Z_OFFSET + z)
 
 
 func _process(delta):

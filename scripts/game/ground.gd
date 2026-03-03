@@ -3,6 +3,7 @@ extends Node3D
 
 const GRID_SIZE = 31
 const TILE_SIZE = 0.5
+const GRID_CENTER = GRID_SIZE / 2
 
 @export var camera: Camera3D
 
@@ -13,14 +14,10 @@ const TILE_SIZE = 0.5
 @export var pasture_scene: PackedScene
 
 var ground_grid = []
-var grid_center = GRID_SIZE / 2
 
 func _ready() -> void:
 	init_ground_grid()
 	generate_grid()
-
-	if !Engine.is_editor_hint():
-		camera.update_position()
 
 
 func get_city_bounds():
@@ -37,13 +34,6 @@ func get_city_bounds():
 				right = max(right, j)
 	return {"top": top, "bottom": bottom, "left": left, "right": right}
 
-
-func init_ground_grid():
-	for i in range(GRID_SIZE):
-		ground_grid.append([])
-		for j in range(GRID_SIZE):
-			ground_grid[i].append(0)
-	ground_grid[grid_center][grid_center] = 999
 
 func apply_chess_color(tile, x, z):
 	var mesh_instance = tile.get_node("MeshInstance3D")
@@ -75,13 +65,22 @@ func add_pasture_tile(x, z):
 	pasture.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	add_child(pasture)
 
+func init_ground_grid():
+	for i in range(GRID_SIZE):
+		ground_grid.append([])
+		for j in range(GRID_SIZE):
+			ground_grid[i].append(0)
+	ground_grid[GRID_CENTER][GRID_CENTER] = 999
+
 func generate_grid():
 	for x in range(GRID_SIZE):
 		for z in range(GRID_SIZE):
-			if x == grid_center and z == grid_center:
-				add_main_tile(x, z)
-			else:
-				add_empty_tile(x, z)
+			var value = ground_grid[z][x]
+			match value:
+				999:
+					add_main_tile(x, z)
+				0:
+					add_empty_tile(x, z)
 
 
 func can_place_empty_tile(grid, x, z) -> bool:
@@ -102,8 +101,8 @@ func can_place_empty_tile(grid, x, z) -> bool:
 	var queue := []
 	var reachable_positive := 0
 
-	queue.append(Vector2i(grid_center, grid_center))
-	visited[grid_center][grid_center] = true
+	queue.append(Vector2i(GRID_CENTER, GRID_CENTER))
+	visited[GRID_CENTER][GRID_CENTER] = true
 
 	var directions = [
 		Vector2i(1, 0),
