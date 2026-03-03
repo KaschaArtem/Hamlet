@@ -21,5 +21,4 @@ func _input(event):
 			var tile_body = result.collider
 			var tile = tile_body.get_parent()
 			var tile_position = tile.position
-			print("Clicked tile node:", tile.name)
-			ground.update_grid_tile(tile, tile_position)
+			ground.update_grid_tile(tile, tile_position, 1)

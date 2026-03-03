@@ -16,6 +16,10 @@ var ground_grid = []
 func _ready() -> void:
 	init_ground_grid()
 	generate_grid()
+	
+	var center = GRID_SIZE / 2
+	ground_grid[center][center] = 1
+	camera.update_position()
 
 
 func init_ground_grid():
@@ -43,11 +47,15 @@ func generate_grid():
 			add_child(tile)
 			apply_chess_color(tile, x, z)
 
-	var center = GRID_SIZE / 2
-	ground_grid[center][center] = 1
-	camera.update_position()
 
-
-func update_grid_tile(tile, tile_position):
-	print(tile_position)
-	
+func update_grid_tile(tile_object, tile_position, to_state):
+	var tile_x = tile_position.x / TILE_SIZE
+	var tile_z = tile_position.z / TILE_SIZE
+	if ground_grid[tile_z][tile_x] != to_state:
+		ground_grid[tile_z][tile_x] = to_state
+	else:
+		pass
+	tile_object.queue_free()
+	var house = house_scene.instantiate()
+	house.position = Vector3(tile_position.x, 0, tile_position.z)
+	add_child(house)
