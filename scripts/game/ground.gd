@@ -17,6 +17,8 @@ const GRID_CENTER = GRID_SIZE / 2
 
 var ground_grid = []
 
+var noise := FastNoiseLite.new()
+
 func _ready() -> void:
 	init_ground_grid()
 	generate_grid()
@@ -36,6 +38,33 @@ func get_city_bounds():
 				right = max(right, j)
 	return {"top": top, "bottom": bottom, "left": left, "right": right}
 
+
+func setup_noise():
+	noise.seed = randi()
+	noise.frequency = 0.1
+	noise.fractal_octaves = 5
+	noise.fractal_gain = 0.5
+func init_ground_grid():
+	setup_noise()
+	for z in range(GRID_SIZE):
+		ground_grid.append([])
+		for x in range(GRID_SIZE):
+			var value = 0
+			var dist = sqrt(pow(x - GRID_CENTER, 2) + pow(z - GRID_CENTER, 2))
+			if dist < 4:
+				value = 0
+			else:
+				var n = noise.get_noise_2d(x, z)
+				var dist_factor = clamp(dist / (GRID_SIZE / 2.0), 0.0, 1.0)
+				n -= (1.0 - dist_factor) * 0.35
+				if n < -0.6:
+					value = -2
+				elif n > 0.2:
+					value = -1
+				else:
+					value = 0
+			ground_grid[z].append(value)
+	ground_grid[GRID_CENTER][GRID_CENTER] = 999
 
 func apply_chess_color(tile, x, z):
 	var mesh_instance = tile.get_node("MeshInstance3D")
@@ -66,13 +95,14 @@ func add_pasture_tile(x, z):
 	var pasture = pasture_scene.instantiate()
 	pasture.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	add_child(pasture)
-
-func init_ground_grid():
-	for i in range(GRID_SIZE):
-		ground_grid.append([])
-		for j in range(GRID_SIZE):
-			ground_grid[i].append(0)
-	ground_grid[GRID_CENTER][GRID_CENTER] = 999
+func add_tree_tile(x, z):
+	var tree = tree_scene.instantiate()
+	tree.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
+	add_child(tree)
+func add_water_tile(x, z):
+	var water = water_scene.instantiate()
+	water.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
+	add_child(water)
 
 func generate_grid():
 	for x in range(GRID_SIZE):
@@ -83,6 +113,10 @@ func generate_grid():
 					add_main_tile(x, z)
 				0:
 					add_empty_tile(x, z)
+				-1:
+					add_tree_tile(x, z)
+				-2:
+					add_water_tile(x, z)
 
 
 func can_place_empty_tile(grid, x, z) -> bool:
@@ -178,9 +212,9 @@ func replace_with_pasture_tile(tile_object, x, z):
 func update_grid_tile(tile_object, to_state):
 	var x = int(tile_object.position.x / TILE_SIZE)
 	var z = int(tile_object.position.z / TILE_SIZE)
-	if ground_grid[z][x] == 999:
-		return
-	if ground_grid[z][x] == to_state:
+	if ground_grid[z][x] == 999 or \
+		ground_grid[z][x] == to_state or \
+		ground_grid[z][x] < 0:
 		return
 	match to_state:
 		0:

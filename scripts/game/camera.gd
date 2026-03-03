@@ -1,7 +1,7 @@
 extends Camera3D
 
 const X_OFFSET = 0.0
-const Y_OFFSET = 2.5
+const Y_OFFSET = 10
 const Z_OFFSET = 0.0
 const ROTATION_SPEED = 1.2
 
