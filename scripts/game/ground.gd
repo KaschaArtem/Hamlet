@@ -39,14 +39,14 @@ func generate_grid():
 	for x in range(GRID_SIZE):
 		for z in range(GRID_SIZE):
 			var tile = tile_scene.instantiate()
-			tile.position = Vector3(
-				x * TILE_SIZE,
-				0,
-				z * TILE_SIZE
-			)
+			tile.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 			add_child(tile)
 			apply_chess_color(tile, x, z)
 
 	var center = GRID_SIZE / 2
 	ground_grid[center][center] = 1
 	camera.update_position()
+
+
+func update_grid_tile(int ):
+	pass

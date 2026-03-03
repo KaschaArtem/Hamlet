@@ -7,8 +7,16 @@ albedo_color = Color(1, 1, 0, 1)
 material = SubResource("StandardMaterial3D_5hv1e")
 size = Vector3(0.5, 0.1, 0.5)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_st5od"]
+size = Vector3(0.5, 0.001, 0.5)
+
 [node name="House" type="Node3D" unique_id=1078763312]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1797774305]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 mesh = SubResource("BoxMesh_mb83u")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1288547837]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=769239319]
+shape = SubResource("BoxShape3D_st5od")
