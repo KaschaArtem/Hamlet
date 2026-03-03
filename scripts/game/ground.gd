@@ -23,6 +23,21 @@ func _ready() -> void:
 		camera.update_position()
 
 
+func get_city_bounds():
+	var top = GRID_SIZE
+	var bottom = 0
+	var left = GRID_SIZE
+	var right = 0
+	for i in range(GRID_SIZE):
+		for j in range(GRID_SIZE):
+			if ground_grid[i][j] > 0:
+				top = min(top, i)
+				bottom = max(bottom, i)
+				left = min(left, j)
+				right = max(right, j)
+	return {"top": top, "bottom": bottom, "left": left, "right": right}
+
+
 func init_ground_grid():
 	for i in range(GRID_SIZE):
 		ground_grid.append([])
