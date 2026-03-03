@@ -2,7 +2,7 @@ extends Camera3D
 
 const x_offset = 0.0
 const y_offset = 2.5
-const z_offset = 0.5
+const z_offset = 0.0
 const ROTATION_SPEED = 1.2
 
 @export var ground: Node3D

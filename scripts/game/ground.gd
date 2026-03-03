@@ -1,11 +1,12 @@
 @tool
-extends Node
+extends Node3D
 
 const GRID_SIZE = 31
 const TILE_SIZE = 0.5
 
 @export var camera: Camera3D
 
+@export var main_tile_scene: PackedScene
 @export var tile_scene: PackedScene
 @export var house_scene: PackedScene
 @export var field_scene: PackedScene
@@ -17,9 +18,9 @@ var grid_center = GRID_SIZE / 2
 func _ready() -> void:
 	init_ground_grid()
 	generate_grid()
-	
-	ground_grid[grid_center][grid_center] = 999
-	camera.update_position()
+
+	if !Engine.is_editor_hint():
+		camera.update_position()
 
 
 func init_ground_grid():
@@ -27,7 +28,7 @@ func init_ground_grid():
 		ground_grid.append([])
 		for j in range(GRID_SIZE):
 			ground_grid[i].append(0)
-
+	ground_grid[grid_center][grid_center] = 999
 
 func apply_chess_color(tile, x, z):
 	var mesh_instance = tile.get_node("MeshInstance3D")
@@ -37,20 +38,85 @@ func apply_chess_color(tile, x, z):
 	else:
 		material.albedo_color = Color(0.5, 0.5, 0.5)
 	mesh_instance.material_override = material
-
+func add_main_tile(x, z):
+	var main_tile = main_tile_scene.instantiate()
+	main_tile.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
+	add_child(main_tile)
+func add_empty_tile(x, z):
+	var tile = tile_scene.instantiate()
+	tile.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
+	add_child(tile)
+	apply_chess_color(tile, x, z)
+func add_house_tile(x, z):
+	var house = house_scene.instantiate()
+	house.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
+	add_child(house)
+func add_field_tile(x, z):
+	var field = field_scene.instantiate()
+	field.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
+	add_child(field)
+func add_pasture_tile(x, z):
+	var pasture = pasture_scene.instantiate()
+	pasture.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
+	add_child(pasture)
 
 func generate_grid():
 	for x in range(GRID_SIZE):
 		for z in range(GRID_SIZE):
-			var tile = tile_scene.instantiate()
-			tile.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
-			add_child(tile)
-			apply_chess_color(tile, x, z)
+			if x == grid_center and z == grid_center:
+				add_main_tile(x, z)
+			else:
+				add_empty_tile(x, z)
 
 
 func can_place_empty_tile(grid, x, z) -> bool:
-	return true
-func can_place_house_tile(x, z) -> bool:
+	var original_positive = 0
+	for row in grid:
+		for value in row:
+			if value > 0:
+				original_positive += 1
+				
+	grid[z][x] = 0
+	
+	var visited := []
+	for i in range(GRID_SIZE):
+		visited.append([])
+		for j in range(GRID_SIZE):
+			visited[i].append(false)
+
+	var queue := []
+	var reachable_positive := 0
+
+	queue.append(Vector2i(grid_center, grid_center))
+	visited[grid_center][grid_center] = true
+
+	var directions = [
+		Vector2i(1, 0),
+		Vector2i(-1, 0),
+		Vector2i(0, 1),
+		Vector2i(0, -1)
+	]
+
+	while queue.size() > 0:
+		var current = queue.pop_front()
+		var cx = current.x
+		var cz = current.y
+		
+		if grid[cz][cx] > 0:
+			reachable_positive += 1
+		
+		for dir in directions:
+			var nx = cx + dir.x
+			var nz = cz + dir.y
+			
+			if nx >= 0 and nx < GRID_SIZE and nz >= 0 and nz < GRID_SIZE:
+				if not visited[nz][nx] and grid[nz][nx] > 0:
+					visited[nz][nx] = true
+					queue.append(Vector2i(nx, nz))
+	
+	grid[z][x] = 1
+	return reachable_positive == original_positive - 1
+func can_place_building_tile(x, z) -> bool:
 	var directions = [
 		Vector2(0, -1),
 		Vector2(0, 1),
@@ -67,43 +133,30 @@ func can_place_house_tile(x, z) -> bool:
 			if value == 1:
 				return true
 	return false
-func can_place_field_tile(grid, x, z) -> bool:
-	return true
-func can_place_pasture_tile(grid, x, z) -> bool:
-	return true
 
-func add_empty_tile(tile_object, x, z):
+func replace_with_empty_tile(tile_object, x, z):
 	if !can_place_empty_tile(ground_grid, x, z):
 		return
 	tile_object.queue_free()
-	var tile = tile_scene.instantiate()
-	tile.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
-	add_child(tile)
-	apply_chess_color(tile, x, z)
+	add_empty_tile(x, z)
 	ground_grid[z][x] = 0
-func add_house_tile(tile_object, x, z):
-	if !can_place_house_tile(x, z):
+func replace_with_house_tile(tile_object, x, z):
+	if !can_place_building_tile(x, z):
 		return
+	tile_object.queue_free()
+	add_house_tile(x, z)
 	ground_grid[z][x] = 1
-	tile_object.queue_free()
-	var house = house_scene.instantiate()
-	house.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
-	add_child(house)
-func add_field_tile(tile_object, x, z):
-	if !can_place_field_tile(ground_grid, x, z):
+func replace_with_field_tile(tile_object, x, z):
+	if !can_place_building_tile(x, z):
 		return
 	tile_object.queue_free()
-	var field = field_scene.instantiate()
-	field.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
-	add_child(field)
+	add_field_tile(x, z)
 	ground_grid[z][x] = 2
-func add_pasture_tile(tile_object, x, z):
-	if !can_place_pasture_tile(ground_grid, x, z):
+func replace_with_pasture_tile(tile_object, x, z):
+	if !can_place_building_tile(x, z):
 		return
 	tile_object.queue_free()
-	var pasture = pasture_scene.instantiate()
-	pasture.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
-	add_child(pasture)
+	add_pasture_tile(x, z)
 	ground_grid[z][x] = 3
 
 func update_grid_tile(tile_object, to_state):
@@ -115,10 +168,10 @@ func update_grid_tile(tile_object, to_state):
 		return
 	match to_state:
 		0:
-			add_empty_tile(tile_object, x, z)
+			replace_with_empty_tile(tile_object, x, z)
 		1:
-			add_house_tile(tile_object, x, z)
+			replace_with_house_tile(tile_object, x, z)
 		2:
-			add_field_tile(tile_object, x, z)
+			replace_with_field_tile(tile_object, x, z)
 		3:
-			add_pasture_tile(tile_object, x, z)
+			replace_with_pasture_tile(tile_object, x, z)

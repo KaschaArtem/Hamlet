@@ -35,6 +35,7 @@ text = "Continue"
 
 [node name="SettingsButton" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1143097747]
 layout_mode = 2
+disabled = true
 text = "Settings"
 
 [node name="ExitGameButton" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=340629557]

@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ci0nlieych60m" path="res://scenes/game_scenes/objects_scenes/tile.tscn" id="2_amqpi"]
 [ext_resource type="PackedScene" uid="uid://w5ckrpu1yclv" path="res://scenes/game_scenes/objects_scenes/field.tscn" id="3_6djtn"]
 [ext_resource type="PackedScene" uid="uid://dncobx6fil0al" path="res://scenes/game_scenes/objects_scenes/house.tscn" id="4_5uvhb"]
+[ext_resource type="PackedScene" uid="uid://cjxhndyn3jg3" path="res://scenes/game_scenes/objects_scenes/main_tile.tscn" id="4_g754w"]
 [ext_resource type="PackedScene" uid="uid://d1p02ukg7kcfy" path="res://scenes/game_scenes/objects_scenes/pasture.tscn" id="5_g754w"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ggqa2"]
@@ -34,7 +35,7 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=171625142 node_paths=PackedStringArray("ground")]
-transform = Transform3D(1, 0, 0, 0, 0.17364822, 0.9848077, 0, -0.9848077, 0.17364822, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
 projection = 2
 fov = 60.0
 size = 0.06
@@ -44,6 +45,7 @@ ground = NodePath("../Ground")
 [node name="Ground" type="Node3D" parent="." unique_id=1711545239 node_paths=PackedStringArray("camera")]
 script = ExtResource("1_r0i7r")
 camera = NodePath("../Camera3D")
+main_tile_scene = ExtResource("4_g754w")
 tile_scene = ExtResource("2_amqpi")
 house_scene = ExtResource("4_5uvhb")
 field_scene = ExtResource("3_6djtn")
