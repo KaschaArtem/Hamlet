@@ -3,7 +3,7 @@ extends Node3D
 @export var camera: Camera3D
 @export var ground: Node3D
 
-var building_action = -1
+var building_action = -999
 
 func _ready() -> void:
 	pass
@@ -13,7 +13,7 @@ func _input(event):
 	if event is InputEventMouseButton \
 	and event.pressed \
 	and event.button_index == MOUSE_BUTTON_LEFT \
-	and building_action != -1:
+	and building_action != -999:
 		var mouse_pos = get_viewport().get_mouse_position()
 		var ray_origin = camera.project_ray_origin(mouse_pos)
 		var ray_dir = camera.project_ray_normal(mouse_pos)
@@ -23,8 +23,7 @@ func _input(event):
 		if result:
 			var tile_body = result.collider
 			var tile = tile_body.get_parent()
-			var tile_position = tile.position
-			ground.update_grid_tile(tile, tile_position, building_action)
+			ground.update_grid_tile(tile, building_action)
 			camera.update_position()
 	
 	if Input.is_action_just_pressed("set_build_to_tile"):
