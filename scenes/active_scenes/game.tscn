@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://ctdw8hcuspub3"]
 
+[ext_resource type="Script" uid="uid://cf7ek5omaq40c" path="res://scripts/game/game.gd" id="1_6djtn"]
 [ext_resource type="Script" uid="uid://dnoqna7ur25ft" path="res://scripts/game/camera.gd" id="1_amqpi"]
 [ext_resource type="Script" uid="uid://dvku0kkeky5io" path="res://scripts/game/ground.gd" id="1_r0i7r"]
 [ext_resource type="PackedScene" uid="uid://ci0nlieych60m" path="res://scenes/game_scenes/objects_scenes/tile.tscn" id="2_amqpi"]
@@ -20,7 +21,10 @@ sky = SubResource("Sky_oh5ud")
 tonemap_mode = 2
 glow_enabled = true
 
-[node name="Game" type="Node3D" unique_id=691731226]
+[node name="Game" type="Node3D" unique_id=691731226 node_paths=PackedStringArray("camera", "ground")]
+script = ExtResource("1_6djtn")
+camera = NodePath("Camera3D")
+ground = NodePath("Ground")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=414650152]
 environment = SubResource("Environment_5jyxj")

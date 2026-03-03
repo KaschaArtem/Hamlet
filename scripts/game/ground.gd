@@ -48,5 +48,6 @@ func generate_grid():
 	camera.update_position()
 
 
-func update_grid_tile(int ):
-	pass
+func update_grid_tile(tile, tile_position):
+	print(tile_position)
+	
