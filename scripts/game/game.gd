@@ -34,3 +34,6 @@ func _input(event):
 		building_action = 2
 	elif Input.is_action_just_pressed("set_build_to_pasture"):
 		building_action = 3
+	
+	if Input.is_action_just_pressed("reload_game_scene"):
+		SceneManager.change_scene("res://scenes/active_scenes/game.tscn")

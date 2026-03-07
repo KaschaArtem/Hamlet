@@ -15,6 +15,15 @@ const GRID_CENTER = GRID_SIZE / 2
 @export var tree_scene: PackedScene        # index -1
 @export var water_scene: PackedScene       # index -2
 
+@export_range(0.0, 1.0) var NOISE_FREQUENCY: float
+@export_range(0, 10) var NOISE_FRACTAL_OCTAVES: int
+@export_range(0.0, 1.0) var NOISE_FRACTAL_GAIN: float
+
+@export_range(1, 8) var BASE_RADIUS: int
+
+@export_range(-1.0, 1.0) var WATER_SPAWN: float
+@export_range(-1.0, 1.0) var WOOD_SPAWN: float
+
 var ground_grid = []
 
 var noise := FastNoiseLite.new()
@@ -41,9 +50,9 @@ func get_city_bounds():
 
 func setup_noise():
 	noise.seed = randi()
-	noise.frequency = 0.1
-	noise.fractal_octaves = 5
-	noise.fractal_gain = 0.5
+	noise.frequency = NOISE_FREQUENCY
+	noise.fractal_octaves = NOISE_FRACTAL_OCTAVES
+	noise.fractal_gain = NOISE_FRACTAL_GAIN
 func init_ground_grid():
 	setup_noise()
 	for z in range(GRID_SIZE):
@@ -51,15 +60,15 @@ func init_ground_grid():
 		for x in range(GRID_SIZE):
 			var value = 0
 			var dist = sqrt(pow(x - GRID_CENTER, 2) + pow(z - GRID_CENTER, 2))
-			if dist < 4:
+			if dist < BASE_RADIUS:
 				value = 0
 			else:
 				var n = noise.get_noise_2d(x, z)
 				var dist_factor = clamp(dist / (GRID_SIZE / 2.0), 0.0, 1.0)
 				n -= (1.0 - dist_factor) * 0.35
-				if n < -0.6:
+				if n < WATER_SPAWN:
 					value = -2
-				elif n > 0.2:
+				elif n > WOOD_SPAWN:
 					value = -1
 				else:
 					value = 0
