@@ -37,8 +37,9 @@ environment = SubResource("Environment_5jyxj")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Ground" type="Node3D" parent="." unique_id=1711545239]
+[node name="Ground" type="Node3D" parent="." unique_id=1711545239 node_paths=PackedStringArray("game")]
 script = ExtResource("1_r0i7r")
+game = NodePath("..")
 main_tile_scene = ExtResource("4_g754w")
 tile_scene = ExtResource("2_amqpi")
 house_scene = ExtResource("4_5uvhb")

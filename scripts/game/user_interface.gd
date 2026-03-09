@@ -20,6 +20,7 @@ extends CanvasLayer
 var prev_button: Button
 
 func _ready() -> void:
+	game.resources_changed.connect(update_resources)
 	update_resources()
 	r_to_cancel_label.visible = false
 

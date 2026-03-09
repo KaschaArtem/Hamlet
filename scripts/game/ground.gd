@@ -1,6 +1,8 @@
 @tool
 extends Node3D
 
+@export var game: Node3D
+
 const GRID_SIZE = 51
 const TILE_SIZE = 0.5
 const GRID_CENTER = GRID_SIZE / 2
@@ -219,17 +221,23 @@ func replace_with_empty_tile(tile_object, x, z):
 func replace_with_house_tile(tile_object, x, z):
 	if !can_place_building_tile(x, z):
 		return
+	if !game.is_house_build_allowed():
+		return
 	tile_object.queue_free()
 	add_house_tile(x, z)
 	ground_grid[z][x] = 1
 func replace_with_field_tile(tile_object, x, z):
 	if !can_place_building_tile(x, z):
 		return
+	if !game.is_field_build_allowed():
+		return
 	tile_object.queue_free()
 	add_field_tile(x, z)
 	ground_grid[z][x] = 2
 func replace_with_pasture_tile(tile_object, x, z):
 	if !can_place_building_tile(x, z):
+		return
+	if !game.is_pasture_build_allowed():
 		return
 	tile_object.queue_free()
 	add_pasture_tile(x, z)
