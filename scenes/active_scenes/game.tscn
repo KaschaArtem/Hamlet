@@ -26,7 +26,7 @@ glow_enabled = true
 
 [node name="Game" type="Node3D" unique_id=691731226 node_paths=PackedStringArray("camera", "ground")]
 script = ExtResource("1_6djtn")
-camera = NodePath("Camera3D")
+camera = NodePath("Pivot/Camera3D")
 ground = NodePath("Ground")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=414650152]
@@ -36,9 +36,8 @@ environment = SubResource("Environment_5jyxj")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Ground" type="Node3D" parent="." unique_id=1711545239 node_paths=PackedStringArray("camera")]
+[node name="Ground" type="Node3D" parent="." unique_id=1711545239]
 script = ExtResource("1_r0i7r")
-camera = NodePath("../Camera3D")
 main_tile_scene = ExtResource("4_g754w")
 tile_scene = ExtResource("2_amqpi")
 house_scene = ExtResource("4_5uvhb")
@@ -53,10 +52,12 @@ BASE_RADIUS = 5
 WATER_SPAWN = -0.65
 WOOD_SPAWN = 0.1499999999999999
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=171625142 node_paths=PackedStringArray("ground")]
-transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
+[node name="Pivot" type="Node3D" parent="." unique_id=1567863974 node_paths=PackedStringArray("ground", "camera")]
+script = ExtResource("1_amqpi")
+ground = NodePath("../Ground")
+camera = NodePath("Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="Pivot" unique_id=171625142]
 projection = 2
 fov = 60.0
 size = 0.06
-script = ExtResource("1_amqpi")
-ground = NodePath("../Ground")

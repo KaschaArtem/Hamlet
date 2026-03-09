@@ -24,7 +24,6 @@ func _input(event):
 			var tile_body = result.collider
 			var tile = tile_body.get_parent()
 			ground.update_grid_tile(tile, building_action)
-			camera.update_position()
 	
 	if Input.is_action_just_pressed("set_build_to_tile"):
 		building_action = 0

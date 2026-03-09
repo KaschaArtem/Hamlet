@@ -1,27 +1,119 @@
-extends Camera3D
+extends Node3D
 
-const X_OFFSET = 0.0
-const Y_OFFSET = 17
-const Z_OFFSET = 0.0
+# Rotation
 const ROTATION_SPEED = 1.2
+const MOVE_SPEED = 4.0
+
+# Zoom
+const ZOOM_SPEED = 5.0
+const MIN_RADIUS = 1.0
+const MAX_RADIUS = 10.0
+
+# Pitch (tilt) limits
+const PITCH_SPEED = 60
+const MIN_PITCH_DEG = -89.9
+const MAX_PITCH_DEG = -10
+
+var radius: float
+var pitch_deg: float
 
 @export var ground: Node3D
+@export var camera: Camera3D
 
 func _ready():
-	update_position()
+	radius = 4.0
+	pitch_deg = -80
+	update_initial_position()
 
 
-func update_position():
+func update_initial_position():
 	var bounds = ground.get_city_bounds()
-	var x = (bounds["left"] + bounds["right"]) * 0.25
-	var y = max(bounds["right"] - bounds["left"], bounds["bottom"] - bounds["top"]) * 0.35
-	var z = (bounds["top"] + bounds["bottom"]) * 0.25
-	
-	self.position = Vector3(X_OFFSET + x, Y_OFFSET + y, Z_OFFSET + z)
+	var x = (bounds["left"] + bounds["right"]) * 0.5
+	var z = (bounds["top"] + bounds["bottom"]) * 0.5
+	position = Vector3(x * ground.TILE_SIZE, 0, z * ground.TILE_SIZE)
+	update_camera_position()
+
+
+func update_camera_position():
+	var pitch_rad = deg_to_rad(pitch_deg)
+	var horizontal_distance = radius * cos(-pitch_rad)
+	var vertical_offset = radius * sin(-pitch_rad)
+	camera.position = Vector3(0, vertical_offset, horizontal_distance)
+	camera.look_at(position)
 
 
 func _process(delta):
+	handle_rotation(delta)
+	handle_movement(delta)
+	handle_zoom(delta)
+	handle_pitch(delta)
+
+
+func handle_rotation(delta):
 	if Input.is_action_pressed("rotate_camera_left"):
-		self.rotate_y(-ROTATION_SPEED * delta)
+		rotate_y(-ROTATION_SPEED * delta)
 	elif Input.is_action_pressed("rotate_camera_right"):
-		self.rotate_y(ROTATION_SPEED * delta)
+		rotate_y(ROTATION_SPEED * delta)
+
+
+func handle_movement(delta):
+	var input_dir = Vector3.ZERO
+
+	if Input.is_action_pressed("move_camera_forward"):
+		input_dir.z += 1
+	if Input.is_action_pressed("move_camera_back"):
+		input_dir.z -= 1
+	if Input.is_action_pressed("move_camera_left"):
+		input_dir.x -= 1
+	if Input.is_action_pressed("move_camera_right"):
+		input_dir.x += 1
+
+	if input_dir != Vector3.ZERO:
+		input_dir = input_dir.normalized() * MOVE_SPEED * delta
+		var forward = -transform.basis.z
+		var right = transform.basis.x
+		position += forward * input_dir.z + right * input_dir.x
+
+		var min_x = 0
+		var max_x = ground.GRID_SIZE * ground.TILE_SIZE
+		var min_z = 0
+		var max_z = ground.GRID_SIZE * ground.TILE_SIZE
+
+		position.x = clamp(position.x, min_x, max_x)
+		position.z = clamp(position.z, min_z, max_z)
+
+
+# --- Zoom ---
+func zoom_in(delta):
+	radius -= ZOOM_SPEED * delta
+	radius = clamp(radius, MIN_RADIUS, MAX_RADIUS)
+	update_camera_position()
+
+func zoom_out(delta):
+	radius += ZOOM_SPEED * delta
+	radius = clamp(radius, MIN_RADIUS, MAX_RADIUS)
+	update_camera_position()
+
+func handle_zoom(delta):
+	if Input.is_action_pressed("zoom_camera_in"):
+		zoom_in(delta)
+	if Input.is_action_pressed("zoom_camera_out"):
+		zoom_out(delta)
+
+
+# --- Pitch (tilt) control ---
+func tilt_up(delta):
+	pitch_deg += PITCH_SPEED * delta
+	pitch_deg = clamp(pitch_deg, MIN_PITCH_DEG, MAX_PITCH_DEG)
+	update_camera_position()
+
+func tilt_down(delta):
+	pitch_deg -= PITCH_SPEED * delta
+	pitch_deg = clamp(pitch_deg, MIN_PITCH_DEG, MAX_PITCH_DEG)
+	update_camera_position()
+
+func handle_pitch(delta):
+	if Input.is_action_pressed("tilt_camera_up"):
+		tilt_up(delta)
+	if Input.is_action_pressed("tilt_camera_down"):
+		tilt_down(delta)
