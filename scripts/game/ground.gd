@@ -24,10 +24,6 @@ var noise := FastNoiseLite.new()
 
 var ground_grid = []
 
-func _ready() -> void:
-	init_ground_grid()
-	generate_grid()
-
 
 func get_city_bounds():
 	var top = GRID_SIZE
@@ -42,7 +38,6 @@ func get_city_bounds():
 				left = min(left, j)
 				right = max(right, j)
 	return {"top": top, "bottom": bottom, "left": left, "right": right}
-
 
 func setup_noise():
 	noise.seed = randi()
@@ -146,6 +141,9 @@ func generate_grid():
 				-2:
 					add_water_tile(x, z)
 
+func _ready() -> void:
+	init_ground_grid()
+	generate_grid()
 
 func can_place_empty_tile(grid, x, z) -> bool:
 	var original_positive = 0

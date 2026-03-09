@@ -1,5 +1,6 @@
 extends Node3D
 
+@export var game: Node3D
 @export var ground: Node3D
 @export var camera: Camera3D
 
@@ -17,19 +18,6 @@ const MAX_PITCH_DEG = -10
 var radius: float
 var pitch_deg: float
 
-func _ready():
-	radius = 4.0
-	pitch_deg = -80
-	update_initial_position()
-
-
-func update_initial_position():
-	var bounds = ground.get_city_bounds()
-	var x = (bounds["left"] + bounds["right"]) * 0.5
-	var z = (bounds["top"] + bounds["bottom"]) * 0.5
-	position = Vector3(x * ground.TILE_SIZE, 0, z * ground.TILE_SIZE)
-	update_camera_position()
-
 
 func update_camera_position():
 	var pitch_rad = deg_to_rad(pitch_deg)
@@ -37,13 +25,17 @@ func update_camera_position():
 	var vertical_offset = radius * sin(-pitch_rad)
 	camera.position = Vector3(0, vertical_offset, horizontal_distance)
 	camera.look_at(position)
+func update_initial_position():
+	var bounds = ground.get_city_bounds()
+	var x = (bounds["left"] + bounds["right"]) * 0.5
+	var z = (bounds["top"] + bounds["bottom"]) * 0.5
+	position = Vector3(x * ground.TILE_SIZE, 0, z * ground.TILE_SIZE)
+	update_camera_position()
 
-
-func _process(delta):
-	handle_rotation(delta)
-	handle_movement(delta)
-	handle_zoom(delta)
-	handle_pitch(delta)
+func _ready():
+	radius = 4.0
+	pitch_deg = -80
+	update_initial_position()
 
 
 func handle_rotation(delta):
@@ -51,7 +43,6 @@ func handle_rotation(delta):
 		rotate_y(-ROTATION_SPEED * delta)
 	elif Input.is_action_pressed("rotate_camera_right"):
 		rotate_y(ROTATION_SPEED * delta)
-
 
 func handle_movement(delta):
 	var input_dir = Vector3.ZERO
@@ -79,13 +70,10 @@ func handle_movement(delta):
 		position.x = clamp(position.x, min_x, max_x)
 		position.z = clamp(position.z, min_z, max_z)
 
-
-# --- Zoom ---
 func zoom_in(delta):
 	radius -= ZOOM_SPEED * delta
 	radius = clamp(radius, MIN_RADIUS, MAX_RADIUS)
 	update_camera_position()
-
 func zoom_out(delta):
 	radius += ZOOM_SPEED * delta
 	radius = clamp(radius, MIN_RADIUS, MAX_RADIUS)
@@ -97,13 +85,10 @@ func handle_zoom(delta):
 	if Input.is_action_pressed("zoom_camera_out"):
 		zoom_out(delta)
 
-
-# --- Pitch (tilt) control ---
 func tilt_up(delta):
 	pitch_deg += PITCH_SPEED * delta
 	pitch_deg = clamp(pitch_deg, MIN_PITCH_DEG, MAX_PITCH_DEG)
 	update_camera_position()
-
 func tilt_down(delta):
 	pitch_deg -= PITCH_SPEED * delta
 	pitch_deg = clamp(pitch_deg, MIN_PITCH_DEG, MAX_PITCH_DEG)
@@ -114,3 +99,29 @@ func handle_pitch(delta):
 		tilt_up(delta)
 	if Input.is_action_pressed("tilt_camera_down"):
 		tilt_down(delta)
+
+
+func _process(delta):
+	handle_rotation(delta)
+	handle_movement(delta)
+	handle_zoom(delta)
+	handle_pitch(delta)
+
+
+func handle_mouse_selection() -> void:
+	var mouse_pos = get_viewport().get_mouse_position()
+	var ray_origin = camera.project_ray_origin(mouse_pos)
+	var ray_dir = camera.project_ray_normal(mouse_pos)
+	var ray_end = ray_origin + ray_dir * 1000
+	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+	var result = get_world_3d().direct_space_state.intersect_ray(query)
+	if result and game.building_action != -999:
+		var tile_body = result.collider
+		var tile = tile_body.get_parent()
+		ground.update_grid_tile(tile, game.building_action)
+
+func _input(event):
+	if event is InputEventMouseButton \
+	and event.pressed \
+	and event.button_index == MOUSE_BUTTON_LEFT:
+		handle_mouse_selection()

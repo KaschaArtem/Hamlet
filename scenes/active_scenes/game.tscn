@@ -47,8 +47,9 @@ pasture_scene = ExtResource("5_g754w")
 tree_scene = ExtResource("8_inwm1")
 water_scene = ExtResource("9_cq3oe")
 
-[node name="Pivot" type="Node3D" parent="." unique_id=1567863974 node_paths=PackedStringArray("ground", "camera")]
+[node name="Pivot" type="Node3D" parent="." unique_id=1567863974 node_paths=PackedStringArray("game", "ground", "camera")]
 script = ExtResource("1_amqpi")
+game = NodePath("..")
 ground = NodePath("../Ground")
 camera = NodePath("Camera3D")
 
