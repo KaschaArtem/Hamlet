@@ -1,24 +1,21 @@
 extends Node3D
 
-# Rotation
-const ROTATION_SPEED = 1.2
-const MOVE_SPEED = 4.0
+@export var ground: Node3D
+@export var camera: Camera3D
 
-# Zoom
-const ZOOM_SPEED = 5.0
+@export_range(1.0, 5.0) var ROTATION_SPEED: float = 1.2
+@export_range(1.0, 10.0) var MOVE_SPEED: float = 4.0
+
+@export_range(1.0, 10.0) var ZOOM_SPEED = 5.0
 const MIN_RADIUS = 1.0
 const MAX_RADIUS = 10.0
 
-# Pitch (tilt) limits
-const PITCH_SPEED = 60
+@export_range(0, 150) var PITCH_SPEED = 60
 const MIN_PITCH_DEG = -89.9
 const MAX_PITCH_DEG = -10
 
 var radius: float
 var pitch_deg: float
-
-@export var ground: Node3D
-@export var camera: Camera3D
 
 func _ready():
 	radius = 4.0

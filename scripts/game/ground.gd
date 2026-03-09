@@ -5,7 +5,7 @@ const GRID_SIZE = 51
 const TILE_SIZE = 0.5
 const GRID_CENTER = GRID_SIZE / 2
 
-@export var camera: Camera3D
+var noise := FastNoiseLite.new()
 
 @export var main_tile_scene: PackedScene   # index 999
 @export var tile_scene: PackedScene        # index 0
@@ -15,18 +15,14 @@ const GRID_CENTER = GRID_SIZE / 2
 @export var tree_scene: PackedScene        # index -1
 @export var water_scene: PackedScene       # index -2
 
-@export_range(0.0, 1.0) var NOISE_FREQUENCY: float
-@export_range(0, 10) var NOISE_FRACTAL_OCTAVES: int
-@export_range(0.0, 1.0) var NOISE_FRACTAL_GAIN: float
-
-@export_range(1, 8) var BASE_RADIUS: int
-
-@export_range(-1.0, 1.0) var WATER_SPAWN: float
-@export_range(-1.0, 1.0) var WOOD_SPAWN: float
+@export_range(0.0, 0.15) var NOISE_FREQUENCY: float = 0.08
+@export_range(0, 5) var NOISE_FRACTAL_OCTAVES: int = 2
+@export_range(0.0, 1.0) var NOISE_FRACTAL_GAIN: float = 0.25
+@export_range(1, 10) var BASE_RADIUS: int = 5
+@export_range(-1.0, 1.0) var WATER_SPAWN: float = -0.67
+@export_range(-1.0, 1.0) var WOOD_SPAWN: float = 0.15
 
 var ground_grid = []
-
-var noise := FastNoiseLite.new()
 
 func _ready() -> void:
 	init_ground_grid()
