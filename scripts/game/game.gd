@@ -25,14 +25,5 @@ func _input(event):
 			var tile = tile_body.get_parent()
 			ground.update_grid_tile(tile, building_action)
 	
-	if Input.is_action_just_pressed("set_build_to_tile"):
-		building_action = 0
-	elif Input.is_action_just_pressed("set_build_to_house"):
-		building_action = 1
-	elif Input.is_action_just_pressed("set_build_to_field"):
-		building_action = 2
-	elif Input.is_action_just_pressed("set_build_to_pasture"):
-		building_action = 3
-	
 	if Input.is_action_just_pressed("reload_game_scene"):
 		SceneManager.change_scene("res://scenes/active_scenes/game.tscn")

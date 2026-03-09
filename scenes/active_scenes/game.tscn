@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://d1p02ukg7kcfy" path="res://scenes/game_scenes/objects_scenes/pasture.tscn" id="5_g754w"]
 [ext_resource type="PackedScene" uid="uid://dlure545d2ipp" path="res://scenes/game_scenes/objects_scenes/tree.tscn" id="8_inwm1"]
 [ext_resource type="PackedScene" uid="uid://bktngcc427rq0" path="res://scenes/game_scenes/objects_scenes/water.tscn" id="9_cq3oe"]
+[ext_resource type="Script" uid="uid://c3v4nd6dynmjq" path="res://scripts/game/user_interface.gd" id="11_cq3oe"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ggqa2"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -61,3 +62,52 @@ camera = NodePath("Camera3D")
 projection = 2
 fov = 60.0
 size = 0.06
+
+[node name="UserInterface" type="CanvasLayer" parent="." unique_id=902251080 node_paths=PackedStringArray("game", "house_button", "field_button", "pasture_button", "delete_button", "r_to_cancel_label")]
+script = ExtResource("11_cq3oe")
+game = NodePath("..")
+house_button = NodePath("Buildings/HouseButton")
+field_button = NodePath("Buildings/FieldButton")
+pasture_button = NodePath("Buildings/PastureButton")
+delete_button = NodePath("Buildings/DeleteButton")
+r_to_cancel_label = NodePath("Buildings/RToCancelLabel")
+
+[node name="Buildings" type="HBoxContainer" parent="UserInterface" unique_id=468412475]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="HouseButton" type="Button" parent="UserInterface/Buildings" unique_id=1262900157]
+layout_mode = 2
+text = "House
+(1)"
+
+[node name="FieldButton" type="Button" parent="UserInterface/Buildings" unique_id=1531677235]
+layout_mode = 2
+text = "Field
+(2)
+"
+
+[node name="PastureButton" type="Button" parent="UserInterface/Buildings" unique_id=1372747594]
+layout_mode = 2
+text = "Pasture
+(3)"
+
+[node name="DeleteButton" type="Button" parent="UserInterface/Buildings" unique_id=1930349990]
+layout_mode = 2
+text = "Delete
+(0)"
+
+[node name="RToCancelLabel" type="Label" parent="UserInterface/Buildings" unique_id=1663149024]
+layout_mode = 2
+text = "R to
+Cancel"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="UserInterface/Buildings/HouseButton" to="UserInterface" method="_on_house_button_pressed"]
+[connection signal="pressed" from="UserInterface/Buildings/FieldButton" to="UserInterface" method="_on_field_button_pressed"]
+[connection signal="pressed" from="UserInterface/Buildings/PastureButton" to="UserInterface" method="_on_pasture_button_pressed"]
+[connection signal="pressed" from="UserInterface/Buildings/DeleteButton" to="UserInterface" method="_on_delete_button_pressed"]
