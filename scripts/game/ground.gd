@@ -1,7 +1,7 @@
 @tool
 extends Node3D
 
-const GRID_SIZE = 31
+const GRID_SIZE = 51
 const TILE_SIZE = 0.5
 const GRID_CENTER = GRID_SIZE / 2
 
@@ -74,6 +74,8 @@ func init_ground_grid():
 					value = 0
 			ground_grid[z].append(value)
 	ground_grid[GRID_CENTER][GRID_CENTER] = 999
+	clean_water()
+	clean_water()
 
 func apply_chess_color(tile, x, z):
 	var mesh_instance = tile.get_node("MeshInstance3D")
@@ -234,3 +236,54 @@ func update_grid_tile(tile_object, to_state):
 			replace_with_field_tile(tile_object, x, z)
 		3:
 			replace_with_pasture_tile(tile_object, x, z)
+
+func clean_water():
+
+	var new_grid = ground_grid.duplicate(true)
+
+	for z in range(GRID_SIZE):
+		for x in range(GRID_SIZE):
+
+			if ground_grid[z][x] != -2:
+				continue
+
+			var water_neighbors = 0
+
+			for dir in [
+				Vector2i(1,0),
+				Vector2i(-1,0),
+				Vector2i(0,1),
+				Vector2i(0,-1)
+			]:
+
+				var nx = x + dir.x
+				var nz = z + dir.y
+
+				if nx < 0 or nz < 0 or nx >= GRID_SIZE or nz >= GRID_SIZE:
+					continue
+
+				if ground_grid[nz][nx] == -2:
+					water_neighbors += 1
+
+			# удалить одиночную воду
+			if water_neighbors == 0:
+				new_grid[z][x] = 0
+
+
+	for z in range(GRID_SIZE):
+		for x in range(GRID_SIZE):
+
+			if ground_grid[z][x] != 0:
+				continue
+
+			# соединение воды горизонтально
+			if x > 0 and x < GRID_SIZE - 1:
+				if ground_grid[z][x-1] == -2 and ground_grid[z][x+1] == -2:
+					new_grid[z][x] = -2
+
+			# соединение воды вертикально
+			if z > 0 and z < GRID_SIZE - 1:
+				if ground_grid[z-1][x] == -2 and ground_grid[z+1][x] == -2:
+					new_grid[z][x] = -2
+
+	ground_grid = new_grid
