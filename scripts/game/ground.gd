@@ -1,7 +1,8 @@
-@tool
 extends Node3D
 
 @export var game: Node3D
+
+signal builded(building_index: int)
 
 const GRID_SIZE = 51
 const TILE_SIZE = 0.5
@@ -21,10 +22,42 @@ var noise := FastNoiseLite.new()
 @export_range(0, 5) var NOISE_FRACTAL_OCTAVES: int = 2
 @export_range(0.0, 1.0) var NOISE_FRACTAL_GAIN: float = 0.25
 @export_range(1, 10) var BASE_RADIUS: int = 5
-@export_range(-1.0, 1.0) var WATER_SPAWN: float = -0.67
 @export_range(-1.0, 1.0) var WOOD_SPAWN: float = 0.15
+@export_range(-1.0, 1.0) var WATER_SPAWN: float = -0.67
+
 
 var ground_grid = []
+var house_amount = 0
+var field_amount = 0
+var pasture_amount = 0
+var wood_amount = 0
+var water_amount = 0
+
+
+func decrease_tile_amount(building_index) -> void:
+	match building_index:
+		1:
+			house_amount -= 1
+		2:
+			field_amount -= 1
+		3:
+			pasture_amount -= 1
+		-1:
+			wood_amount -= 1
+		-2:
+			water_amount -= 1
+func increase_tile_amount(building_index) -> void:
+	match building_index:
+		1:
+			house_amount += 1
+		2:
+			field_amount += 1
+		3:
+			pasture_amount += 1
+		-1:
+			wood_amount += 1
+		-2:
+			water_amount += 1
 
 
 func get_city_bounds():
@@ -40,6 +73,7 @@ func get_city_bounds():
 				left = min(left, j)
 				right = max(right, j)
 	return {"top": top, "bottom": bottom, "left": left, "right": right}
+
 
 func setup_noise():
 	noise.seed = randi()
@@ -68,6 +102,7 @@ func clean_water():
 			if water_neighbors == 0:
 				new_grid[z][x] = 0
 	ground_grid = new_grid
+
 func init_ground_grid():
 	setup_noise()
 	for z in range(GRID_SIZE):
@@ -138,33 +173,40 @@ func generate_grid():
 					add_main_tile(x, z)
 				0:
 					add_empty_tile(x, z)
+				1:
+					add_house_tile(x, z)
+					increase_tile_amount(1)
+				2:
+					add_field_tile(x, z)
+					increase_tile_amount(2)
+				3:
+					add_pasture_tile(x, z)
+					increase_tile_amount(3)
 				-1:
 					add_tree_tile(x, z)
+					increase_tile_amount(-1)
 				-2:
 					add_water_tile(x, z)
+					increase_tile_amount(-2)
 
 func _ready() -> void:
 	init_ground_grid()
 	generate_grid()
 
-func can_place_empty_tile(grid, x, z) -> bool:
+func can_build_empty_tile(x, z) -> bool:
 	var original_positive = 0
-	for row in grid:
+	for row in ground_grid:
 		for value in row:
 			if value > 0:
 				original_positive += 1
-				
-	grid[z][x] = 0
-	
+	ground_grid[z][x] = 0
 	var visited := []
 	for i in range(GRID_SIZE):
 		visited.append([])
 		for j in range(GRID_SIZE):
 			visited[i].append(false)
-
 	var queue := []
 	var reachable_positive := 0
-
 	queue.append(Vector2i(GRID_CENTER, GRID_CENTER))
 	visited[GRID_CENTER][GRID_CENTER] = true
 
@@ -179,22 +221,18 @@ func can_place_empty_tile(grid, x, z) -> bool:
 		var current = queue.pop_front()
 		var cx = current.x
 		var cz = current.y
-		
-		if grid[cz][cx] > 0:
+		if ground_grid[cz][cx] > 0:
 			reachable_positive += 1
-		
 		for dir in directions:
 			var nx = cx + dir.x
 			var nz = cz + dir.y
-			
 			if nx >= 0 and nx < GRID_SIZE and nz >= 0 and nz < GRID_SIZE:
-				if not visited[nz][nx] and grid[nz][nx] > 0:
+				if not visited[nz][nx] and ground_grid[nz][nx] > 0:
 					visited[nz][nx] = true
 					queue.append(Vector2i(nx, nz))
-	
-	grid[z][x] = 1
+	ground_grid[z][x] = 1
 	return reachable_positive == original_positive - 1
-func can_place_building_tile(x, z) -> bool:
+func can_build_building_tile(x, z) -> bool:
 	var directions = [
 		Vector2(0, -1),
 		Vector2(0, 1),
@@ -212,50 +250,57 @@ func can_place_building_tile(x, z) -> bool:
 				return true
 	return false
 
-func replace_with_empty_tile(tile_object, x, z):
-	if !can_place_empty_tile(ground_grid, x, z):
-		return
+func build_empty_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_empty_tile(x, z)
+	decrease_tile_amount(ground_grid[z][x])
 	ground_grid[z][x] = 0
-func replace_with_house_tile(tile_object, x, z):
-	if !can_place_building_tile(x, z):
-		return
-	if !game.is_house_build_allowed():
-		return
+func build_house_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_house_tile(x, z)
+	increase_tile_amount(1)
 	ground_grid[z][x] = 1
-func replace_with_field_tile(tile_object, x, z):
-	if !can_place_building_tile(x, z):
-		return
-	if !game.is_field_build_allowed():
-		return
+func build_field_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_field_tile(x, z)
+	increase_tile_amount(2)
 	ground_grid[z][x] = 2
-func replace_with_pasture_tile(tile_object, x, z):
-	if !can_place_building_tile(x, z):
-		return
-	if !game.is_pasture_build_allowed():
-		return
+func build_pasture_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_pasture_tile(x, z)
+	increase_tile_amount(3)
 	ground_grid[z][x] = 3
 
-func update_grid_tile(tile_object, to_state):
+
+func build_grid_tile(tile_object, building_index):
 	var x = int(tile_object.position.x / TILE_SIZE)
 	var z = int(tile_object.position.z / TILE_SIZE)
 	if ground_grid[z][x] == 999 or \
-		ground_grid[z][x] == to_state or \
+		ground_grid[z][x] == building_index or \
 		ground_grid[z][x] < 0:
 		return
-	match to_state:
+	match building_index:
 		0:
-			replace_with_empty_tile(tile_object, x, z)
+			if !can_build_empty_tile(x, z):
+				return
+			build_empty_tile(tile_object, x, z)
+			return
 		1:
-			replace_with_house_tile(tile_object, x, z)
+			if !can_build_building_tile(x, z):
+				return
+			if !game.is_house_build_allowed():
+				return
+			build_house_tile(tile_object, x, z)
 		2:
-			replace_with_field_tile(tile_object, x, z)
+			if !can_build_building_tile(x, z):
+				return
+			if !game.is_field_build_allowed():
+				return
+			build_field_tile(tile_object, x, z)
 		3:
-			replace_with_pasture_tile(tile_object, x, z)
+			if !can_build_building_tile(x, z):
+				return
+			if !game.is_pasture_build_allowed():
+				return
+			build_pasture_tile(tile_object, x, z)
+	builded.emit(building_index)

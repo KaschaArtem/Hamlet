@@ -3,14 +3,15 @@
 [ext_resource type="Script" uid="uid://cf7ek5omaq40c" path="res://scripts/game/game.gd" id="1_6djtn"]
 [ext_resource type="Script" uid="uid://dnoqna7ur25ft" path="res://scripts/game/camera.gd" id="1_amqpi"]
 [ext_resource type="Script" uid="uid://dvku0kkeky5io" path="res://scripts/game/ground.gd" id="1_r0i7r"]
-[ext_resource type="PackedScene" uid="uid://ci0nlieych60m" path="res://scenes/game_scenes/objects_scenes/tile.tscn" id="2_amqpi"]
-[ext_resource type="PackedScene" uid="uid://w5ckrpu1yclv" path="res://scenes/game_scenes/objects_scenes/field.tscn" id="3_6djtn"]
-[ext_resource type="PackedScene" uid="uid://dncobx6fil0al" path="res://scenes/game_scenes/objects_scenes/house.tscn" id="4_5uvhb"]
-[ext_resource type="PackedScene" uid="uid://cjxhndyn3jg3" path="res://scenes/game_scenes/objects_scenes/main_tile.tscn" id="4_g754w"]
-[ext_resource type="PackedScene" uid="uid://d1p02ukg7kcfy" path="res://scenes/game_scenes/objects_scenes/pasture.tscn" id="5_g754w"]
-[ext_resource type="PackedScene" uid="uid://dlure545d2ipp" path="res://scenes/game_scenes/objects_scenes/tree.tscn" id="8_inwm1"]
-[ext_resource type="PackedScene" uid="uid://bktngcc427rq0" path="res://scenes/game_scenes/objects_scenes/water.tscn" id="9_cq3oe"]
-[ext_resource type="Script" uid="uid://c3v4nd6dynmjq" path="res://scripts/game/user_interface.gd" id="11_cq3oe"]
+[ext_resource type="PackedScene" uid="uid://ci0nlieych60m" path="res://scenes/game_scenes/objects/tile.tscn" id="2_amqpi"]
+[ext_resource type="PackedScene" uid="uid://w5ckrpu1yclv" path="res://scenes/game_scenes/objects/field.tscn" id="3_6djtn"]
+[ext_resource type="PackedScene" uid="uid://dncobx6fil0al" path="res://scenes/game_scenes/objects/house.tscn" id="4_5uvhb"]
+[ext_resource type="PackedScene" uid="uid://cjxhndyn3jg3" path="res://scenes/game_scenes/objects/main_tile.tscn" id="4_g754w"]
+[ext_resource type="PackedScene" uid="uid://d1p02ukg7kcfy" path="res://scenes/game_scenes/objects/pasture.tscn" id="5_g754w"]
+[ext_resource type="PackedScene" uid="uid://dlure545d2ipp" path="res://scenes/game_scenes/objects/tree.tscn" id="8_inwm1"]
+[ext_resource type="PackedScene" uid="uid://bktngcc427rq0" path="res://scenes/game_scenes/objects/water.tscn" id="9_cq3oe"]
+[ext_resource type="PackedScene" uid="uid://dx75bnqqvdm21" path="res://scenes/game_scenes/user_interface/buildings_ui.tscn" id="12_7f75v"]
+[ext_resource type="PackedScene" uid="uid://cedvrgudrsxyh" path="res://scenes/game_scenes/user_interface/resources_ui.tscn" id="13_g6mbv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ggqa2"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -24,6 +25,10 @@ background_mode = 2
 sky = SubResource("Sky_oh5ud")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="GDScript" id="GDScript_7f75v"]
+script/source = "extends CanvasLayer
+"
 
 [node name="Game" type="Node3D" unique_id=691731226 node_paths=PackedStringArray("camera", "ground")]
 script = ExtResource("1_6djtn")
@@ -59,153 +64,11 @@ projection = 2
 fov = 60.0
 size = 0.06
 
-[node name="UserInterface" type="CanvasLayer" parent="." unique_id=902251080 node_paths=PackedStringArray("game", "house_button", "field_button", "pasture_button", "delete_button", "r_to_cancel_label", "actual_people", "max_people", "actual_wood", "max_wood", "actual_plant_food", "actual_animal_food", "max_food")]
-script = ExtResource("11_cq3oe")
-game = NodePath("..")
-house_button = NodePath("Buildings/HouseButton")
-field_button = NodePath("Buildings/FieldButton")
-pasture_button = NodePath("Buildings/PastureButton")
-delete_button = NodePath("Buildings/DeleteButton")
-r_to_cancel_label = NodePath("Buildings/RToCancelLabel")
-actual_people = NodePath("Resources/People/Actual")
-max_people = NodePath("Resources/People/Max")
-actual_wood = NodePath("Resources/Wood/Actual")
-max_wood = NodePath("Resources/Wood/Max")
-actual_plant_food = NodePath("Resources/Food/HBoxContainer/PlantFood/Actual")
-actual_animal_food = NodePath("Resources/Food/HBoxContainer/AnimalFood/Actual")
-max_food = NodePath("Resources/Food/Max")
+[node name="UserInterface" type="CanvasLayer" parent="." unique_id=902251080]
+script = SubResource("GDScript_7f75v")
 
-[node name="Buildings" type="HBoxContainer" parent="UserInterface" unique_id=468412475]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -40.0
-offset_right = 40.0
-grow_vertical = 0
+[node name="BuildingsUI" parent="UserInterface" unique_id=139825313 node_paths=PackedStringArray("game") instance=ExtResource("12_7f75v")]
+game = NodePath("../..")
 
-[node name="HouseButton" type="Button" parent="UserInterface/Buildings" unique_id=1262900157]
-layout_mode = 2
-text = "House
-(1)"
-
-[node name="FieldButton" type="Button" parent="UserInterface/Buildings" unique_id=1531677235]
-layout_mode = 2
-text = "Field
-(2)
-"
-
-[node name="PastureButton" type="Button" parent="UserInterface/Buildings" unique_id=1372747594]
-layout_mode = 2
-text = "Pasture
-(3)"
-
-[node name="DeleteButton" type="Button" parent="UserInterface/Buildings" unique_id=1930349990]
-layout_mode = 2
-text = "Delete
-(0)"
-
-[node name="RToCancelLabel" type="Label" parent="UserInterface/Buildings" unique_id=1663149024]
-layout_mode = 2
-text = "R to
-Cancel"
-horizontal_alignment = 1
-
-[node name="Resources" type="HBoxContainer" parent="UserInterface" unique_id=1390838301]
-offset_right = 300.0
-offset_bottom = 50.0
-size_flags_vertical = 0
-alignment = 1
-
-[node name="People" type="VBoxContainer" parent="UserInterface/Resources" unique_id=979201852]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-alignment = 1
-
-[node name="Label" type="Label" parent="UserInterface/Resources/People" unique_id=888104190]
-layout_mode = 2
-text = "People"
-horizontal_alignment = 1
-
-[node name="Actual" type="Label" parent="UserInterface/Resources/People" unique_id=736337764]
-layout_mode = 2
-text = "-1"
-horizontal_alignment = 1
-
-[node name="Max" type="Label" parent="UserInterface/Resources/People" unique_id=1053048897]
-layout_mode = 2
-text = "-1"
-horizontal_alignment = 1
-
-[node name="Wood" type="VBoxContainer" parent="UserInterface/Resources" unique_id=1629022070]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-alignment = 1
-
-[node name="Label" type="Label" parent="UserInterface/Resources/Wood" unique_id=577113684]
-layout_mode = 2
-text = "Wood"
-horizontal_alignment = 1
-
-[node name="Actual" type="Label" parent="UserInterface/Resources/Wood" unique_id=566058501]
-layout_mode = 2
-text = "-1"
-horizontal_alignment = 1
-
-[node name="Max" type="Label" parent="UserInterface/Resources/Wood" unique_id=567330826]
-layout_mode = 2
-text = "-1"
-horizontal_alignment = 1
-
-[node name="Food" type="VBoxContainer" parent="UserInterface/Resources" unique_id=659840406]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="UserInterface/Resources/Food" unique_id=1398416456]
-layout_mode = 2
-text = "Food"
-horizontal_alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UserInterface/Resources/Food" unique_id=897032362]
-layout_mode = 2
-
-[node name="PlantFood" type="VBoxContainer" parent="UserInterface/Resources/Food/HBoxContainer" unique_id=558894772]
-layout_mode = 2
-size_flags_horizontal = 3
-alignment = 1
-
-[node name="Label" type="Label" parent="UserInterface/Resources/Food/HBoxContainer/PlantFood" unique_id=762744876]
-layout_mode = 2
-text = "P"
-horizontal_alignment = 1
-
-[node name="Actual" type="Label" parent="UserInterface/Resources/Food/HBoxContainer/PlantFood" unique_id=1555861581]
-layout_mode = 2
-text = "-1"
-horizontal_alignment = 1
-
-[node name="AnimalFood" type="VBoxContainer" parent="UserInterface/Resources/Food/HBoxContainer" unique_id=1404124860]
-layout_mode = 2
-size_flags_horizontal = 3
-alignment = 1
-
-[node name="Label" type="Label" parent="UserInterface/Resources/Food/HBoxContainer/AnimalFood" unique_id=1096166456]
-layout_mode = 2
-text = "A"
-horizontal_alignment = 1
-
-[node name="Actual" type="Label" parent="UserInterface/Resources/Food/HBoxContainer/AnimalFood" unique_id=1992009122]
-layout_mode = 2
-text = "-1"
-horizontal_alignment = 1
-
-[node name="Max" type="Label" parent="UserInterface/Resources/Food" unique_id=1170403011]
-layout_mode = 2
-text = "-1"
-horizontal_alignment = 1
-
-[connection signal="pressed" from="UserInterface/Buildings/HouseButton" to="UserInterface" method="_on_house_button_pressed"]
-[connection signal="pressed" from="UserInterface/Buildings/FieldButton" to="UserInterface" method="_on_field_button_pressed"]
-[connection signal="pressed" from="UserInterface/Buildings/PastureButton" to="UserInterface" method="_on_pasture_button_pressed"]
-[connection signal="pressed" from="UserInterface/Buildings/DeleteButton" to="UserInterface" method="_on_delete_button_pressed"]
+[node name="ResourcesUI" parent="UserInterface" unique_id=988245277 node_paths=PackedStringArray("game") instance=ExtResource("13_g6mbv")]
+game = NodePath("../..")

@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 
 @export var game: Node3D
 
@@ -8,30 +8,10 @@ extends CanvasLayer
 @export var delete_button: Button
 @export var r_to_cancel_label: Label
 
-@export var actual_people: Label
-@export var max_people: Label
-@export var actual_wood: Label
-@export var max_wood: Label
-@export var actual_plant_food: Label
-@export var actual_animal_food: Label
-@export var max_food: Label
-
-
 var prev_button: Button
 
 func _ready() -> void:
-	game.resources_changed.connect(update_resources)
-	update_resources()
 	r_to_cancel_label.visible = false
-
-func update_resources() -> void:
-	actual_people.text = str(game.human_resource)
-	max_people.text = str(game.max_human_resource)
-	actual_wood.text = str(game.wood_resource)
-	max_wood.text = str(game.max_wood_resource)
-	actual_plant_food.text = str(game.plant_food_resource)
-	actual_animal_food.text = str(game.animal_food_resource)
-	max_food.text = str(game.max_food_resource)
 
 
 func handle_building(action_index: int, button: Button) -> void:
@@ -59,7 +39,6 @@ func _on_pasture_button_pressed() -> void:
 	handle_building(3, pasture_button)
 func _on_delete_button_pressed() -> void:
 	handle_building(0, delete_button)
-
 
 func _input(_event):
 	if Input.is_action_just_pressed("set_build_to_house"):

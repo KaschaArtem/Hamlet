@@ -118,7 +118,7 @@ func handle_mouse_selection() -> void:
 	if result and game.building_action != -999:
 		var tile_body = result.collider
 		var tile = tile_body.get_parent()
-		ground.update_grid_tile(tile, game.building_action)
+		ground.build_grid_tile(tile, game.building_action)
 
 func _input(event):
 	if event is InputEventMouseButton \

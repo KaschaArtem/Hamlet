@@ -1,0 +1,113 @@
+[gd_scene format=3 uid="uid://cedvrgudrsxyh"]
+
+[ext_resource type="Script" uid="uid://cl3qbvvbbnpxg" path="res://scripts/game/user_interface/resources_ui.gd" id="1_a6usm"]
+
+[node name="ResourcesUI" type="Control" unique_id=988245277 node_paths=PackedStringArray("actual_people", "max_people", "actual_wood", "max_wood", "actual_plant_food", "actual_animal_food", "max_food")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 300.0
+offset_bottom = 104.0
+script = ExtResource("1_a6usm")
+actual_people = NodePath("Resources/People/Actual")
+max_people = NodePath("Resources/People/Max")
+actual_wood = NodePath("Resources/Wood/Actual")
+max_wood = NodePath("Resources/Wood/Max")
+actual_plant_food = NodePath("Resources/Food/HBoxContainer/PlantFood/Actual")
+actual_animal_food = NodePath("Resources/Food/HBoxContainer/AnimalFood/Actual")
+max_food = NodePath("Resources/Food/Max")
+
+[node name="Resources" type="HBoxContainer" parent="." unique_id=421341636]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 50.0
+size_flags_vertical = 0
+alignment = 1
+
+[node name="People" type="VBoxContainer" parent="Resources" unique_id=742004798]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+alignment = 1
+
+[node name="Label" type="Label" parent="Resources/People" unique_id=1500239129]
+layout_mode = 2
+text = "People"
+horizontal_alignment = 1
+
+[node name="Actual" type="Label" parent="Resources/People" unique_id=998056677]
+layout_mode = 2
+text = "-1"
+horizontal_alignment = 1
+
+[node name="Max" type="Label" parent="Resources/People" unique_id=927937722]
+layout_mode = 2
+text = "-1"
+horizontal_alignment = 1
+
+[node name="Wood" type="VBoxContainer" parent="Resources" unique_id=4845409]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+alignment = 1
+
+[node name="Label" type="Label" parent="Resources/Wood" unique_id=493561513]
+layout_mode = 2
+text = "Wood"
+horizontal_alignment = 1
+
+[node name="Actual" type="Label" parent="Resources/Wood" unique_id=1060881592]
+layout_mode = 2
+text = "-1"
+horizontal_alignment = 1
+
+[node name="Max" type="Label" parent="Resources/Wood" unique_id=310275433]
+layout_mode = 2
+text = "-1"
+horizontal_alignment = 1
+
+[node name="Food" type="VBoxContainer" parent="Resources" unique_id=1480561712]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Resources/Food" unique_id=1044235314]
+layout_mode = 2
+text = "Food"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Resources/Food" unique_id=529259855]
+layout_mode = 2
+
+[node name="PlantFood" type="VBoxContainer" parent="Resources/Food/HBoxContainer" unique_id=780704286]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Resources/Food/HBoxContainer/PlantFood" unique_id=1273166326]
+layout_mode = 2
+text = "P"
+horizontal_alignment = 1
+
+[node name="Actual" type="Label" parent="Resources/Food/HBoxContainer/PlantFood" unique_id=219311854]
+layout_mode = 2
+text = "-1"
+horizontal_alignment = 1
+
+[node name="AnimalFood" type="VBoxContainer" parent="Resources/Food/HBoxContainer" unique_id=1812814372]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Resources/Food/HBoxContainer/AnimalFood" unique_id=1685144961]
+layout_mode = 2
+text = "A"
+horizontal_alignment = 1
+
+[node name="Actual" type="Label" parent="Resources/Food/HBoxContainer/AnimalFood" unique_id=104728778]
+layout_mode = 2
+text = "-1"
+horizontal_alignment = 1
+
+[node name="Max" type="Label" parent="Resources/Food" unique_id=1841917571]
+layout_mode = 2
+text = "-1"
+horizontal_alignment = 1
