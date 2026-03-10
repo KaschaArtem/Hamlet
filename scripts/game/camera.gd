@@ -1,6 +1,5 @@
 extends Node3D
 
-@export var game: Node3D
 @export var ground: Node3D
 @export var camera: Camera3D
 
@@ -115,10 +114,10 @@ func handle_mouse_selection() -> void:
 	var ray_end = ray_origin + ray_dir * 1000
 	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
 	var result = get_world_3d().direct_space_state.intersect_ray(query)
-	if result and game.building_action != -999:
+	if result and GameManager.building_action != -999:
 		var tile_body = result.collider
 		var tile = tile_body.get_parent()
-		ground.build_grid_tile(tile, game.building_action)
+		ground.build_grid_tile(tile, GameManager.building_action)
 
 func _input(event):
 	if event is InputEventMouseButton \

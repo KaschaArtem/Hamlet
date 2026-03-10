@@ -16,6 +16,15 @@ actual_plant_food = NodePath("Resources/Food/HBoxContainer/PlantFood/Actual")
 actual_animal_food = NodePath("Resources/Food/HBoxContainer/AnimalFood/Actual")
 max_food = NodePath("Resources/Food/Max")
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1922388004]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.49803922)
+
 [node name="Resources" type="HBoxContainer" parent="." unique_id=421341636]
 layout_mode = 0
 offset_right = 300.0

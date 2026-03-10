@@ -1,7 +1,5 @@
 extends Control
 
-@export var game: Node3D
-
 @export var house_button: Button
 @export var field_button: Button
 @export var pasture_button: Button
@@ -15,7 +13,7 @@ func _ready() -> void:
 
 
 func handle_building(action_index: int, button: Button) -> void:
-	game.building_action = action_index
+	GameManager.building_action = action_index
 	r_to_cancel_label.visible = true
 	if prev_button:
 		prev_button.remove_theme_color_override("font_color")
@@ -25,7 +23,7 @@ func handle_building(action_index: int, button: Button) -> void:
 		button.add_theme_color_override("font_color", Color.YELLOW)
 		prev_button = button
 func handle_cancel_building() -> void:
-	game.building_action = -999
+	GameManager.building_action = -999
 	r_to_cancel_label.visible = false
 	if prev_button:
 		prev_button.remove_theme_color_override("font_color")
