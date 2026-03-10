@@ -59,6 +59,56 @@ func increase_tile_amount(building_index) -> void:
 		-2:
 			water_amount += 1
 
+func get_nearest_forest_distance() -> int:
+
+	var visited = []
+	for z in range(GRID_SIZE):
+		visited.append([])
+		for x in range(GRID_SIZE):
+			visited[z].append(false)
+
+	var queue = []
+
+	for z in range(GRID_SIZE):
+		for x in range(GRID_SIZE):
+			if ground_grid[z][x] == -1:
+				queue.append({"pos": Vector2i(x, z), "dist": 0})
+				visited[z][x] = true
+
+	var directions = [
+		Vector2i(1,0),
+		Vector2i(-1,0),
+		Vector2i(0,1),
+		Vector2i(0,-1)
+	]
+
+	while queue.size() > 0:
+
+		var current = queue.pop_front()
+		var x = current.pos.x
+		var z = current.pos.y
+		var dist = current.dist
+
+		if ground_grid[z][x] == 1:
+			return dist
+
+		for dir in directions:
+
+			var nx = x + dir.x
+			var nz = z + dir.y
+
+			if nx >= 0 and nx < GRID_SIZE and nz >= 0 and nz < GRID_SIZE:
+
+				if !visited[nz][nx]:
+
+					visited[nz][nx] = true
+					queue.append({
+						"pos": Vector2i(nx, nz),
+						"dist": dist + 1
+					})
+
+	return -1
+
 
 func get_city_bounds():
 	var top = GRID_SIZE

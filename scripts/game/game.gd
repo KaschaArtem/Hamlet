@@ -68,11 +68,126 @@ func on_builded(building_index) -> void:
 	update_max_values()
 	resources_changed.emit()
 
+func calculate_wood_production():
+
+	var dist = ground.get_nearest_forest_distance()
+
+	if dist == -1:
+		return 0
+
+	var efficiency = clamp(8 - dist, 1, 6)
+
+	return human_resource * efficiency
+
+func calculate_food_production():
+
+	var workers = human_resource
+
+	var field_workers = min(workers, ground.field_amount)
+	var pasture_workers = min(workers - field_workers, ground.pasture_amount * 2)
+
+	# производство растений
+	var plant_production = field_workers
+	plant_food_resource += plant_production
+
+
+	# пастбища
+
+	var base_animal_production = pasture_workers
+
+	var required_plant_food = ground.pasture_amount
+
+	var delivered_food = min(plant_food_resource, required_plant_food)
+
+	var percent = 0.0
+
+	if required_plant_food > 0:
+		percent = float(delivered_food) / float(required_plant_food)
+
+	percent = clamp(percent, 0.0, 1.0)
+
+	var animal_production = int(base_animal_production * percent * percent * 2.5)
+
+	plant_food_resource -= delivered_food
+
+	animal_food_resource += animal_production
+
+func calculate_food_consumption():
+	var human_food_need = human_resource
+	var pasture_food_need = ground.pasture_amount
+	
+	var total_food_need = human_food_need + pasture_food_need
+	
+	var plant_used = min(plant_food_resource, total_food_need)
+	plant_food_resource -= plant_used
+	
+	total_food_need -= plant_used
+	
+	var animal_used = min(animal_food_resource, total_food_need)
+	animal_food_resource -= animal_used
+
+func calculate_wood_consumption(base_cost: int):
+	var cost = base_cost + int(human_resource * 0.5)
+	
+	wood_resource -= cost
+	
+	if wood_resource < 0:
+		wood_resource = 0
+
+func process_spring():
+	calculate_food_consumption()
+	calculate_wood_consumption(2)
+	wood_resource += calculate_wood_production()
+	calculate_food_production()
+
+func process_summer():
+	calculate_food_consumption()
+	wood_resource += calculate_wood_production()
+	calculate_food_production()
+
+func process_autumn():
+	calculate_food_consumption()
+	calculate_wood_consumption(3)
+	wood_resource += calculate_wood_production()
+	calculate_food_production()
+
+func process_winter():
+	calculate_food_consumption()
+	calculate_wood_consumption(6)
+	wood_resource += calculate_wood_production()
+	calculate_food_production()
+
+func clamp_resources():
+
+	human_resource = min(human_resource, max_human_resource)
+	wood_resource = min(wood_resource, max_wood_resource)
+
+	var total_food = plant_food_resource + animal_food_resource
+
+	if total_food > max_food_resource:
+		var overflow = total_food - max_food_resource
+
+		if animal_food_resource >= overflow:
+			animal_food_resource -= overflow
+		else:
+			overflow -= animal_food_resource
+			animal_food_resource = 0
+			plant_food_resource = max(0, plant_food_resource - overflow)
 
 func end_month() -> void:
+	var month = month_count % 12 + 1
+	if month >= 1 and month <= 3:
+		process_spring()
+	elif month >= 4 and month <= 6:
+		process_summer()
+	elif month >= 7 and month <= 9:
+		process_autumn()
+	elif month >= 10 and month <= 12:
+		process_winter()
+	clamp_resources()
 	month_count += 1
+	resources_changed.emit()
 	turn_ended.emit(month_count)
-
 
 func _input(_event):
 	if Input.is_action_just_pressed("reload_game_scene"):
