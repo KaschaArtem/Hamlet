@@ -1,5 +1,6 @@
 extends Control
 
+
 @export var game: Node3D
 
 @export var actual_people: Label

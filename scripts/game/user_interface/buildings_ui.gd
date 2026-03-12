@@ -1,5 +1,8 @@
 extends Control
 
+
+@export var game: Node3D
+
 @export var house_button: Button
 @export var field_button: Button
 @export var pasture_button: Button
@@ -8,11 +11,28 @@ extends Control
 
 var prev_button: Button
 
+
 func _ready() -> void:
+	game.player_action_started.connect(on_player_action_started)
+	game.player_action_ended.connect(on_player_action_ended)
 	r_to_cancel_label.visible = false
 
 
+func on_player_action_started() -> void:
+	house_button.disabled = false
+	field_button.disabled = false
+	pasture_button.disabled = false
+	delete_button.disabled = false
+func on_player_action_ended() -> void:
+	house_button.disabled = true
+	field_button.disabled = true
+	pasture_button.disabled = true
+	delete_button.disabled = true
+	clear_building_action()
+
 func handle_building(action_index: int, button: Button) -> void:
+	if GameManager.is_build_allowed == false:
+		return
 	GameManager.building_action = action_index
 	r_to_cancel_label.visible = true
 	if prev_button:
@@ -22,7 +42,7 @@ func handle_building(action_index: int, button: Button) -> void:
 	else:
 		button.add_theme_color_override("font_color", Color.YELLOW)
 		prev_button = button
-func handle_cancel_building() -> void:
+func clear_building_action() -> void:
 	GameManager.building_action = -999
 	r_to_cancel_label.visible = false
 	if prev_button:
@@ -48,4 +68,4 @@ func _input(_event):
 	elif Input.is_action_just_pressed("set_build_to_tile"):
 		handle_building(0, delete_button)
 	elif Input.is_action_just_pressed("clear_building_action"):
-		handle_cancel_building()
+		clear_building_action()

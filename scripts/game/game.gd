@@ -1,9 +1,14 @@
 extends Node3D
 
+
 @export var ground: Node3D
+@onready var time_ui = $UserInterface/TimeUI
+@onready var timer = $Timer
 
 signal resources_changed
-signal turn_ended(month_count)
+signal player_action_started
+signal player_action_ended
+signal turn_ended
 
 @export var main_tile_human_capacity: int = 10
 @export var main_tile_wood_capacity: int = 100
@@ -37,8 +42,12 @@ var max_human_resource
 var max_wood_resource
 var max_food_resource
 
+var people_on_wood: int = 0
+var people_on_plant: int = 0
+var people_on_animal: int = 0
 
 var month_count = 0
+var start_next_month: bool = false
 
 
 func update_max_values() -> void:
@@ -47,9 +56,12 @@ func update_max_values() -> void:
 	max_food_resource = ground.house_amount * house_food_capacity + main_tile_food_capacity
 
 func _ready() -> void:
+	player_action_started.connect(on_player_action_started)
+	player_action_ended.connect(on_player_action_ended)
 	ground.builded.connect(on_builded)
+	timer.end_month.connect(on_end_month)
 	update_max_values()
-	resources_changed.emit()
+	start_first_month()
 
 
 func is_house_build_allowed() -> bool:
@@ -96,7 +108,6 @@ func calculate_food_consumption() -> void:
 	if (total_food - human_resource) >= 0:
 		var plant_food_consumption = int(round(human_resource * float(plant_food_resource) / total_food))
 		var animal_food_consumption = human_resource - plant_food_consumption
-		print(plant_food_consumption, " ", animal_food_consumption)
 		plant_food_resource -= plant_food_consumption
 		animal_food_resource -= animal_food_consumption
 	else:
@@ -142,8 +153,25 @@ func clamp_resources():
 func game_over() -> void:
 	SceneManager.change_scene("res://scenes/active_scenes/game.tscn")
 
-func end_month() -> void:
+func on_player_action_started() -> void:
+	GameManager.is_build_allowed = true
+func on_player_action_ended() -> void:
+	GameManager.is_build_allowed = false
+func get_player_action() -> void:
+	player_action_started.emit()
+	await time_ui.start_new_month
+	player_action_ended.emit()
+
+func start_first_month() -> void:
+	resources_changed.emit()
+
+	await get_player_action()
+
+	turn_ended.emit()
+
+func on_end_month() -> void:
 	var month = month_count % 12 + 1
+
 	if month >= 1 and month <= 3:
 		process_spring()
 	elif month >= 4 and month <= 6:
@@ -152,12 +180,16 @@ func end_month() -> void:
 		process_autumn()
 	elif month >= 10 and month <= 12:
 		process_winter()
+
+	clamp_resources()
+	resources_changed.emit()
 	if human_resource <= 0:
 		game_over()
-	clamp_resources()
+
 	month_count += 1
-	resources_changed.emit()
-	turn_ended.emit(month_count)
+	await get_player_action()
+
+	turn_ended.emit()
 
 func _input(_event):
 	if Input.is_action_just_pressed("reload_game_scene"):

@@ -1,5 +1,6 @@
 extends Node3D
 
+
 @export var game: Node3D
 
 signal builded(building_index: int)

@@ -10,9 +10,11 @@
 [ext_resource type="PackedScene" uid="uid://d1p02ukg7kcfy" path="res://scenes/game_scenes/objects/pasture.tscn" id="5_g754w"]
 [ext_resource type="PackedScene" uid="uid://dlure545d2ipp" path="res://scenes/game_scenes/objects/tree.tscn" id="8_inwm1"]
 [ext_resource type="PackedScene" uid="uid://bktngcc427rq0" path="res://scenes/game_scenes/objects/water.tscn" id="9_cq3oe"]
+[ext_resource type="Script" uid="uid://m10xkivh4hxe" path="res://scripts/game/timer.gd" id="11_qektj"]
 [ext_resource type="PackedScene" uid="uid://dx75bnqqvdm21" path="res://scenes/game_scenes/user_interface/buildings_ui.tscn" id="12_7f75v"]
 [ext_resource type="PackedScene" uid="uid://duhr3mswrolme" path="res://scenes/game_scenes/user_interface/time_ui.tscn" id="13_0eppp"]
 [ext_resource type="PackedScene" uid="uid://cedvrgudrsxyh" path="res://scenes/game_scenes/user_interface/resources_ui.tscn" id="13_g6mbv"]
+[ext_resource type="PackedScene" uid="uid://da2k5a37xrgsc" path="res://scenes/game_scenes/user_interface/people_control_ui.tscn" id="14_0eppp"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ggqa2"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -63,13 +65,21 @@ projection = 2
 fov = 60.0
 size = 0.06
 
+[node name="Timer" type="Node3D" parent="." unique_id=1136563278 node_paths=PackedStringArray("game")]
+script = ExtResource("11_qektj")
+game = NodePath("..")
+
 [node name="UserInterface" type="CanvasLayer" parent="." unique_id=902251080]
 script = SubResource("GDScript_7f75v")
 
-[node name="BuildingsUI" parent="UserInterface" unique_id=139825313 instance=ExtResource("12_7f75v")]
+[node name="BuildingsUI" parent="UserInterface" unique_id=139825313 node_paths=PackedStringArray("game") instance=ExtResource("12_7f75v")]
+game = NodePath("../..")
 
 [node name="ResourcesUI" parent="UserInterface" unique_id=988245277 node_paths=PackedStringArray("game") instance=ExtResource("13_g6mbv")]
 game = NodePath("../..")
 
 [node name="TimeUI" parent="UserInterface" unique_id=1607769773 node_paths=PackedStringArray("game") instance=ExtResource("13_0eppp")]
+game = NodePath("../..")
+
+[node name="PeopleControlUI" parent="UserInterface" unique_id=521716 node_paths=PackedStringArray("game") instance=ExtResource("14_0eppp")]
 game = NodePath("../..")
