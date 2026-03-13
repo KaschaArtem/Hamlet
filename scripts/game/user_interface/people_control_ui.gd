@@ -71,19 +71,33 @@ func check_more_buttons() -> void:
 		enable_more_assignment()
 
 func on_player_action_started() -> void:
-	var people_on_wood = game.people_on_wood
-	var people_on_plant = game.people_on_plant
-	var people_on_animal = game.people_on_animal
-	var total_working = people_on_wood + people_on_plant + people_on_animal
+	var workers := {
+		"wood": game.people_on_wood,
+		"plant": game.people_on_plant,
+		"animal": game.people_on_animal
+	}
+	
+	var total_working = 0
+	for v in workers.values():
+		total_working += v
+	
 	var overload = total_working - game.human_resource
 	
-	if overload > 0:
-		for i in range(overload):
-			continue
+	for i in range(max(overload, 0)):
+		var max_key := ""
+		var max_val := -1
+		
+		for k in workers:
+			if workers[k] > max_val:
+				max_val = workers[k]
+				max_key = k
+		
+		if max_key != "":
+			workers[max_key] -= 1
 	
-	game.people_on_wood = people_on_wood
-	game.people_on_plant = people_on_plant
-	game.people_on_animal = people_on_animal
+	game.people_on_wood = workers["wood"]
+	game.people_on_plant = workers["plant"]
+	game.people_on_animal = workers["animal"]
 	init_update_values()
 	
 	check_less_wood_button()
