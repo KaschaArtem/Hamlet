@@ -81,5 +81,4 @@ game = NodePath("../..")
 [node name="TimeUI" parent="UserInterface" unique_id=1607769773 node_paths=PackedStringArray("game") instance=ExtResource("13_0eppp")]
 game = NodePath("../..")
 
-[node name="PeopleControlUI" parent="UserInterface" unique_id=521716 node_paths=PackedStringArray("game") instance=ExtResource("14_0eppp")]
-game = NodePath("../..")
+[node name="PeopleControlUI" parent="UserInterface" unique_id=521716 instance=ExtResource("14_0eppp")]

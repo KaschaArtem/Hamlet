@@ -1,6 +1,5 @@
 extends Node3D
 
-
 @export var ground: Node3D
 @onready var time_ui = $UserInterface/TimeUI
 @onready var timer = $Timer
@@ -49,6 +48,9 @@ var people_on_animal: int = 0
 var month_count = 0
 var start_next_month: bool = false
 
+var plant_season_mod := 1.0
+var animal_season_mod := 1.0
+var wood_season_mod := 1.0
 
 func update_max_values() -> void:
 	max_human_resource = ground.house_amount * house_human_capacity + main_tile_human_capacity
@@ -63,19 +65,14 @@ func _ready() -> void:
 	update_max_values()
 	start_first_month()
 
-
 func is_house_build_allowed() -> bool:
-	if house_cost <= wood_resource:
-		return true
-	return false
+	return house_cost <= wood_resource
+
 func is_field_build_allowed() -> bool:
-	if field_cost <= wood_resource:
-		return true
-	return false
+	return field_cost <= wood_resource
+
 func is_pasture_build_allowed() -> bool:
-	if pasture_cost <= wood_resource:
-		return true
-	return false
+	return pasture_cost <= wood_resource
 
 func on_builded(building_index) -> void:
 	match building_index:
@@ -90,56 +87,114 @@ func on_builded(building_index) -> void:
 
 
 func calculate_wood_production() -> void:
+	if people_on_wood <= 0:
+		return
 	var dist = ground.get_nearest_forest_distance()
 	if dist == -1:
 		return
-	var efficiency = clamp(1 - (dist - 1) * 0.125, 0.5, 1)
-	wood_resource = int(round(wood_resource + base_wood_income * (human_resource * 0.7) * efficiency))
+	var distance_mod = clamp(1 - (dist - 1) * 0.125, 0.5, 1)
+	var production = base_wood_income * people_on_wood
+	production *= distance_mod
+	production *= wood_season_mod
+	wood_resource += int(round(production))
+
+
 func calculate_food_production() -> void:
-	plant_food_resource += int(round((human_resource * 0.7) * ground.field_amount))
-	animal_food_resource += int(round((human_resource * 0.3) * ground.pasture_amount))
+	people_on_plant = min(people_on_plant, ground.field_amount)
+	people_on_animal = min(people_on_animal, ground.pasture_amount)
+	var plant_prod = base_plant_food_income * people_on_plant
+	plant_prod *= plant_season_mod
+
+	var animal_prod = base_animal_food_income * people_on_animal
+	animal_prod *= animal_season_mod
+
+	plant_food_resource += int(round(plant_prod))
+	animal_food_resource += int(round(animal_prod))
+
+
 func calculate_wood_consumption(multiplier: float) -> void:
+
 	wood_resource -= int(round(human_resource * 0.5 * multiplier))
+
 	if wood_resource < 0:
 		human_resource -= int(round(wood_resource)) / wood_penalty
 		wood_resource = 0
+
+
 func calculate_food_consumption() -> void:
+
 	var total_food = plant_food_resource + animal_food_resource
+
 	if (total_food - human_resource) >= 0:
+
 		var plant_food_consumption = int(round(human_resource * float(plant_food_resource) / total_food))
 		var animal_food_consumption = human_resource - plant_food_consumption
+
 		plant_food_resource -= plant_food_consumption
 		animal_food_resource -= animal_food_consumption
+
 	else:
+
 		human_resource -= int(round((human_resource - total_food))) / food_penalty
+
 		plant_food_resource = 0
 		animal_food_resource = 0
 
 func process_spring():
+
+	plant_season_mod = 1.0
+	animal_season_mod = 1.0
+	wood_season_mod = 1.0
+
 	calculate_wood_production()
 	calculate_food_production()
+
 	calculate_wood_consumption(0.8)
 	calculate_food_consumption()
+
+
 func process_summer():
+
+	plant_season_mod = 1.2
+	animal_season_mod = 1.0
+	wood_season_mod = 1.0
+
 	calculate_wood_production()
 	calculate_food_production()
+
 	calculate_wood_consumption(0.0)
 	calculate_food_consumption()
+
+
 func process_autumn():
+
+	plant_season_mod = 0.8
+	animal_season_mod = 1.2
+	wood_season_mod = 1.0
+
 	calculate_wood_production()
 	calculate_food_production()
+
 	calculate_wood_consumption(1.2)
 	calculate_food_consumption()
+
+
 func process_winter():
+
+	plant_season_mod = 0.0
+	animal_season_mod = 0.8
+	wood_season_mod = 0.9
+
 	calculate_wood_production()
 	calculate_food_production()
+
 	calculate_wood_consumption(2.4)
 	calculate_food_consumption()
+
 
 func clamp_resources():
 	human_resource = min(human_resource, max_human_resource)
 	wood_resource = min(wood_resource, max_wood_resource)
-
 	var total_food = plant_food_resource + animal_food_resource
 	if total_food > max_food_resource:
 		var overflow = total_food - max_food_resource
@@ -155,8 +210,10 @@ func game_over() -> void:
 
 func on_player_action_started() -> void:
 	GameManager.is_build_allowed = true
+
 func on_player_action_ended() -> void:
 	GameManager.is_build_allowed = false
+
 func get_player_action() -> void:
 	player_action_started.emit()
 	await time_ui.start_new_month
@@ -164,14 +221,11 @@ func get_player_action() -> void:
 
 func start_first_month() -> void:
 	resources_changed.emit()
-
 	await get_player_action()
-
 	turn_ended.emit()
 
 func on_end_month() -> void:
 	var month = month_count % 12 + 1
-
 	if month >= 1 and month <= 3:
 		process_spring()
 	elif month >= 4 and month <= 6:
@@ -180,16 +234,14 @@ func on_end_month() -> void:
 		process_autumn()
 	elif month >= 10 and month <= 12:
 		process_winter()
-
 	clamp_resources()
 	resources_changed.emit()
 	if human_resource <= 0:
 		game_over()
-
 	month_count += 1
 	await get_player_action()
-
 	turn_ended.emit()
+
 
 func _input(_event):
 	if Input.is_action_just_pressed("reload_game_scene"):
