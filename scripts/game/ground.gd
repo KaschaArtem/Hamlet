@@ -34,7 +34,6 @@ var pasture_amount = 0
 var wood_amount = 0
 var water_amount = 0
 
-
 func decrease_tile_amount(building_index) -> void:
 	match building_index:
 		1:
@@ -60,7 +59,7 @@ func increase_tile_amount(building_index) -> void:
 		-2:
 			water_amount += 1
 
-func get_nearest_forest_distance() -> int:
+func get_nearest_forest_distance(remove_tree: bool) -> int:
 
 	var visited = []
 	for z in range(GRID_SIZE):
@@ -92,18 +91,20 @@ func get_nearest_forest_distance() -> int:
 
 		if ground_grid[z][x] == -1:
 
-			# удаляем дерево
-			ground_grid[z][x] = 0
-			decrease_tile_amount(-1)
+			if remove_tree:
 
-			var world_pos = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
+				# удаляем дерево
+				ground_grid[z][x] = 0
+				decrease_tile_amount(-1)
 
-			for child in get_children():
-				if child.position == world_pos:
-					child.queue_free()
-					break
+				var world_pos = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 
-			add_empty_tile(x, z)
+				for child in get_children():
+					if child.position == world_pos:
+						child.queue_free()
+						break
+
+				add_empty_tile(x, z)
 
 			return dist
 
