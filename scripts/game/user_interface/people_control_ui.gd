@@ -211,12 +211,12 @@ func _on_more_fish_pressed() -> void:
 
 func _on_less_hunt_pressed() -> void:
 	game.people_on_hunt -= 1
-	update_current_fish()
+	update_current_hunt()
 	check_less_hunt_button()
 	check_more_buttons()
 
 func _on_more_hunt_pressed() -> void:
 	game.people_on_hunt += 1
-	update_current_fish()
-	check_less_fish_button()
+	update_current_hunt()
+	check_less_hunt_button()
 	check_more_buttons()

@@ -132,8 +132,6 @@ func calculate_food_production() -> void:
 
 func calculate_fish_production() -> void:
 
-	people_on_fish = min(people_on_fish, ground.house_amount)
-
 	if people_on_fish <= 0:
 		return
 
