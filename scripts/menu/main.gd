@@ -1,7 +1,7 @@
 extends Control
 
 
-@export var menu: Node3D 
+@export var menu: CanvasLayer 
 @export var settings: Control
 @export var new_game_confirm: Control
 @export var exit_game_confirm: Control

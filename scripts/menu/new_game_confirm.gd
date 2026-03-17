@@ -1,7 +1,7 @@
 extends Control
 
 
-@export var menu: Node3D 
+@export var menu: CanvasLayer 
 @export var main: Control
 
 @export var no: Button

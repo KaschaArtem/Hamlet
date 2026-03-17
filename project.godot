@@ -18,11 +18,17 @@ config/icon="res://icon.svg"
 [autoload]
 
 SceneManager="*uid://c16iybwjkamlr"
+ConfigManager="*uid://bxy44x5flof5h"
 GameManager="*uid://dluinc6g6l5mq"
 
 [debug]
 
 gdscript/warnings/integer_division=0
+
+[display]
+
+window/size/resizable=false
+window/stretch/mode="canvas_items"
 
 [input]
 

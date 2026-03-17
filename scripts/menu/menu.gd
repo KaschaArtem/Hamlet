@@ -1,4 +1,4 @@
-extends Node3D
+extends CanvasLayer
 
 
 @export var main: Control
