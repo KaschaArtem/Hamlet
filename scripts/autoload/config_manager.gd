@@ -39,15 +39,14 @@ func save_config() -> void:
 	if err != OK:
 		push_error("Failed to save config")
 
-func load_config() -> bool:
-	var config = ConfigFile.new()
-	var err = config.load(CONFIG_PATH)
-	if err != OK:
-		return false
-	var resolution = config.get_value("display", "resolution", Vector2i(1280, 720))
-	var mode = config.get_value("display", "mode", DisplayServer.WINDOW_MODE_WINDOWED)
-	apply_loaded_settings(resolution, mode)
-	return true
+func apply_best_resolution():
+	if valid_resolutions.size() == 0:
+		DisplayServer.window_set_size(DisplayServer.screen_get_size())
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		return
+	DisplayServer.window_set_size(valid_resolutions[-1])
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	get_tree().root.size = DisplayServer.window_get_size()
 
 func apply_loaded_settings(resolution: Vector2i, mode: int):
 	if resolution not in valid_resolutions:
@@ -58,6 +57,16 @@ func apply_loaded_settings(resolution: Vector2i, mode: int):
 	DisplayServer.window_set_mode(mode)
 	if mode == DisplayServer.WINDOW_MODE_WINDOWED:
 		center_window()
+
+func load_config() -> bool:
+	var config = ConfigFile.new()
+	var err = config.load(CONFIG_PATH)
+	if err != OK:
+		return false
+	var resolution = config.get_value("display", "resolution", Vector2i(1152, 648))
+	var mode = config.get_value("display", "mode", DisplayServer.WINDOW_MODE_FULLSCREEN)
+	apply_loaded_settings(resolution, mode)
+	return true
 
 func _ready() -> void:
 	calc_valid_resolutions()
@@ -80,17 +89,6 @@ func toggle_display_mode():
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		center_window()
 
-func apply_best_resolution():
-	if valid_resolutions.size() == 0:
-		DisplayServer.window_set_size(DisplayServer.screen_get_size())
-		return
-	var best_res = valid_resolutions[0]
-	for res in valid_resolutions:
-		if res.x * res.y > best_res.x * best_res.y:
-			best_res = res
-	DisplayServer.window_set_size(best_res)
-	get_tree().root.size = DisplayServer.window_get_size()
-	center_window()
 func decrease_resolution():
 	var current = DisplayServer.window_get_size()
 	var index = valid_resolutions.find(current)
