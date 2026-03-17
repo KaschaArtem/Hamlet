@@ -59,7 +59,8 @@ func increase_tile_amount(building_index) -> void:
 		-2:
 			water_amount += 1
 
-func get_nearest_forest_distance(remove_tree: bool) -> int:
+
+func get_nearest_tile_distance(target_type: int, remove_tile: bool = false) -> int:
 
 	var visited = []
 	for z in range(GRID_SIZE):
@@ -76,10 +77,10 @@ func get_nearest_forest_distance(remove_tree: bool) -> int:
 				visited[z][x] = true
 
 	var directions = [
-		Vector2i(1,0),
-		Vector2i(-1,0),
-		Vector2i(0,1),
-		Vector2i(0,-1)
+		Vector2i(1, 0),
+		Vector2i(-1, 0),
+		Vector2i(0, 1),
+		Vector2i(0, -1)
 	]
 
 	while queue.size() > 0:
@@ -89,22 +90,10 @@ func get_nearest_forest_distance(remove_tree: bool) -> int:
 		var z = current.pos.y
 		var dist = current.dist
 
-		if ground_grid[z][x] == -1:
+		if ground_grid[z][x] == target_type:
 
-			if remove_tree:
-
-				# удаляем дерево
-				ground_grid[z][x] = 0
-				decrease_tile_amount(-1)
-
-				var world_pos = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
-
-				for child in get_children():
-					if child.position == world_pos:
-						child.queue_free()
-						break
-
-				add_empty_tile(x, z)
+			if remove_tile:
+				remove_tile_at(x, z, target_type)
 
 			return dist
 
@@ -124,10 +113,10 @@ func get_nearest_forest_distance(remove_tree: bool) -> int:
 	return -1
 
 
-func remove_tree_tile(x, z):
+func remove_tile_at(x: int, z: int, tile_type: int) -> void:
 
 	ground_grid[z][x] = 0
-	decrease_tile_amount(-1)
+	decrease_tile_amount(tile_type)
 
 	var world_pos = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 
@@ -137,6 +126,13 @@ func remove_tree_tile(x, z):
 			break
 
 	add_empty_tile(x, z)
+
+
+func get_nearest_forest_distance(remove_tree: bool) -> int:
+	return get_nearest_tile_distance(-1, remove_tree)
+
+func get_nearest_water_distance() -> int:
+	return get_nearest_tile_distance(-2, false)
 
 func get_city_bounds():
 	var top = GRID_SIZE

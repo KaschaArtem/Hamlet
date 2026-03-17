@@ -58,6 +58,8 @@ var fish_season_mod := 1.0
 var hunt_season_mod := 1.0
 var wood_season_mod := 1.0
 
+var is_distance_checked: bool = false
+var dist := -1
 
 func update_max_values() -> void:
 	max_human_resource = ground.house_amount * house_human_capacity + main_tile_human_capacity
@@ -101,8 +103,9 @@ func on_builded(building_index) -> void:
 func calculate_wood_production() -> void:
 	if people_on_wood <= 0:
 		return
-
-	var dist = ground.get_nearest_forest_distance(true)
+	
+	dist = ground.get_nearest_forest_distance(true)
+	is_distance_checked = true
 	if dist == -1:
 		return
 
@@ -117,14 +120,11 @@ func calculate_wood_production() -> void:
 
 func calculate_food_production() -> void:
 
-	people_on_plant = min(people_on_plant, ground.field_amount)
-	people_on_animal = min(people_on_animal, ground.pasture_amount)
+	var effective_plant_workers = get_effective_workers(people_on_plant, ground.field_amount)
+	var effective_animal_workers = get_effective_workers(people_on_animal, ground.pasture_amount)
 
-	var plant_prod = base_plant_food_income * people_on_plant
-	plant_prod *= plant_season_mod
-
-	var animal_prod = base_animal_food_income * people_on_animal
-	animal_prod *= animal_season_mod
+	var plant_prod = base_plant_food_income * effective_plant_workers
+	var animal_prod = base_animal_food_income * effective_animal_workers
 
 	plant_food_resource += int(round(plant_prod))
 	animal_food_resource += int(round(animal_prod))
@@ -134,9 +134,10 @@ func calculate_fish_production() -> void:
 
 	if people_on_fish <= 0:
 		return
-
-	var production = base_fish_food_income * people_on_fish
-	production *= fish_season_mod
+	var water_dist = ground.get_nearest_water_distance()
+	var distance_mod = clamp(1 - (water_dist - 1) * 0.125, 0.5, 1)
+	
+	var production = base_fish_food_income * people_on_fish * fish_season_mod * distance_mod
 
 	animal_food_resource += int(round(production))
 
@@ -145,8 +146,8 @@ func calculate_hunt_production() -> void:
 
 	if people_on_hunt <= 0:
 		return
-
-	var dist = ground.get_nearest_forest_distance(false)
+	if is_distance_checked == false: 
+		dist = ground.get_nearest_forest_distance(false)
 	if dist == -1:
 		return
 
@@ -158,6 +159,14 @@ func calculate_hunt_production() -> void:
 
 	animal_food_resource += int(round(production))
 
+func get_effective_workers(workers: int, capacity: int, k: float = 2.0) -> float:
+	if capacity <= 0:
+		return 0.0
+	
+	var w = float(workers)
+	var c = float(capacity)
+
+	return (w * c) / (c + k * w) * 2
 
 func calculate_wood_consumption(multiplier: float) -> void:
 
@@ -314,7 +323,7 @@ func on_end_month() -> void:
 
 	clamp_resources()
 	resources_changed.emit()
-
+	is_distance_checked = false
 	if human_resource <= 0:
 		game_over()
 
