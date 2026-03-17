@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://ckbyorsu0r5b8"]
+
+[ext_resource type="Script" uid="uid://bllqekj2xx2x4" path="res://scripts/menu/main.gd" id="1_b7wje"]
+
+[node name="Main" type="Control" unique_id=605065153 node_paths=PackedStringArray("new_game_button", "continue_button", "settings_button", "exit_game_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b7wje")
+new_game_button = NodePath("Main/NewGameButton")
+continue_button = NodePath("Main/ContinueButton")
+settings_button = NodePath("Main/SettingsButton")
+exit_game_button = NodePath("Main/ExitGameButton")
+
+[node name="Main" type="VBoxContainer" parent="." unique_id=1425025610]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -22.0
+offset_right = 20.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NewGameButton" type="Button" parent="Main" unique_id=1559205205]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../ContinueButton")
+action_mode = 0
+text = "New Game"
+
+[node name="ContinueButton" type="Button" parent="Main" unique_id=409355396]
+layout_mode = 2
+focus_neighbor_top = NodePath("../NewGameButton")
+focus_neighbor_bottom = NodePath("../SettingsButton")
+disabled = true
+action_mode = 0
+text = "Continue"
+
+[node name="SettingsButton" type="Button" parent="Main" unique_id=1968584482]
+layout_mode = 2
+focus_neighbor_top = NodePath("../ContinueButton")
+focus_neighbor_bottom = NodePath("../ExitGameButton")
+action_mode = 0
+text = "Settings"
+
+[node name="ExitGameButton" type="Button" parent="Main" unique_id=1118754811]
+layout_mode = 2
+focus_neighbor_top = NodePath("../SettingsButton")
+action_mode = 0
+text = "Exit Game"
+
+[connection signal="pressed" from="Main/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="Main/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Main/ExitGameButton" to="." method="_on_exit_game_button_pressed"]

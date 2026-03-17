@@ -108,8 +108,8 @@ func _process(delta):
 	handle_pitch(delta)
 
 
-func handle_mouse_selection() -> void:
-	var mouse_pos = get_viewport().get_mouse_position()
+func handle_mouse_selection(event) -> void:
+	var mouse_pos = event.position
 	var ray_origin = camera.project_ray_origin(mouse_pos)
 	var ray_dir = camera.project_ray_normal(mouse_pos)
 	var ray_end = ray_origin + ray_dir * 1000
@@ -124,4 +124,4 @@ func _input(event):
 	if event is InputEventMouseButton \
 	and event.pressed \
 	and event.button_index == MOUSE_BUTTON_LEFT:
-		handle_mouse_selection()
+		handle_mouse_selection(event)
