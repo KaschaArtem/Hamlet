@@ -15,10 +15,20 @@ exit_game_confirm = NodePath("CanvasLayer/ExitGameConfirm")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1548957448]
 
-[node name="Main" parent="CanvasLayer" unique_id=605065153 instance=ExtResource("2_6sm54")]
+[node name="Main" parent="CanvasLayer" unique_id=605065153 node_paths=PackedStringArray("menu", "settings", "new_game_confirm", "exit_game_confirm") instance=ExtResource("2_6sm54")]
+menu = NodePath("../..")
+settings = NodePath("../Settings")
+new_game_confirm = NodePath("../NewGameConfirm")
+exit_game_confirm = NodePath("../ExitGameConfirm")
 
-[node name="Settings" parent="CanvasLayer" unique_id=265393910 instance=ExtResource("3_mo4md")]
+[node name="Settings" parent="CanvasLayer" unique_id=265393910 node_paths=PackedStringArray("menu", "main") instance=ExtResource("3_mo4md")]
+menu = NodePath("../..")
+main = NodePath("../Main")
 
-[node name="NewGameConfirm" parent="CanvasLayer" unique_id=232928215 instance=ExtResource("3_ue6ab")]
+[node name="NewGameConfirm" parent="CanvasLayer" unique_id=232928215 node_paths=PackedStringArray("menu", "main") instance=ExtResource("3_ue6ab")]
+menu = NodePath("../..")
+main = NodePath("../Main")
 
-[node name="ExitGameConfirm" parent="CanvasLayer" unique_id=244921238 instance=ExtResource("5_gdbx1")]
+[node name="ExitGameConfirm" parent="CanvasLayer" unique_id=244921238 node_paths=PackedStringArray("menu", "main") instance=ExtResource("5_gdbx1")]
+menu = NodePath("../..")
+main = NodePath("../Main")

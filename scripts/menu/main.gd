@@ -1,6 +1,11 @@
 extends Control
 
 
+@export var menu: Node3D 
+@export var settings: Control
+@export var new_game_confirm: Control
+@export var exit_game_confirm: Control
+
 @export var new_game_button: Button
 @export var continue_button: Button
 @export var settings_button: Button
@@ -8,8 +13,12 @@ extends Control
 
 
 func _on_new_game_button_pressed() -> void:
-	SceneManager.change_scene("res://scenes/active_scenes/game.tscn")
+	menu.update(new_game_confirm)
+
+
+func _on_settings_button_pressed() -> void:
+	menu.update(settings)
 
 
 func _on_exit_game_button_pressed() -> void:
-	get_tree().quit()
+	menu.update(exit_game_confirm)
