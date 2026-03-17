@@ -30,7 +30,7 @@ signal turn_ended
 @export var food_penalty: int = 1
 
 @export var start_human_resource = 4
-@export var start_wood_resource = 500
+@export var start_wood_resource = 80
 @export var start_plant_food_resource = 10
 @export var start_animal_food_resource = 8
 

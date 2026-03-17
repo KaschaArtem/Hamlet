@@ -28,12 +28,13 @@ func _ready() -> void:
 
 func _on_back_pressed() -> void:
 	menu.update(main)
+	ConfigManager.save_config()
 
 
 func toggle_display_resolution_button() -> void:
 	var mode = DisplayServer.window_get_mode()
 	if mode == DisplayServer.WINDOW_MODE_WINDOWED:
-		update_display_resolution(ConfigManager.valid_resolutions[-1])
+		update_display_resolution(DisplayServer.window_get_size())
 		display_resolution_button.disabled = false
 	else:
 		update_display_resolution(DisplayServer.screen_get_size())
@@ -52,3 +53,4 @@ func _on_display_resolution_pressed() -> void:
 func _input(_event) -> void:
 	if Input.is_action_just_pressed("abort_key"):
 		menu.update(main)
+		ConfigManager.save_config()
