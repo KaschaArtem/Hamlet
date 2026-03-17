@@ -29,6 +29,7 @@ gdscript/warnings/integer_division=0
 
 window/size/resizable=false
 window/stretch/mode="canvas_items"
+window/stretch/aspect="keep_width"
 
 [input]
 

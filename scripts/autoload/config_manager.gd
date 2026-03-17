@@ -31,14 +31,17 @@ func center_window():
 	var window_size = DisplayServer.window_get_size()
 	var new_position = (screen_size - window_size) / 2
 	DisplayServer.window_set_position(new_position)
+	get_tree().root.size = DisplayServer.window_get_size()
 
 func toggle_display_mode():
 	var mode = DisplayServer.window_get_mode()
 	if mode == DisplayServer.WINDOW_MODE_WINDOWED:
 		DisplayServer.window_set_size(valid_resolutions[-1])
+		get_tree().root.size = DisplayServer.window_get_size()
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_size(valid_resolutions[-1])
+		get_tree().root.size = DisplayServer.window_get_size()
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		center_window()
 

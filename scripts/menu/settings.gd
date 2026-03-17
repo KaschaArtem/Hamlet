@@ -33,7 +33,7 @@ func _on_back_pressed() -> void:
 func toggle_display_resolution_button() -> void:
 	var mode = DisplayServer.window_get_mode()
 	if mode == DisplayServer.WINDOW_MODE_WINDOWED:
-		update_display_resolution(DisplayServer.window_get_size())
+		update_display_resolution(ConfigManager.valid_resolutions[-1])
 		display_resolution_button.disabled = false
 	else:
 		update_display_resolution(DisplayServer.screen_get_size())
