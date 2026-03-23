@@ -23,9 +23,9 @@ func on_player_action_started() -> void:
 	
 	var month = (game.month_count + month_offset) % 12 + 1
 	if month < 10:
-		month_count.text = "0" + str(month) + ".xx"
+		month_count.text = ".0" + str(month) + ".xx"
 	else:
-		month_count.text = str(month) + ".xx"
+		month_count.text = "." + str(month) + ".xx"
 
 	var year = year_offset + (game.month_count + month_offset) / 12
 	year_count.text = str(year)
