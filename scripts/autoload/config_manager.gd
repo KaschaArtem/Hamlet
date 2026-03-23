@@ -16,10 +16,13 @@ var RESOLUTIONS = [
 
 var valid_resolutions: Array = []
 
+var cur_main_bus_value: int
+var cur_music_bus_value: int
+var cur_effects_bus_value: int
+
 
 func calc_valid_resolutions():
 	var screen_size = DisplayServer.screen_get_size()
-	valid_resolutions.clear()
 	for res in RESOLUTIONS:
 		if res.x <= screen_size.x and res.y <= screen_size.y:
 			valid_resolutions.append(res)
@@ -35,6 +38,9 @@ func save_config() -> void:
 	var config = ConfigFile.new()
 	config.set_value("display", "resolution", DisplayServer.window_get_size())
 	config.set_value("display", "mode", DisplayServer.window_get_mode())
+	config.set_value("audio", "main", cur_main_bus_value)
+	config.set_value("audio", "music", cur_music_bus_value)
+	config.set_value("audio", "effects", cur_effects_bus_value)
 	var err = config.save(CONFIG_PATH)
 	if err != OK:
 		push_error("Failed to save config")
@@ -48,7 +54,7 @@ func apply_best_resolution():
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	get_tree().root.size = DisplayServer.window_get_size()
 
-func apply_loaded_settings(resolution: Vector2i, mode: int):
+func apply_loaded_display_settings(resolution: Vector2i, mode: int):
 	if resolution not in valid_resolutions:
 		apply_best_resolution()
 	else:
@@ -65,7 +71,10 @@ func load_config() -> bool:
 		return false
 	var resolution = config.get_value("display", "resolution", Vector2i(1152, 648))
 	var mode = config.get_value("display", "mode", DisplayServer.WINDOW_MODE_FULLSCREEN)
-	apply_loaded_settings(resolution, mode)
+	apply_loaded_display_settings(resolution, mode)
+	update_main_bus(config.get_value("audio", "main", 10))
+	update_music_bus(config.get_value("audio", "music", 10))
+	update_effects_bus(config.get_value("audio", "effects", 10))
 	return true
 
 func _ready() -> void:
@@ -98,3 +107,34 @@ func decrease_resolution():
 	DisplayServer.window_set_size(valid_resolutions[index])
 	get_tree().root.size = DisplayServer.window_get_size()
 	center_window()
+
+
+func update_main_bus(value: int) -> void:
+	cur_main_bus_value = value
+	var bus_index = AudioServer.get_bus_index("Master")
+	if value == 0:
+		AudioServer.set_bus_mute(bus_index, true)
+	else:
+		AudioServer.set_bus_mute(bus_index, false)
+		var db = linear_to_db(value / 10)
+		AudioServer.set_bus_volume_db(bus_index, db)
+
+func update_music_bus(value: int) -> void:
+	cur_music_bus_value = value
+	var bus_index = AudioServer.get_bus_index("Music")
+	if value == 0:
+		AudioServer.set_bus_mute(bus_index, true)
+	else:
+		AudioServer.set_bus_mute(bus_index, false)
+		var db = linear_to_db(value / 10)
+		AudioServer.set_bus_volume_db(bus_index, db)
+
+func update_effects_bus(value: int) -> void:
+	cur_effects_bus_value = value
+	var bus_index = AudioServer.get_bus_index("Effects")
+	if value == 0:
+		AudioServer.set_bus_mute(bus_index, true)
+	else:
+		AudioServer.set_bus_mute(bus_index, false)
+		var db = linear_to_db(value / 10)
+		AudioServer.set_bus_volume_db(bus_index, db)

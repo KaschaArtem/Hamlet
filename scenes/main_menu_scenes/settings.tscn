@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://fc4dan5ybyso" path="res://scripts/menu/settings.gd" id="1_bbxhd"]
 
-[node name="Settings" type="Control" unique_id=265393910 node_paths=PackedStringArray("display_mode_button", "display_mode_label", "display_resolution_button", "dislpay_resolution_label")]
+[node name="Settings" type="Control" unique_id=265393910 node_paths=PackedStringArray("display_mode_button", "display_mode_label", "display_resolution_button", "dislpay_resolution_label", "main_value", "main_slider", "music_value", "music_slider", "effects_value", "effects_slider")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +14,12 @@ display_mode_button = NodePath("VBoxContainer/Display/DisplayMode")
 display_mode_label = NodePath("VBoxContainer/Display/DisplayMode/HBoxContainer/DisplayModeLabel")
 display_resolution_button = NodePath("VBoxContainer/Display/DisplayResolution")
 dislpay_resolution_label = NodePath("VBoxContainer/Display/DisplayResolution/HBoxContainer/DisplayModeLabel")
+main_value = NodePath("VBoxContainer/Audio/Main/MainValue")
+main_slider = NodePath("VBoxContainer/Audio/Main/MainSlider")
+music_value = NodePath("VBoxContainer/Audio/Music/MusicValue")
+music_slider = NodePath("VBoxContainer/Audio/Music/MusicSlider")
+effects_value = NodePath("VBoxContainer/Audio/Effects/EffectsValue")
+effects_slider = NodePath("VBoxContainer/Audio/Effects/EffectsSlider")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=783545907]
 layout_mode = 1
@@ -35,6 +41,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="VBoxContainer/Display" unique_id=1523458339]
 layout_mode = 2
 text = "Display"
+horizontal_alignment = 1
 
 [node name="DisplayMode" type="Button" parent="VBoxContainer/Display" unique_id=1075376122]
 custom_minimum_size = Vector2(288, 23)
@@ -78,6 +85,61 @@ layout_mode = 2
 [node name="Label" type="Label" parent="VBoxContainer/Audio" unique_id=342761630]
 layout_mode = 2
 text = "Audio"
+horizontal_alignment = 1
+
+[node name="Main" type="HBoxContainer" parent="VBoxContainer/Audio" unique_id=254744961]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Audio/Main" unique_id=418452253]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Main"
+
+[node name="MainValue" type="Label" parent="VBoxContainer/Audio/Main" unique_id=1960428339]
+layout_mode = 2
+text = "0"
+
+[node name="MainSlider" type="HSlider" parent="VBoxContainer/Audio/Main" unique_id=611249890]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 10.0
+
+[node name="Music" type="HBoxContainer" parent="VBoxContainer/Audio" unique_id=461682357]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Audio/Music" unique_id=1728645575]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Music"
+
+[node name="MusicValue" type="Label" parent="VBoxContainer/Audio/Music" unique_id=1259083454]
+layout_mode = 2
+text = "0"
+
+[node name="MusicSlider" type="HSlider" parent="VBoxContainer/Audio/Music" unique_id=889410999]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 10.0
+
+[node name="Effects" type="HBoxContainer" parent="VBoxContainer/Audio" unique_id=89010358]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Audio/Effects" unique_id=906901988]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Effects"
+
+[node name="EffectsValue" type="Label" parent="VBoxContainer/Audio/Effects" unique_id=950342328]
+layout_mode = 2
+text = "0"
+
+[node name="EffectsSlider" type="HSlider" parent="VBoxContainer/Audio/Effects" unique_id=1616920418]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 10.0
 
 [node name="Back" type="Button" parent="VBoxContainer" unique_id=1367752356]
 layout_mode = 2
@@ -88,4 +150,7 @@ text = "Back"
 
 [connection signal="pressed" from="VBoxContainer/Display/DisplayMode" to="." method="_on_display_mode_pressed"]
 [connection signal="pressed" from="VBoxContainer/Display/DisplayResolution" to="." method="_on_display_resolution_pressed"]
+[connection signal="value_changed" from="VBoxContainer/Audio/Main/MainSlider" to="." method="_on_main_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/Audio/Music/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/Audio/Effects/EffectsSlider" to="." method="_on_effects_slider_value_changed"]
 [connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_back_pressed"]
