@@ -335,4 +335,6 @@ func on_end_month() -> void:
 
 func _input(_event):
 	if Input.is_action_just_pressed("reload_game_scene"):
-		SceneManager.change_scene("res://scenes/active_scenes/game.tscn")
+		SceneManager.load_scene("res://scenes/active_scenes/game.tscn")
+	if Input.is_action_just_pressed("ui_cancel"):
+		SceneManager.load_scene("res://scenes/active_scenes/main_menu.tscn")

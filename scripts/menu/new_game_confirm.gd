@@ -18,7 +18,7 @@ func _on_no_pressed() -> void:
 
 
 func _on_yes_pressed() -> void:
-	SceneManager.change_scene("res://scenes/active_scenes/game.tscn")
+	SceneManager.load_scene("res://scenes/active_scenes/game.tscn")
 
 
 func _input(_event) -> void:
