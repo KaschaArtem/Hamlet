@@ -13,12 +13,15 @@ extends Control
 
 
 func _on_new_game_button_pressed() -> void:
+	SFXManager.play_sound("menu_nav_button")
 	menu.update(new_game_confirm)
 
 
 func _on_settings_button_pressed() -> void:
+	SFXManager.play_sound("menu_nav_button")
 	menu.update(settings)
 
 
 func _on_exit_game_button_pressed() -> void:
+	SFXManager.play_sound("menu_nav_button")
 	menu.update(exit_game_confirm)

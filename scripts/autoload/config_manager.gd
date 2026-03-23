@@ -116,7 +116,7 @@ func update_main_bus(value: int) -> void:
 		AudioServer.set_bus_mute(bus_index, true)
 	else:
 		AudioServer.set_bus_mute(bus_index, false)
-		var db = linear_to_db(value / 10)
+		var db = linear_to_db(value / 10.0)
 		AudioServer.set_bus_volume_db(bus_index, db)
 
 func update_music_bus(value: int) -> void:
@@ -126,7 +126,7 @@ func update_music_bus(value: int) -> void:
 		AudioServer.set_bus_mute(bus_index, true)
 	else:
 		AudioServer.set_bus_mute(bus_index, false)
-		var db = linear_to_db(value / 10)
+		var db = linear_to_db(value / 10.0)
 		AudioServer.set_bus_volume_db(bus_index, db)
 
 func update_effects_bus(value: int) -> void:
@@ -136,5 +136,5 @@ func update_effects_bus(value: int) -> void:
 		AudioServer.set_bus_mute(bus_index, true)
 	else:
 		AudioServer.set_bus_mute(bus_index, false)
-		var db = linear_to_db(value / 10)
+		var db = linear_to_db(value / 10.0)
 		AudioServer.set_bus_volume_db(bus_index, db)

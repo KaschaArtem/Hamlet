@@ -2,51 +2,51 @@
 
 [ext_resource type="Script" uid="uid://dslr84cf6luye" path="res://scripts/game/user_interface/time_ui.gd" id="1_s8yga"]
 
-[node name="TimeUI" type="Control" unique_id=1607769773 node_paths=PackedStringArray("month_count", "end_month_button")]
+[node name="TimeUI" type="Control" unique_id=1607769773 node_paths=PackedStringArray("end_month_button", "year_count", "month_count")]
 layout_mode = 3
-anchors_preset = 1
-anchor_left = 1.0
+anchors_preset = 15
 anchor_right = 1.0
-grow_horizontal = 0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_s8yga")
-month_count = NodePath("VBoxContainer/MonthCount/Count")
 end_month_button = NodePath("VBoxContainer/EndMonthButton")
-
-[node name="ColorRect" type="ColorRect" parent="." unique_id=345333560]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -144.0
-offset_bottom = 69.0
-grow_horizontal = 0
-color = Color(0, 0, 0, 0.49803922)
+year_count = NodePath("VBoxContainer/MonthCount/Year")
+month_count = NodePath("VBoxContainer/MonthCount/Month")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1035853025]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = -144.0
-offset_bottom = 69.0
+anchor_bottom = 1.0
+offset_left = -146.0
+offset_top = -84.0
+offset_right = -13.0
+offset_bottom = -4.0
 grow_horizontal = 0
-
-[node name="MonthCount" type="HBoxContainer" parent="VBoxContainer" unique_id=1075787740]
-layout_mode = 2
-
-[node name="Month" type="Label" parent="VBoxContainer/MonthCount" unique_id=1397682785]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Month:"
-
-[node name="Count" type="Label" parent="VBoxContainer/MonthCount" unique_id=1236747930]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "0"
+grow_vertical = 0
 
 [node name="EndMonthButton" type="Button" parent="VBoxContainer" unique_id=781305301]
 layout_mode = 2
 focus_mode = 0
 text = "End Month"
+
+[node name="MonthCount" type="HBoxContainer" parent="VBoxContainer" unique_id=1075787740]
+layout_mode = 2
+
+[node name="Year" type="Label" parent="VBoxContainer/MonthCount" unique_id=353908956]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 32
+text = "1207"
+
+[node name="Month" type="Label" parent="VBoxContainer/MonthCount" unique_id=1397682785]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 20
+text = ".03.xx"
 
 [connection signal="pressed" from="VBoxContainer/EndMonthButton" to="." method="_on_end_month_button_pressed"]

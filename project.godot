@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 SceneManager="*uid://c16iybwjkamlr"
 ConfigManager="*uid://bxy44x5flof5h"
 GameManager="*uid://dluinc6g6l5mq"
+SFXManager="*uid://dfx8mdwfrumn5"
 
 [debug]
 

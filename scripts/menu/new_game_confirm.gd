@@ -13,6 +13,7 @@ func _ready() -> void:
 
 
 func _on_no_pressed() -> void:
+	SFXManager.play_sound("menu_nav_button")
 	menu.update(main)
 
 
@@ -22,4 +23,5 @@ func _on_yes_pressed() -> void:
 
 func _input(_event) -> void:
 	if Input.is_action_just_pressed("abort_key"):
+		SFXManager.play_sound("menu_nav_button")
 		menu.update(main)

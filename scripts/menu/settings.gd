@@ -49,6 +49,7 @@ func _ready() -> void:
 
 
 func _on_back_pressed() -> void:
+	SFXManager.play_sound("menu_nav_button")
 	menu.update(main)
 	ConfigManager.save_config()
 
@@ -63,11 +64,13 @@ func toggle_display_resolution_button() -> void:
 		display_resolution_button.disabled = true
 
 func _on_display_mode_pressed() -> void:
+	SFXManager.play_sound("menu_click_button")
 	ConfigManager.toggle_display_mode()
 	update_display_mode()
 	toggle_display_resolution_button()
 
 func _on_display_resolution_pressed() -> void:
+	SFXManager.play_sound("menu_click_button")
 	ConfigManager.decrease_resolution()
 	update_display_resolution(DisplayServer.window_get_size())
 
@@ -87,5 +90,6 @@ func _on_effects_slider_value_changed(value: float) -> void:
 
 func _input(_event) -> void:
 	if Input.is_action_just_pressed("abort_key"):
+		SFXManager.play_sound("menu_nav_button")
 		menu.update(main)
 		ConfigManager.save_config()
