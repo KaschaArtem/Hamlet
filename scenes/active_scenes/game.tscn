@@ -15,6 +15,10 @@
 [ext_resource type="PackedScene" uid="uid://duhr3mswrolme" path="res://scenes/game_scenes/user_interface/time_ui.tscn" id="13_0eppp"]
 [ext_resource type="PackedScene" uid="uid://cedvrgudrsxyh" path="res://scenes/game_scenes/user_interface/resources_ui.tscn" id="13_g6mbv"]
 [ext_resource type="PackedScene" uid="uid://da2k5a37xrgsc" path="res://scenes/game_scenes/user_interface/people_control_ui.tscn" id="14_0eppp"]
+[ext_resource type="Script" uid="uid://cwvgawu1subej" path="res://scripts/menu/game_menu.gd" id="16_ks4eg"]
+[ext_resource type="PackedScene" uid="uid://c83waugl8ljos" path="res://scenes/menu_scenes/settings.tscn" id="17_cjglu"]
+[ext_resource type="PackedScene" uid="uid://brg34vd042q85" path="res://scenes/menu_scenes/game_main.tscn" id="17_wtb1e"]
+[ext_resource type="PackedScene" uid="uid://b6xioqnm5sgfo" path="res://scenes/menu_scenes/back_to_main_menu_confirm.tscn" id="19_n4bim"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ggqa2"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -29,13 +33,10 @@ sky = SubResource("Sky_oh5ud")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="GDScript" id="GDScript_7f75v"]
-script/source = "extends CanvasLayer
-"
-
-[node name="Game" type="Node3D" unique_id=691731226 node_paths=PackedStringArray("ground")]
+[node name="Game" type="Node3D" unique_id=691731226 node_paths=PackedStringArray("ground", "MenuUI")]
 script = ExtResource("1_6djtn")
 ground = NodePath("Ground")
+MenuUI = NodePath("MenuUI")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=414650152]
 environment = SubResource("Environment_5jyxj")
@@ -70,7 +71,6 @@ script = ExtResource("11_qektj")
 game = NodePath("..")
 
 [node name="UserInterface" type="CanvasLayer" parent="." unique_id=902251080]
-script = SubResource("GDScript_7f75v")
 
 [node name="BuildingsUI" parent="UserInterface" unique_id=139825313 node_paths=PackedStringArray("game") instance=ExtResource("12_7f75v")]
 game = NodePath("../..")
@@ -83,3 +83,32 @@ game = NodePath("../..")
 
 [node name="PeopleControlUI" parent="UserInterface" unique_id=521716 node_paths=PackedStringArray("game") instance=ExtResource("14_0eppp")]
 game = NodePath("../..")
+
+[node name="MenuUI" type="CanvasLayer" parent="." unique_id=1374243532 node_paths=PackedStringArray("main", "settings", "back_to_main_menu_confirm")]
+process_mode = 2
+visible = false
+script = ExtResource("16_ks4eg")
+main = NodePath("GameMain")
+settings = NodePath("Settings")
+back_to_main_menu_confirm = NodePath("BackToMainMenuConfirm")
+
+[node name="ColorRect" type="ColorRect" parent="MenuUI" unique_id=1816370882]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7058824)
+
+[node name="GameMain" parent="MenuUI" unique_id=189440781 node_paths=PackedStringArray("menu", "settings", "back_to_main_menu_confirm") instance=ExtResource("17_wtb1e")]
+menu = NodePath("..")
+settings = NodePath("../Settings")
+back_to_main_menu_confirm = NodePath("../BackToMainMenuConfirm")
+
+[node name="Settings" parent="MenuUI" unique_id=265393910 node_paths=PackedStringArray("menu", "main") instance=ExtResource("17_cjglu")]
+menu = NodePath("..")
+main = NodePath("../GameMain")
+
+[node name="BackToMainMenuConfirm" parent="MenuUI" unique_id=529475325 node_paths=PackedStringArray("menu", "main") instance=ExtResource("19_n4bim")]
+menu = NodePath("..")
+main = NodePath("../GameMain")

@@ -1,6 +1,7 @@
 extends Node3D
 
 @export var ground: Node3D
+@export var MenuUI: CanvasLayer
 @onready var time_ui = $UserInterface/TimeUI
 @onready var timer = $Timer
 
@@ -333,8 +334,14 @@ func on_end_month() -> void:
 	turn_ended.emit()
 
 
-func _input(_event):
+func _input(event) -> void:
+	if event is InputEventMouseMotion:
+		return
 	if Input.is_action_just_pressed("reload_game_scene"):
 		SceneManager.load_scene("res://scenes/active_scenes/game.tscn")
+	if !GameManager.is_input_allowed:
+		return
 	if Input.is_action_just_pressed("ui_cancel"):
-		SceneManager.load_scene("res://scenes/active_scenes/main_menu.tscn")
+		SFXManager.play_sound("menu_nav_button")
+		get_tree().paused = true
+		MenuUI.visible = true

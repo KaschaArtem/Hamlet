@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://duhr3mswrolme"]
 
 [ext_resource type="Script" uid="uid://dslr84cf6luye" path="res://scripts/game/user_interface/time_ui.gd" id="1_s8yga"]
+[ext_resource type="FontFile" uid="uid://cobs47avupod7" path="res://assets/fonts/Alegreya-VariableFont_wght.ttf" id="2_nw8ha"]
 
 [node name="TimeUI" type="Control" unique_id=1607769773 node_paths=PackedStringArray("end_month_button", "year_count", "month_count")]
 layout_mode = 3
@@ -39,6 +40,8 @@ layout_mode = 2
 [node name="Year" type="Label" parent="VBoxContainer/MonthCount" unique_id=353908956]
 layout_mode = 2
 size_flags_vertical = 8
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_nw8ha")
 theme_override_font_sizes/font_size = 46
 text = "1207"
 
@@ -46,6 +49,8 @@ text = "1207"
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 8
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_nw8ha")
 theme_override_font_sizes/font_size = 28
 text = ".03.xx"
 

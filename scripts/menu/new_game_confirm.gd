@@ -22,6 +22,10 @@ func _on_yes_pressed() -> void:
 
 
 func _input(_event) -> void:
+	if !GameManager.is_input_allowed:
+		return
 	if Input.is_action_just_pressed("abort_key"):
-		SFXManager.play_sound("menu_nav_button")
-		menu.update(main)
+		if self.visible:
+			SFXManager.play_sound("menu_nav_button")
+			menu.update(main)
+			get_viewport().set_input_as_handled()

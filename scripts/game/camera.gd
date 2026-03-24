@@ -57,12 +57,16 @@ func _ready():
 
 
 func handle_rotation(delta):
+	if !GameManager.is_input_allowed:
+		return
 	if Input.is_action_pressed("rotate_camera_left"):
 		target_yaw -= ROTATION_SPEED * delta
-	elif Input.is_action_pressed("rotate_camera_right"):
+	if Input.is_action_pressed("rotate_camera_right"):
 		target_yaw += ROTATION_SPEED * delta
 
 func handle_movement(delta):
+	if !GameManager.is_input_allowed:
+		return
 	var input_dir = Vector3.ZERO
 
 	if Input.is_action_pressed("move_camera_forward"):
@@ -98,6 +102,8 @@ func zoom_out(delta):
 	update_camera_position()
 
 func handle_zoom(delta):
+	if !GameManager.is_input_allowed:
+		return
 	if Input.is_action_pressed("zoom_camera_in"):
 		zoom_in(delta)
 	if Input.is_action_pressed("zoom_camera_out"):
@@ -113,6 +119,8 @@ func tilt_down(delta):
 	update_camera_position()
 
 func handle_pitch(delta):
+	if !GameManager.is_input_allowed:
+		return
 	if Input.is_action_pressed("tilt_camera_up"):
 		tilt_up(delta)
 	if Input.is_action_pressed("tilt_camera_down"):
@@ -146,6 +154,8 @@ func handle_mouse_selection(event) -> void:
 		ground.build_grid_tile(tile, GameManager.building_action)
 
 func _input(event):
+	if !GameManager.is_input_allowed:
+		return
 	if event is InputEventMouseButton:
 		# --- RIGHT MOUSE DRAG ---
 		if event.button_index == MOUSE_BUTTON_RIGHT:
@@ -169,3 +179,10 @@ func _input(event):
 		target_yaw += -delta.x * MOUSE_SENSITIVITY * 0.01
 		target_pitch += -delta.y * MOUSE_SENSITIVITY
 		target_pitch = clamp(target_pitch, MIN_PITCH_DEG, MAX_PITCH_DEG)
+
+
+func _notification(what):
+	if what == NOTIFICATION_PAUSED:
+		is_dragging = false
+	elif what == NOTIFICATION_UNPAUSED:
+		is_dragging = false

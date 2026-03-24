@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cl3qbvvbbnpxg" path="res://scripts/game/user_interface/resources_ui.gd" id="1_a6usm"]
 [ext_resource type="Texture2D" uid="uid://cv0nmbphmy0jw" path="res://assets/icons/game_ui/people.png" id="2_fa87v"]
+[ext_resource type="FontFile" uid="uid://cobs47avupod7" path="res://assets/fonts/Alegreya-VariableFont_wght.ttf" id="3_kjv14"]
 [ext_resource type="Texture2D" uid="uid://dqfvur08x50bq" path="res://assets/icons/game_ui/logs.png" id="3_smf15"]
 [ext_resource type="Texture2D" uid="uid://kmc3ta7bd3co" path="res://assets/icons/game_ui/plant_food.png" id="4_g5x1v"]
 [ext_resource type="Texture2D" uid="uid://18fjarycseyc" path="res://assets/icons/game_ui/animal_food.png" id="5_o35ey"]
@@ -46,17 +47,26 @@ expand_mode = 5
 
 [node name="Actual" type="Label" parent="Resources/People" unique_id=998056677]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_kjv14")
 theme_override_font_sizes/font_size = 32
 text = "-1"
 horizontal_alignment = 1
 
 [node name="Slash" type="Label" parent="Resources/People" unique_id=743380895]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_kjv14")
 theme_override_font_sizes/font_size = 24
 text = "/"
 
 [node name="Max" type="Label" parent="Resources/People" unique_id=927937722]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_kjv14")
 theme_override_font_sizes/font_size = 24
 text = "-1"
 horizontal_alignment = 1
@@ -75,17 +85,26 @@ expand_mode = 5
 
 [node name="Actual" type="Label" parent="Resources/Wood" unique_id=1060881592]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_kjv14")
 theme_override_font_sizes/font_size = 32
 text = "-1"
 horizontal_alignment = 1
 
 [node name="Slash" type="Label" parent="Resources/Wood" unique_id=1272143537]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_kjv14")
 theme_override_font_sizes/font_size = 24
 text = "/"
 
 [node name="Max" type="Label" parent="Resources/Wood" unique_id=310275433]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_kjv14")
 theme_override_font_sizes/font_size = 24
 text = "-1"
 horizontal_alignment = 1
@@ -104,6 +123,9 @@ expand_mode = 1
 
 [node name="ActualPlant" type="Label" parent="Resources/Food" unique_id=219311854]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_kjv14")
 theme_override_font_sizes/font_size = 32
 text = "-1"
 horizontal_alignment = 1
@@ -116,17 +138,26 @@ texture = ExtResource("5_o35ey")
 
 [node name="Actual" type="Label" parent="Resources/Food" unique_id=104728778]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_kjv14")
 theme_override_font_sizes/font_size = 32
 text = "-1"
 horizontal_alignment = 1
 
 [node name="Slash" type="Label" parent="Resources/Food" unique_id=993549387]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_kjv14")
 theme_override_font_sizes/font_size = 24
 text = "/"
 
 [node name="Max" type="Label" parent="Resources/Food" unique_id=1841917571]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_kjv14")
 theme_override_font_sizes/font_size = 24
 text = "-1"
 horizontal_alignment = 1

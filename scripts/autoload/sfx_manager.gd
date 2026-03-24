@@ -10,6 +10,8 @@ var players: Array = []
 
 
 func _ready():
+	self.process_mode = Node.PROCESS_MODE_ALWAYS
+	
 	sounds["menu_nav_button"] = preload(MENU_SOUNDS + "menu_nav_button.wav")
 	sounds["menu_click_button"] = preload(MENU_SOUNDS + "menu_click_button.wav")
 	
