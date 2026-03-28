@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://brg34vd042q85"]
+
+[ext_resource type="FontFile" uid="uid://cobs47avupod7" path="res://assets/fonts/Alegreya-VariableFont_wght.ttf" id="1_ac1fq"]
+[ext_resource type="Script" uid="uid://cdcv8j661vhiy" path="res://scripts/menu/game_main.gd" id="1_i1thi"]
+
+[node name="GameMain" type="Control" unique_id=189440781 node_paths=PackedStringArray("continue_button", "settings_button", "back_to_main_menu_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i1thi")
+continue_button = NodePath("Main/ContinueButton")
+settings_button = NodePath("Main/SettingsButton")
+back_to_main_menu_button = NodePath("Main/BackToMainMenuButton")
+
+[node name="Main" type="VBoxContainer" parent="." unique_id=1621817375]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -22.0
+offset_right = 20.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ContinueButton" type="Button" parent="Main" unique_id=1779159906]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../SettingsButton")
+theme_override_fonts/font = ExtResource("1_ac1fq")
+action_mode = 0
+text = "Continue"
+
+[node name="SettingsButton" type="Button" parent="Main" unique_id=1295143981]
+layout_mode = 2
+focus_neighbor_top = NodePath("../ContinueButton")
+theme_override_fonts/font = ExtResource("1_ac1fq")
+action_mode = 0
+text = "Settings"
+
+[node name="BackToMainMenuButton" type="Button" parent="Main" unique_id=128601153]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ac1fq")
+text = "Back To Main Menu"
+
+[connection signal="pressed" from="Main/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="Main/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Main/BackToMainMenuButton" to="." method="_on_back_to_main_menu_button_pressed"]

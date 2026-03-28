@@ -1,4 +1,4 @@
-extends Control
+extends Node
 
 
 @export var menu: CanvasLayer 
@@ -18,7 +18,8 @@ func _on_no_pressed() -> void:
 
 
 func _on_yes_pressed() -> void:
-	get_tree().quit()
+	SFXManager.play_sound("menu_nav_button")
+	SceneManager.load_scene("res://scenes/active_scenes/main_menu.tscn")
 
 
 func _input(_event) -> void:
