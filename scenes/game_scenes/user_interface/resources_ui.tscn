@@ -2,10 +2,17 @@
 
 [ext_resource type="Script" uid="uid://cl3qbvvbbnpxg" path="res://scripts/game/user_interface/resources_ui.gd" id="1_a6usm"]
 [ext_resource type="Texture2D" uid="uid://cv0nmbphmy0jw" path="res://assets/icons/game_ui/people.png" id="2_fa87v"]
-[ext_resource type="FontFile" uid="uid://cobs47avupod7" path="res://assets/fonts/Alegreya-VariableFont_wght.ttf" id="3_kjv14"]
-[ext_resource type="Texture2D" uid="uid://dqfvur08x50bq" path="res://assets/icons/game_ui/logs.png" id="3_smf15"]
+[ext_resource type="FontFile" uid="uid://c58a3h4huq7nu" path="res://assets/fonts/Inter-VariableFont_opsz,wght.ttf" id="3_kjv14"]
+[ext_resource type="Texture2D" uid="uid://rhdsmlrlixgl" path="res://assets/icons/game_ui/logs.png" id="3_smf15"]
 [ext_resource type="Texture2D" uid="uid://kmc3ta7bd3co" path="res://assets/icons/game_ui/plant_food.png" id="4_g5x1v"]
 [ext_resource type="Texture2D" uid="uid://18fjarycseyc" path="res://assets/icons/game_ui/animal_food.png" id="5_o35ey"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kjv14"]
+bg_color = Color(0, 0, 0, 0.49803922)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
 
 [node name="ResourcesUI" type="Control" unique_id=988245277 node_paths=PackedStringArray("actual_people", "max_people", "actual_wood", "max_wood", "actual_plant_food", "actual_animal_food", "max_food")]
 texture_filter = 1
@@ -21,14 +28,25 @@ max_people = NodePath("Resources/People/Max")
 actual_wood = NodePath("Resources/Wood/Actual")
 max_wood = NodePath("Resources/Wood/Max")
 actual_plant_food = NodePath("Resources/Food/ActualPlant")
-actual_animal_food = NodePath("Resources/Food/Actual")
+actual_animal_food = NodePath("Resources/Food/ActualAnimal")
 max_food = NodePath("Resources/Food/Max")
+
+[node name="Panel" type="Panel" parent="." unique_id=1076655828]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -376.0
+offset_right = 376.0
+offset_bottom = 36.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kjv14")
 
 [node name="Resources" type="HBoxContainer" parent="." unique_id=421341636]
 custom_minimum_size = Vector2(1152, 0)
 layout_mode = 0
 offset_right = 1152.0
-offset_bottom = 45.0
+offset_bottom = 36.0
 size_flags_vertical = 0
 alignment = 1
 
@@ -38,6 +56,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="PeopleImage" type="TextureRect" parent="Resources/People" unique_id=620601726]
+texture_filter = 2
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -48,26 +67,28 @@ expand_mode = 5
 [node name="Actual" type="Label" parent="Resources/People" unique_id=998056677]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_kjv14")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 24
 text = "-1"
 horizontal_alignment = 1
 
 [node name="Slash" type="Label" parent="Resources/People" unique_id=743380895]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_kjv14")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 12
 text = "/"
 
 [node name="Max" type="Label" parent="Resources/People" unique_id=927937722]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_kjv14")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 14
 text = "-1"
 horizontal_alignment = 1
 
@@ -77,7 +98,8 @@ layout_mode = 2
 alignment = 1
 
 [node name="WoodImage" type="TextureRect" parent="Resources/Wood" unique_id=2018252265]
-custom_minimum_size = Vector2(32, 32)
+texture_filter = 4
+custom_minimum_size = Vector2(34, 34)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("3_smf15")
@@ -86,26 +108,28 @@ expand_mode = 5
 [node name="Actual" type="Label" parent="Resources/Wood" unique_id=1060881592]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_kjv14")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 24
 text = "-1"
 horizontal_alignment = 1
 
 [node name="Slash" type="Label" parent="Resources/Wood" unique_id=1272143537]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_kjv14")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 12
 text = "/"
 
 [node name="Max" type="Label" parent="Resources/Wood" unique_id=310275433]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_kjv14")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 14
 text = "-1"
 horizontal_alignment = 1
 
@@ -115,7 +139,8 @@ layout_mode = 2
 alignment = 1
 
 [node name="PlantImage" type="TextureRect" parent="Resources/Food" unique_id=2015937356]
-custom_minimum_size = Vector2(32, 32)
+texture_filter = 3
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("4_g5x1v")
@@ -124,40 +149,44 @@ expand_mode = 1
 [node name="ActualPlant" type="Label" parent="Resources/Food" unique_id=219311854]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_kjv14")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 24
 text = "-1"
 horizontal_alignment = 1
 
 [node name="AnimalImage" type="TextureRect" parent="Resources/Food" unique_id=488372238]
-custom_minimum_size = Vector2(32, 32)
+texture_filter = 3
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("5_o35ey")
+expand_mode = 1
 
-[node name="Actual" type="Label" parent="Resources/Food" unique_id=104728778]
+[node name="ActualAnimal" type="Label" parent="Resources/Food" unique_id=104728778]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_kjv14")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 24
 text = "-1"
 horizontal_alignment = 1
 
 [node name="Slash" type="Label" parent="Resources/Food" unique_id=993549387]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_kjv14")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 12
 text = "/"
 
 [node name="Max" type="Label" parent="Resources/Food" unique_id=1841917571]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_kjv14")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 14
 text = "-1"
 horizontal_alignment = 1

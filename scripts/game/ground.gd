@@ -25,40 +25,44 @@ var noise := FastNoiseLite.new()
 @export_range(-1.0, 1.0) var WOOD_SPAWN: float = 0.15
 @export_range(-1.0, 1.0) var WATER_SPAWN: float = -0.67
 
-var ground_grid = []
+
+var ground_grid = []  # Теперь каждый элемент будет словарем: {"type": int, "rapid_index": int}
 var house_amount = 0
 var field_amount = 0
 var pasture_amount = 0
 var wood_amount = 0
 var water_amount = 0
 
-
-func make_tile_value(base: int) -> int:
-	return base * 10 + randi() % 4
-
-func get_tile_type(value: int) -> int:
-	return value / 10
-
-func get_tile_variant(value: int) -> int:
-	return abs(value) % 10
-
-
 func decrease_tile_amount(building_index) -> void:
 	match building_index:
-		1: house_amount -= 1
-		2: field_amount -= 1
-		3: pasture_amount -= 1
-		-1: wood_amount -= 1
-		-2: water_amount -= 1
-
+		1:
+			house_amount -= 1
+		2:
+			field_amount -= 1
+		3:
+			pasture_amount -= 1
+		-1:
+			wood_amount -= 1
+		-2:
+			water_amount -= 1
 func increase_tile_amount(building_index) -> void:
 	match building_index:
-		1: house_amount += 1
-		2: field_amount += 1
-		3: pasture_amount += 1
-		-1: wood_amount += 1
-		-2: water_amount += 1
+		1:
+			house_amount += 1
+		2:
+			field_amount += 1
+		3:
+			pasture_amount += 1
+		-1:
+			wood_amount += 1
+		-2:
+			water_amount += 1
 
+# Новая функция для получения случайного индекса тайла
+func get_rapid_index(x: int, z: int) -> int:
+	if x >= 0 and x < GRID_SIZE and z >= 0 and z < GRID_SIZE:
+		return ground_grid[z][x]["rapid_index"]
+	return -1
 
 func get_nearest_tile_distance(target_type: int, remove_tile: bool = false) -> int:
 
@@ -72,8 +76,7 @@ func get_nearest_tile_distance(target_type: int, remove_tile: bool = false) -> i
 
 	for z in range(GRID_SIZE):
 		for x in range(GRID_SIZE):
-			var type = get_tile_type(ground_grid[z][x])
-			if type == 1 or type == 999:
+			if ground_grid[z][x]["type"] == 1 or ground_grid[z][x]["type"] == 999:
 				queue.append({"pos": Vector2i(x, z), "dist": 0})
 				visited[z][x] = true
 
@@ -91,7 +94,7 @@ func get_nearest_tile_distance(target_type: int, remove_tile: bool = false) -> i
 		var z = current.pos.y
 		var dist = current.dist
 
-		if get_tile_type(ground_grid[z][x]) == target_type:
+		if ground_grid[z][x]["type"] == target_type:
 
 			if remove_tile:
 				remove_tile_at(x, z, target_type)
@@ -99,6 +102,7 @@ func get_nearest_tile_distance(target_type: int, remove_tile: bool = false) -> i
 			return dist
 
 		for dir in directions:
+
 			var nx = x + dir.x
 			var nz = z + dir.y
 
@@ -115,7 +119,8 @@ func get_nearest_tile_distance(target_type: int, remove_tile: bool = false) -> i
 
 func remove_tile_at(x: int, z: int, tile_type: int) -> void:
 
-	ground_grid[z][x] = make_tile_value(0)
+	ground_grid[z][x]["type"] = 0
+	ground_grid[z][x]["rapid_index"] = randi() % 4  # Присваиваем новый случайный индекс при удалении
 	decrease_tile_amount(tile_type)
 
 	var world_pos = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
@@ -134,7 +139,6 @@ func get_nearest_forest_distance(remove_tree: bool) -> int:
 func get_nearest_water_distance() -> int:
 	return get_nearest_tile_distance(-2, false)
 
-
 func get_city_bounds():
 	var top = GRID_SIZE
 	var bottom = 0
@@ -142,7 +146,7 @@ func get_city_bounds():
 	var right = 0
 	for i in range(GRID_SIZE):
 		for j in range(GRID_SIZE):
-			if get_tile_type(ground_grid[i][j]) > 0:
+			if ground_grid[i][j]["type"] > 0:
 				top = min(top, i)
 				bottom = max(bottom, i)
 				left = min(left, j)
@@ -155,13 +159,11 @@ func setup_noise():
 	noise.frequency = NOISE_FREQUENCY
 	noise.fractal_octaves = NOISE_FRACTAL_OCTAVES
 	noise.fractal_gain = NOISE_FRACTAL_GAIN
-
-
 func clean_water():
 	var new_grid = ground_grid.duplicate(true)
 	for z in range(GRID_SIZE):
 		for x in range(GRID_SIZE):
-			if get_tile_type(ground_grid[z][x]) != -2:
+			if ground_grid[z][x]["type"] != -2:
 				continue
 			var water_neighbors = 0
 			for dir in [
@@ -174,12 +176,11 @@ func clean_water():
 				var nz = z + dir.y
 				if nx < 0 or nz < 0 or nx >= GRID_SIZE or nz >= GRID_SIZE:
 					continue
-				if get_tile_type(ground_grid[nz][nx]) == -2:
+				if ground_grid[nz][nx]["type"] == -2:
 					water_neighbors += 1
 			if water_neighbors == 0:
-				new_grid[z][x] = make_tile_value(0)
+				new_grid[z][x]["type"] = 0
 	ground_grid = new_grid
-
 
 func init_ground_grid():
 	setup_noise()
@@ -200,55 +201,54 @@ func init_ground_grid():
 					value = -1
 				else:
 					value = 0
-			ground_grid[z].append(make_tile_value(value))
-
-	ground_grid[GRID_CENTER][GRID_CENTER] = make_tile_value(999)
+			# Создаем словарь для каждого тайла с типом и случайным индексом
+			ground_grid[z].append({"type": value, "rapid_index": randi() % 4})
+	ground_grid[GRID_CENTER][GRID_CENTER] = {"type": 999, "rapid_index": randi() % 4}
 	clean_water()
 
-
+func apply_chess_color(tile, x, z):
+	var mesh_instance = tile.get_node("MeshInstance3D")
+	var material = StandardMaterial3D.new()
+	if (x + z) % 2 == 0:
+		material.albedo_color = Color(0.9, 0.9, 0.9)
+	else:
+		material.albedo_color = Color(0.5, 0.5, 0.5)
+	mesh_instance.material_override = material
 func add_main_tile(x, z):
 	var main_tile = main_tile_scene.instantiate()
 	main_tile.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	add_child(main_tile)
-
 func add_empty_tile(x, z):
 	var tile = tile_scene.instantiate()
 	tile.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	add_child(tile)
-
+	apply_chess_color(tile, x, z)
 func add_house_tile(x, z):
 	var house = house_scene.instantiate()
 	house.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	add_child(house)
-
 func add_field_tile(x, z):
 	var field = field_scene.instantiate()
 	field.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	add_child(field)
-
 func add_pasture_tile(x, z):
 	var pasture = pasture_scene.instantiate()
 	pasture.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	add_child(pasture)
-
 func add_tree_tile(x, z):
 	var tree = tree_scene.instantiate()
 	tree.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	add_child(tree)
-
 func add_water_tile(x, z):
 	var water = water_scene.instantiate()
 	water.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	add_child(water)
 
-
 func generate_grid():
 	for x in range(GRID_SIZE):
 		for z in range(GRID_SIZE):
-			var value = ground_grid[z][x]
-			var type = get_tile_type(value)
-
-			match type:
+			var value = ground_grid[z][x]["type"]
+			match value:
 				999:
 					add_main_tile(x, z)
 				0:
@@ -269,99 +269,100 @@ func generate_grid():
 					add_water_tile(x, z)
 					increase_tile_amount(-2)
 
-
 func _ready() -> void:
 	init_ground_grid()
 	generate_grid()
 
-
 func can_build_empty_tile(x, z) -> bool:
 	var original_positive = 0
 	for row in ground_grid:
-		for value in row:
-			if get_tile_type(value) > 0:
+		for cell in row:
+			if cell["type"] > 0:
 				original_positive += 1
-
-	var old = ground_grid[z][x]
-	ground_grid[z][x] = make_tile_value(0)
-
+	ground_grid[z][x]["type"] = 0
 	var visited := []
 	for i in range(GRID_SIZE):
 		visited.append([])
 		for j in range(GRID_SIZE):
 			visited[i].append(false)
-
 	var queue := []
 	var reachable_positive := 0
-
 	queue.append(Vector2i(GRID_CENTER, GRID_CENTER))
 	visited[GRID_CENTER][GRID_CENTER] = true
+
+	var directions = [
+		Vector2i(1, 0),
+		Vector2i(-1, 0),
+		Vector2i(0, 1),
+		Vector2i(0, -1)
+	]
 
 	while queue.size() > 0:
 		var current = queue.pop_front()
 		var cx = current.x
 		var cz = current.y
-
-		if get_tile_type(ground_grid[cz][cx]) > 0:
+		if ground_grid[cz][cx]["type"] > 0:
 			reachable_positive += 1
-
-		for dir in [Vector2i(1,0),Vector2i(-1,0),Vector2i(0,1),Vector2i(0,-1)]:
+		for dir in directions:
 			var nx = cx + dir.x
 			var nz = cz + dir.y
 			if nx >= 0 and nx < GRID_SIZE and nz >= 0 and nz < GRID_SIZE:
-				if not visited[nz][nx] and get_tile_type(ground_grid[nz][nx]) > 0:
+				if not visited[nz][nx] and ground_grid[nz][nx]["type"] > 0:
 					visited[nz][nx] = true
 					queue.append(Vector2i(nx, nz))
-
-	ground_grid[z][x] = old
+	ground_grid[z][x]["type"] = 1
 	return reachable_positive == original_positive - 1
-
-
 func can_build_building_tile(x, z) -> bool:
-	for dir in [Vector2(0,-1),Vector2(0,1),Vector2(-1,0),Vector2(1,0)]:
+	var directions = [
+		Vector2(0, -1),
+		Vector2(0, 1),
+		Vector2(-1, 0),
+		Vector2(1, 0)
+	]
+	for dir in directions:
 		var nx = x + int(dir.x)
 		var nz = z + int(dir.y)
 		if nx >= 0 and nx < GRID_SIZE and nz >= 0 and nz < GRID_SIZE:
-			var type = get_tile_type(ground_grid[nz][nx])
-			if type == 999 or type == 1:
+			var value = ground_grid[nz][nx]["type"]
+			if value == 999:
+				return true
+			if value == 1:
 				return true
 	return false
-
 
 func build_empty_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_empty_tile(x, z)
-	decrease_tile_amount(get_tile_type(ground_grid[z][x]))
-	ground_grid[z][x] = make_tile_value(0)
-
+	decrease_tile_amount(ground_grid[z][x]["type"])
+	ground_grid[z][x]["type"] = 0
+	ground_grid[z][x]["rapid_index"] = randi() % 4  # Присваиваем новый случайный индекс
 func build_house_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_house_tile(x, z)
 	increase_tile_amount(1)
-	ground_grid[z][x] = make_tile_value(1)
-
+	ground_grid[z][x]["type"] = 1
+	ground_grid[z][x]["rapid_index"] = randi() % 4  # Присваиваем новый случайный индекс
 func build_field_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_field_tile(x, z)
 	increase_tile_amount(2)
-	ground_grid[z][x] = make_tile_value(2)
-
+	ground_grid[z][x]["type"] = 2
+	ground_grid[z][x]["rapid_index"] = randi() % 4  # Присваиваем новый случайный индекс
 func build_pasture_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_pasture_tile(x, z)
 	increase_tile_amount(3)
-	ground_grid[z][x] = make_tile_value(3)
+	ground_grid[z][x]["type"] = 3
+	ground_grid[z][x]["rapid_index"] = randi() % 4  # Присваиваем новый случайный индекс
 
 
 func build_grid_tile(tile_object, building_index):
 	var x = int(tile_object.position.x / TILE_SIZE)
 	var z = int(tile_object.position.z / TILE_SIZE)
-
-	var type = get_tile_type(ground_grid[z][x])
-
-	if type == 999 or type == building_index or type < 0:
+	if ground_grid[z][x]["type"] == 999 or \
+		ground_grid[z][x]["type"] == building_index or \
+		ground_grid[z][x]["type"] < 0:
 		return
-
 	match building_index:
 		0:
 			if !can_build_empty_tile(x, z):
@@ -369,16 +370,21 @@ func build_grid_tile(tile_object, building_index):
 			build_empty_tile(tile_object, x, z)
 			return
 		1:
-			if !can_build_building_tile(x, z): return
-			if !game.is_house_build_allowed(): return
+			if !can_build_building_tile(x, z):
+				return
+			if !game.is_house_build_allowed():
+				return
 			build_house_tile(tile_object, x, z)
 		2:
-			if !can_build_building_tile(x, z): return
-			if !game.is_field_build_allowed(): return
+			if !can_build_building_tile(x, z):
+				return
+			if !game.is_field_build_allowed():
+				return
 			build_field_tile(tile_object, x, z)
 		3:
-			if !can_build_building_tile(x, z): return
-			if !game.is_pasture_build_allowed(): return
+			if !can_build_building_tile(x, z):
+				return
+			if !game.is_pasture_build_allowed():
+				return
 			build_pasture_tile(tile_object, x, z)
-
 	builded.emit(building_index)
