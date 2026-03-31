@@ -286,7 +286,7 @@ func clamp_resources():
 
 
 func game_over() -> void:
-	SceneManager.change_scene("res://scenes/active_scenes/game.tscn")
+	SceneManager.load_scene("res://scenes/active_scenes/game.tscn")
 
 
 func on_player_action_started() -> void:
