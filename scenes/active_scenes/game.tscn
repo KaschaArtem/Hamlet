@@ -44,6 +44,8 @@ environment = SubResource("Environment_5jyxj")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=509755312]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
+shadow_normal_bias = 4.0
+shadow_blur = 0.75
 
 [node name="Ground" type="Node3D" parent="." unique_id=1711545239 node_paths=PackedStringArray("game")]
 script = ExtResource("1_r0i7r")
@@ -72,10 +74,10 @@ game = NodePath("..")
 
 [node name="UserInterface" type="CanvasLayer" parent="." unique_id=902251080]
 
-[node name="BuildingsUI" parent="UserInterface" unique_id=139825313 node_paths=PackedStringArray("game") instance=ExtResource("12_7f75v")]
+[node name="ResourcesUI" parent="UserInterface" unique_id=988245277 node_paths=PackedStringArray("game") instance=ExtResource("13_g6mbv")]
 game = NodePath("../..")
 
-[node name="ResourcesUI" parent="UserInterface" unique_id=988245277 node_paths=PackedStringArray("game") instance=ExtResource("13_g6mbv")]
+[node name="BuildingsUI" parent="UserInterface" unique_id=139825313 node_paths=PackedStringArray("game") instance=ExtResource("12_7f75v")]
 game = NodePath("../..")
 
 [node name="TimeUI" parent="UserInterface" unique_id=1607769773 node_paths=PackedStringArray("game") instance=ExtResource("13_0eppp")]

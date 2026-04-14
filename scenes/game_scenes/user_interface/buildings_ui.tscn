@@ -7,8 +7,6 @@ layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -54.0
-offset_right = 297.0
 grow_vertical = 0
 script = ExtResource("1_duh1h")
 house_button = NodePath("Buildings/HouseButton")
@@ -28,26 +26,22 @@ grow_vertical = 0
 
 [node name="HouseButton" type="Button" parent="Buildings" unique_id=1718671655]
 layout_mode = 2
-focus_mode = 0
 text = "House
 (1)"
 
 [node name="FieldButton" type="Button" parent="Buildings" unique_id=1108479608]
 layout_mode = 2
-focus_mode = 0
 text = "Field
 (2)
 "
 
 [node name="PastureButton" type="Button" parent="Buildings" unique_id=782249182]
 layout_mode = 2
-focus_mode = 0
 text = "Pasture
 (3)"
 
 [node name="DeleteButton" type="Button" parent="Buildings" unique_id=1515832089]
 layout_mode = 2
-focus_mode = 0
 text = "Delete
 (0)"
 

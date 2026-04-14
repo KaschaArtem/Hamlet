@@ -12,13 +12,15 @@ corner_radius_bottom_left = 40
 
 [node name="TimeUI" type="Control" unique_id=1607769773 node_paths=PackedStringArray("end_month_button", "year_count", "month_count")]
 layout_mode = 3
-anchors_preset = 15
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+grow_horizontal = 0
+grow_vertical = 0
 script = ExtResource("1_s8yga")
-end_month_button = NodePath("EndMonthButton")
+end_month_button = NodePath("StartMonthButton")
 year_count = NodePath("MonthCount/Year")
 month_count = NodePath("MonthCount/Month")
 
@@ -37,7 +39,7 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_yvbtm")
 
-[node name="EndMonthButton" type="Button" parent="." unique_id=781305301]
+[node name="StartMonthButton" type="Button" parent="." unique_id=781305301]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -122,4 +124,4 @@ scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_yvbtm")
 expand_mode = 1
 
-[connection signal="pressed" from="EndMonthButton" to="." method="_on_end_month_button_pressed"]
+[connection signal="pressed" from="StartMonthButton" to="." method="_on_end_month_button_pressed"]

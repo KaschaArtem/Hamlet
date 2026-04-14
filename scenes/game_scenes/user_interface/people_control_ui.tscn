@@ -2,15 +2,14 @@
 
 [ext_resource type="Script" uid="uid://dsemmthx1ja5w" path="res://scripts/game/user_interface/people_control_ui.gd" id="1_d5b7o"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5b7o"]
+bg_color = Color(0, 0, 0, 0.49803922)
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+
 [node name="PeopleControlUI" type="Control" unique_id=521716 node_paths=PackedStringArray("less_wood", "current_wood", "more_wood", "less_plant", "current_plant", "more_plant", "less_animal", "current_animal", "more_animal", "less_fish", "current_fish", "more_fish", "less_hunt", "current_hunt", "more_hunt")]
 layout_mode = 3
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -153.0
-offset_right = 55.0
-offset_bottom = 153.0
-grow_vertical = 2
+anchors_preset = 0
 script = ExtResource("1_d5b7o")
 less_wood = NodePath("VBoxContainer/Wood/LessWood")
 current_wood = NodePath("VBoxContainer/Wood/CurrentWood")
@@ -28,26 +27,28 @@ less_hunt = NodePath("VBoxContainer/Hunt/LessHunt")
 current_hunt = NodePath("VBoxContainer/Hunt/CurrentHunt")
 more_hunt = NodePath("VBoxContainer/Hunt/MoreHunt")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=840673913]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.49803922)
+[node name="Panel" type="Panel" parent="." unique_id=1915417076]
+layout_mode = 0
+offset_top = 166.0
+offset_right = 75.0
+offset_bottom = 482.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_d5b7o")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1528243772]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_top = 171.0
+offset_right = 70.0
+offset_bottom = 477.0
+alignment = 1
 
 [node name="WoodLabel" type="Label" parent="VBoxContainer" unique_id=447531767]
 layout_mode = 2
 text = "Wood"
+horizontal_alignment = 1
 
 [node name="Wood" type="HBoxContainer" parent="VBoxContainer" unique_id=704783652]
 layout_mode = 2
+alignment = 1
 
 [node name="LessWood" type="Button" parent="VBoxContainer/Wood" unique_id=2077236582]
 layout_mode = 2
@@ -64,9 +65,11 @@ text = "+"
 [node name="PlantLabel" type="Label" parent="VBoxContainer" unique_id=1785280239]
 layout_mode = 2
 text = "Plant"
+horizontal_alignment = 1
 
 [node name="Plant" type="HBoxContainer" parent="VBoxContainer" unique_id=1206797517]
 layout_mode = 2
+alignment = 1
 
 [node name="LessPlant" type="Button" parent="VBoxContainer/Plant" unique_id=1166616987]
 layout_mode = 2
@@ -83,9 +86,11 @@ text = "+"
 [node name="AnimalLabel" type="Label" parent="VBoxContainer" unique_id=1412171774]
 layout_mode = 2
 text = "Animal"
+horizontal_alignment = 1
 
 [node name="Animal" type="HBoxContainer" parent="VBoxContainer" unique_id=849371340]
 layout_mode = 2
+alignment = 1
 
 [node name="LessAnimal" type="Button" parent="VBoxContainer/Animal" unique_id=987098490]
 layout_mode = 2
@@ -102,9 +107,11 @@ text = "+"
 [node name="FishLabel" type="Label" parent="VBoxContainer" unique_id=1727243043]
 layout_mode = 2
 text = "Fish"
+horizontal_alignment = 1
 
 [node name="Fish" type="HBoxContainer" parent="VBoxContainer" unique_id=201107264]
 layout_mode = 2
+alignment = 1
 
 [node name="LessFish" type="Button" parent="VBoxContainer/Fish" unique_id=1708373847]
 layout_mode = 2
@@ -121,9 +128,11 @@ text = "+"
 [node name="HuntLabel" type="Label" parent="VBoxContainer" unique_id=2032971343]
 layout_mode = 2
 text = "Hunt"
+horizontal_alignment = 1
 
 [node name="Hunt" type="HBoxContainer" parent="VBoxContainer" unique_id=1445519672]
 layout_mode = 2
+alignment = 1
 
 [node name="LessHunt" type="Button" parent="VBoxContainer/Hunt" unique_id=871737666]
 layout_mode = 2
