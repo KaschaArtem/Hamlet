@@ -1,5 +1,6 @@
 extends Node3D
 
+
 @export var ground: Node3D
 @export var MenuUI: CanvasLayer
 @onready var time_ui = $UserInterface/TimeUI
@@ -61,6 +62,7 @@ var wood_season_mod := 1.0
 
 var is_distance_checked: bool = false
 var dist := -1
+
 
 func update_max_values() -> void:
 	max_human_resource = ground.house_amount * house_human_capacity + main_tile_human_capacity

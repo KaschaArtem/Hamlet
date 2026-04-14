@@ -1,5 +1,6 @@
 extends Node3D
 
+
 @export var game: Node3D
 
 signal builded(building_index: int)
@@ -26,12 +27,13 @@ var noise := FastNoiseLite.new()
 @export_range(-1.0, 1.0) var WATER_SPAWN: float = -0.67
 
 
-var ground_grid = []  # Теперь каждый элемент будет словарем: {"type": int, "rapid_index": int}
+var ground_grid = []
 var house_amount = 0
 var field_amount = 0
 var pasture_amount = 0
 var wood_amount = 0
 var water_amount = 0
+
 
 func decrease_tile_amount(building_index) -> void:
 	match building_index:
@@ -58,7 +60,6 @@ func increase_tile_amount(building_index) -> void:
 		-2:
 			water_amount += 1
 
-# Новая функция для получения случайного индекса тайла
 func get_rapid_index(x: int, z: int) -> int:
 	if x >= 0 and x < GRID_SIZE and z >= 0 and z < GRID_SIZE:
 		return ground_grid[z][x]["rapid_index"]
@@ -120,7 +121,7 @@ func get_nearest_tile_distance(target_type: int, remove_tile: bool = false) -> i
 func remove_tile_at(x: int, z: int, tile_type: int) -> void:
 
 	ground_grid[z][x]["type"] = 0
-	ground_grid[z][x]["rapid_index"] = randi() % 4  # Присваиваем новый случайный индекс при удалении
+	ground_grid[z][x]["rapid_index"] = randi() % 4
 	decrease_tile_amount(tile_type)
 
 	var world_pos = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
@@ -335,25 +336,25 @@ func build_empty_tile(tile_object, x, z):
 	add_empty_tile(x, z)
 	decrease_tile_amount(ground_grid[z][x]["type"])
 	ground_grid[z][x]["type"] = 0
-	ground_grid[z][x]["rapid_index"] = randi() % 4  # Присваиваем новый случайный индекс
+	ground_grid[z][x]["rapid_index"] = randi() % 4
 func build_house_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_house_tile(x, z)
 	increase_tile_amount(1)
 	ground_grid[z][x]["type"] = 1
-	ground_grid[z][x]["rapid_index"] = randi() % 4  # Присваиваем новый случайный индекс
+	ground_grid[z][x]["rapid_index"] = randi() % 4
 func build_field_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_field_tile(x, z)
 	increase_tile_amount(2)
 	ground_grid[z][x]["type"] = 2
-	ground_grid[z][x]["rapid_index"] = randi() % 4  # Присваиваем новый случайный индекс
+	ground_grid[z][x]["rapid_index"] = randi() % 4
 func build_pasture_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_pasture_tile(x, z)
 	increase_tile_amount(3)
 	ground_grid[z][x]["type"] = 3
-	ground_grid[z][x]["rapid_index"] = randi() % 4  # Присваиваем новый случайный индекс
+	ground_grid[z][x]["rapid_index"] = randi() % 4
 
 
 func build_grid_tile(tile_object, building_index):
