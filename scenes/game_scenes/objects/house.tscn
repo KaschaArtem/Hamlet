@@ -7,21 +7,33 @@ albedo_color = Color(1, 1, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_mb83u"]
 material = SubResource("StandardMaterial3D_5hv1e")
-size = Vector3(0.5, 0.1, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mhpnm"]
+size = Vector3(1, 0.001, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_st5od"]
-size = Vector3(0.5, 0.001, 0.5)
+size = Vector3(0.6, 0.8, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k47um"]
+size = Vector3(0.45, 0.45, 0.9)
 
 [node name="House" type="Node3D" unique_id=1078763312]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1797774305]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = SubResource("BoxMesh_mb83u")
 
 [node name="house_v4" parent="." unique_id=381019956 instance=ExtResource("1_k47um")]
-transform = Transform3D(0.13, 0, 0, 0, 0.13, 0, 0, 0, 0.13, 0, 0.001, -0.06)
+transform = Transform3D(0.26, 0, 0, 0, 0.26, 0, 0, 0, 0.26, 0, -0.001, -0.13)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1288547837]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=769239319]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1886872220]
+shape = SubResource("BoxShape3D_mhpnm")
+
+[node name="CollisionShape3DBody" type="CollisionShape3D" parent="StaticBody3D" unique_id=1297106531]
 shape = SubResource("BoxShape3D_st5od")
+
+[node name="CollisionShape3DRoof" type="CollisionShape3D" parent="StaticBody3D" unique_id=4922139]
+transform = Transform3D(0.70710677, -0.70710677, 0, 0.70710677, 0.70710677, 0, 0, 0, 1, 0, 0.3876059, 0)
+shape = SubResource("BoxShape3D_k47um")

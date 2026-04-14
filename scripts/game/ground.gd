@@ -6,7 +6,7 @@ extends Node3D
 signal builded(building_index: int)
 
 const GRID_SIZE = 51
-const TILE_SIZE = 0.5
+const TILE_SIZE = 1
 const GRID_CENTER = GRID_SIZE / 2
 
 var noise := FastNoiseLite.new()
