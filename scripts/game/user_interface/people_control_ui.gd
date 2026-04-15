@@ -3,220 +3,159 @@ extends Control
 
 @export var game: Node3D
 
+
+@export_group("Wood UI")
+@export var less_5_wood: Button
 @export var less_wood: Button
 @export var current_wood: Label
 @export var more_wood: Button
+@export var more_5_wood: Button
+
+@export_group("Plant UI")
+@export var less_5_plant: Button
 @export var less_plant: Button
 @export var current_plant: Label
 @export var more_plant: Button
+@export var more_5_plant: Button
+
+@export_group("Animal UI")
+@export var less_5_animal: Button
 @export var less_animal: Button
 @export var current_animal: Label
 @export var more_animal: Button
+@export var more_5_animal: Button
+
+@export_group("Fish UI")
+@export var less_5_fish: Button
 @export var less_fish: Button
 @export var current_fish: Label
 @export var more_fish: Button
+@export var more_5_fish: Button
+
+@export_group("Hunt UI")
+@export var less_5_hunt: Button
 @export var less_hunt: Button
 @export var current_hunt: Label
 @export var more_hunt: Button
+@export var more_5_hunt: Button
+
+@export_group("Panels")
+@export var panel_main: Panel
+@export var panel_sub: Panel
+
+
+var initial_pos_x: float
+var target_offset: float = 316.0
+var is_mouse_over: bool = false
+
 
 func _ready() -> void:
+	initial_pos_x = self.position.x
+	panel_main.mouse_entered.connect(_on_mouse_entered)
+	panel_main.mouse_exited.connect(_on_mouse_exited)
+	panel_sub.mouse_entered.connect(_on_mouse_entered)
+	panel_sub.mouse_exited.connect(_on_mouse_exited)
+	
 	game.player_action_started.connect(on_player_action_started)
 	game.player_action_ended.connect(on_player_action_ended)
 	self.visible = false
 
+func change_resource(resource_name: String, amount: int) -> void:
+	var prop_name = "people_on_" + resource_name
+	var current_val: int = game.get(prop_name)
+	var total_assigned = game.people_on_wood + game.people_on_plant + game.people_on_animal + game.people_on_fish + game.people_on_hunt
+	var available_people = game.human_resource - total_assigned
+	
+	var final_change = clamp(amount, -current_val, available_people)
+	game.set(prop_name, current_val + final_change)
+	
+	update_all_ui()
 
-func update_current_wood() -> void:
+func update_all_ui() -> void:
 	current_wood.text = str(game.people_on_wood)
-func update_current_plant() -> void:
-	current_plant.text = str(game.people_on_plant)
-func update_current_animal() -> void:
-	current_animal.text = str(game.people_on_animal)
-func update_current_fish() -> void:
-	current_fish.text = str(game.people_on_fish)
-func update_current_hunt() -> void:
-	current_hunt.text = str(game.people_on_hunt)
-
-func init_update_values() -> void:
-	current_wood.text = str(game.people_on_wood)
 	current_plant.text = str(game.people_on_plant)
 	current_animal.text = str(game.people_on_animal)
 	current_fish.text = str(game.people_on_fish)
 	current_hunt.text = str(game.people_on_hunt)
+	
+	check_all_buttons()
 
-func disable_more_assignment() -> void:
-	more_wood.disabled = true
-	more_plant.disabled = true
-	more_animal.disabled = true
-	more_fish.disabled = true
-	more_hunt.disabled = true
-func enable_more_assignment() -> void:
-	more_wood.disabled = false
-	more_plant.disabled = false
-	more_animal.disabled = false
-	more_fish.disabled = false
-	more_hunt.disabled = false
+func check_all_buttons() -> void:
+	var total = game.people_on_wood + game.people_on_plant + game.people_on_animal + game.people_on_fish + game.people_on_hunt
+	var full = total >= game.human_resource
+	
+	less_wood.disabled = game.people_on_wood <= 0
+	less_5_wood.disabled = game.people_on_wood <= 0
+	more_wood.disabled = full
+	more_5_wood.disabled = full
+	
+	less_plant.disabled = game.people_on_plant <= 0
+	less_5_plant.disabled = game.people_on_plant <= 0
+	more_plant.disabled = full
+	more_5_plant.disabled = full
+	
+	less_animal.disabled = game.people_on_animal <= 0
+	less_5_animal.disabled = game.people_on_animal <= 0
+	more_animal.disabled = full
+	more_5_animal.disabled = full
+	
+	less_fish.disabled = game.people_on_fish <= 0
+	less_5_fish.disabled = game.people_on_fish <= 0
+	more_fish.disabled = full
+	more_5_fish.disabled = full
+	
+	less_hunt.disabled = game.people_on_hunt <= 0
+	less_5_hunt.disabled = game.people_on_hunt <= 0
+	more_hunt.disabled = full
+	more_5_hunt.disabled = full
 
-func disable_all_assignment() -> void:
-	less_wood.disabled = true
-	less_plant.disabled = true
-	less_animal.disabled = true
-	less_fish.disabled = false
-	less_hunt.disabled = false
-	more_wood.disabled = true
-	more_plant.disabled = true
-	more_animal.disabled = true
-	less_fish.disabled = true
-	less_hunt.disabled = true
 
-func check_less_wood_button() -> void:
-	if game.people_on_wood == 0:
-		less_wood.disabled = true
-	else:
-		less_wood.disabled = false
-func check_less_plant_button() -> void:
-	if game.people_on_plant == 0:
-		less_plant.disabled = true
-	else:
-		less_plant.disabled = false
-func check_less_animal_button() -> void:
-	if game.people_on_animal == 0:
-		less_animal.disabled = true
-	else:
-		less_animal.disabled = false
-func check_less_fish_button() -> void:
-	if game.people_on_fish == 0:
-		less_fish.disabled = true
-	else:
-		less_fish.disabled = false
-func check_less_hunt_button() -> void:
-	if game.people_on_hunt == 0:
-		less_hunt.disabled = true
-	else:
-		less_hunt.disabled = false
-func check_more_buttons() -> void:
-	if (
-		game.people_on_wood +
-		game.people_on_plant +
-		game.people_on_animal +
-		game.people_on_fish +
-		game.people_on_hunt
-	) == game.human_resource:
-		disable_more_assignment()
-	else:
-		enable_more_assignment()
+func _on_mouse_entered() -> void:
+	is_mouse_over = true
+	move_panel(initial_pos_x + target_offset)
+
+func _on_mouse_exited() -> void:
+	await get_tree().create_timer(0.05).timeout
+	if not panel_main.get_global_rect().has_point(get_global_mouse_position()) and \
+	   not panel_sub.get_global_rect().has_point(get_global_mouse_position()):
+		is_mouse_over = false
+		move_panel(initial_pos_x)
+
+func move_panel(target_x: float) -> void:
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "position:x", target_x, 0.3)
+
 
 func on_player_action_started() -> void:
-	var workers := {
-	"wood": game.people_on_wood,
-	"plant": game.people_on_plant,
-	"animal": game.people_on_animal,
-	"fish": game.people_on_fish,
-	"hunt": game.people_on_hunt
-	}
-	
-	var total_working = 0
-	for v in workers.values():
-		total_working += v
-	
-	var overload = total_working - game.human_resource
-	
-	for i in range(max(overload, 0)):
-		var max_key := ""
-		var max_val := -1
-		
-		for k in workers:
-			if workers[k] > max_val:
-				max_val = workers[k]
-				max_key = k
-		
-		if max_key != "":
-			workers[max_key] -= 1
-	
-	game.people_on_wood = workers["wood"]
-	game.people_on_plant = workers["plant"]
-	game.people_on_animal = workers["animal"]
-	game.people_on_fish = workers["fish"]
-	game.people_on_hunt = workers["hunt"]
-	init_update_values()
-	
-	check_less_wood_button()
-	check_less_plant_button()
-	check_less_animal_button()
-	check_less_fish_button()
-	check_less_hunt_button()
-	check_more_buttons()
-	
+	update_all_ui()
 	self.visible = true
 
-
 func on_player_action_ended() -> void:
-	disable_all_assignment()
 	self.visible = false
 
 
-func _on_less_wood_pressed() -> void:
-	game.people_on_wood -= 1
-	update_current_wood()
-	check_less_wood_button()
-	check_more_buttons()
+func _on_less_5_wood_pressed() -> void: change_resource("wood", -5)
+func _on_less_wood_pressed() -> void: change_resource("wood", -1)
+func _on_more_wood_pressed() -> void: change_resource("wood", 1)
+func _on_more_5_wood_pressed() -> void: change_resource("wood", 5)
 
+func _on_less_5_plant_pressed() -> void: change_resource("plant", -5)
+func _on_less_plant_pressed() -> void: change_resource("plant", -1)
+func _on_more_plant_pressed() -> void: change_resource("plant", 1)
+func _on_more_5_plant_pressed() -> void: change_resource("plant", 5)
 
-func _on_more_wood_pressed() -> void:
-	game.people_on_wood += 1
-	update_current_wood()
-	check_less_wood_button()
-	check_more_buttons()
+func _on_less_5_animal_pressed() -> void: change_resource("animal", -5)
+func _on_less_animal_pressed() -> void: change_resource("animal", -1)
+func _on_more_animal_pressed() -> void: change_resource("animal", 1)
+func _on_more_5_animal_pressed() -> void: change_resource("animal", 5)
 
+func _on_less_5_fish_pressed() -> void: change_resource("fish", -5)
+func _on_less_fish_pressed() -> void: change_resource("fish", -1)
+func _on_more_fish_pressed() -> void: change_resource("fish", 1)
+func _on_more_5_fish_pressed() -> void: change_resource("fish", 5)
 
-func _on_less_plant_pressed() -> void:
-	game.people_on_plant -= 1
-	update_current_plant()
-	check_less_plant_button()
-	check_more_buttons()
-
-
-func _on_more_plant_pressed() -> void:
-	game.people_on_plant += 1
-	update_current_plant()
-	check_less_plant_button()
-	check_more_buttons()
-
-
-func _on_less_animal_pressed() -> void:
-	game.people_on_animal -= 1
-	update_current_animal()
-	check_less_animal_button()
-	check_more_buttons()
-
-
-func _on_more_animal_pressed() -> void:
-	game.people_on_animal += 1
-	update_current_animal()
-	check_less_animal_button()
-	check_more_buttons()
-
-func _on_less_fish_pressed() -> void:
-	game.people_on_fish -= 1
-	update_current_fish()
-	check_less_fish_button()
-	check_more_buttons()
-
-
-func _on_more_fish_pressed() -> void:
-	game.people_on_fish += 1
-	update_current_fish()
-	check_less_fish_button()
-	check_more_buttons()
-
-
-func _on_less_hunt_pressed() -> void:
-	game.people_on_hunt -= 1
-	update_current_hunt()
-	check_less_hunt_button()
-	check_more_buttons()
-
-func _on_more_hunt_pressed() -> void:
-	game.people_on_hunt += 1
-	update_current_hunt()
-	check_less_hunt_button()
-	check_more_buttons()
+func _on_less_5_hunt_pressed() -> void: change_resource("hunt", -5)
+func _on_less_hunt_pressed() -> void: change_resource("hunt", -1)
+func _on_more_hunt_pressed() -> void: change_resource("hunt", 1)
+func _on_more_5_hunt_pressed() -> void: change_resource("hunt", 5)

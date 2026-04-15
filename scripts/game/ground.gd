@@ -334,6 +334,8 @@ func can_build_empty_tile(x, z) -> bool:
 	ground_grid[z][x]["type"] = 1
 	return reachable_positive == original_positive - 1
 func can_build_building_tile(x, z) -> bool:
+	if ground_grid[z][x]["type"] != 0:
+		return false
 	var directions = [
 		Vector2(0, -1),
 		Vector2(0, 1),

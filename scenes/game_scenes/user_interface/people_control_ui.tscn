@@ -1,158 +1,316 @@
 [gd_scene format=3 uid="uid://da2k5a37xrgsc"]
 
 [ext_resource type="Script" uid="uid://dsemmthx1ja5w" path="res://scripts/game/user_interface/people_control_ui.gd" id="1_d5b7o"]
+[ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="2_lfn7j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5b7o"]
 bg_color = Color(0, 0, 0, 0.49803922)
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
+corner_radius_bottom_right = 24
 
-[node name="PeopleControlUI" type="Control" unique_id=521716 node_paths=PackedStringArray("less_wood", "current_wood", "more_wood", "less_plant", "current_plant", "more_plant", "less_animal", "current_animal", "more_animal", "less_fish", "current_fish", "more_fish", "less_hunt", "current_hunt", "more_hunt")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lfn7j"]
+bg_color = Color(0, 0, 0, 0.49803922)
+border_width_left = 1
+border_color = Color(0, 0, 0, 0.49019608)
+border_blend = true
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+
+[node name="PeopleControlUI" type="Control" unique_id=521716 node_paths=PackedStringArray("less_5_wood", "less_wood", "current_wood", "more_wood", "more_5_wood", "less_5_plant", "less_plant", "current_plant", "more_plant", "more_5_plant", "less_5_animal", "less_animal", "current_animal", "more_animal", "more_5_animal", "less_5_fish", "less_fish", "current_fish", "more_fish", "more_5_fish", "less_5_hunt", "less_hunt", "current_hunt", "more_hunt", "more_5_hunt", "panel_main", "panel_sub")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_d5b7o")
-less_wood = NodePath("VBoxContainer/Wood/LessWood")
-current_wood = NodePath("VBoxContainer/Wood/CurrentWood")
-more_wood = NodePath("VBoxContainer/Wood/MoreWood")
-less_plant = NodePath("VBoxContainer/Plant/LessPlant")
-current_plant = NodePath("VBoxContainer/Plant/CurrentPlant")
-more_plant = NodePath("VBoxContainer/Plant/MorePlant")
-less_animal = NodePath("VBoxContainer/Animal/LessAnimal")
-current_animal = NodePath("VBoxContainer/Animal/CurrentAnimal")
-more_animal = NodePath("VBoxContainer/Animal/MoreAnimal")
-less_fish = NodePath("VBoxContainer/Fish/LessFish")
-current_fish = NodePath("VBoxContainer/Fish/CurrentFish")
-more_fish = NodePath("VBoxContainer/Fish/MoreFish")
-less_hunt = NodePath("VBoxContainer/Hunt/LessHunt")
-current_hunt = NodePath("VBoxContainer/Hunt/CurrentHunt")
-more_hunt = NodePath("VBoxContainer/Hunt/MoreHunt")
+less_5_wood = NodePath("VBoxContainer/WoodContainer/Wood/Less5Wood")
+less_wood = NodePath("VBoxContainer/WoodContainer/Wood/LessWood")
+current_wood = NodePath("VBoxContainer/WoodContainer/Wood/CurrentWood")
+more_wood = NodePath("VBoxContainer/WoodContainer/Wood/MoreWood")
+more_5_wood = NodePath("VBoxContainer/WoodContainer/Wood/More5Wood")
+less_5_plant = NodePath("VBoxContainer/PlantContainer/Plant/Less5Plant")
+less_plant = NodePath("VBoxContainer/PlantContainer/Plant/LessPlant")
+current_plant = NodePath("VBoxContainer/PlantContainer/Plant/CurrentPlant")
+more_plant = NodePath("VBoxContainer/PlantContainer/Plant/MorePlant")
+more_5_plant = NodePath("VBoxContainer/PlantContainer/Plant/More5Plant")
+less_5_animal = NodePath("VBoxContainer/AnimalContainer/Animal/Less5Animal")
+less_animal = NodePath("VBoxContainer/AnimalContainer/Animal/LessAnimal")
+current_animal = NodePath("VBoxContainer/AnimalContainer/Animal/CurrentAnimal")
+more_animal = NodePath("VBoxContainer/AnimalContainer/Animal/MoreAnimal")
+more_5_animal = NodePath("VBoxContainer/AnimalContainer/Animal/More5Animal")
+less_5_fish = NodePath("VBoxContainer/FishContainer/Fish/Less5Fish")
+less_fish = NodePath("VBoxContainer/FishContainer/Fish/LessFish")
+current_fish = NodePath("VBoxContainer/FishContainer/Fish/CurrentFish")
+more_fish = NodePath("VBoxContainer/FishContainer/Fish/MoreFish")
+more_5_fish = NodePath("VBoxContainer/FishContainer/Fish/More5Fish")
+less_5_hunt = NodePath("VBoxContainer/HuntContainer/Hunt/Less5Hunt")
+less_hunt = NodePath("VBoxContainer/HuntContainer/Hunt/LessHunt")
+current_hunt = NodePath("VBoxContainer/HuntContainer/Hunt/CurrentHunt")
+more_hunt = NodePath("VBoxContainer/HuntContainer/Hunt/MoreHunt")
+more_5_hunt = NodePath("VBoxContainer/HuntContainer/Hunt/More5Hunt")
+panel_main = NodePath("PanelMain")
+panel_sub = NodePath("PanelSub")
 
-[node name="Panel" type="Panel" parent="." unique_id=1915417076]
+[node name="PanelMain" type="Panel" parent="." unique_id=1915417076]
 layout_mode = 0
+offset_left = -316.0
 offset_top = 40.0
-offset_right = 75.0
 offset_bottom = 356.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_d5b7o")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1528243772]
+[node name="PanelSub" type="Panel" parent="." unique_id=1026614972]
 layout_mode = 0
 offset_top = 40.0
-offset_right = 70.0
-offset_bottom = 346.0
+offset_right = 48.0
+offset_bottom = 88.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_lfn7j")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1528243772]
+layout_mode = 0
+offset_left = -312.0
+offset_top = 44.0
+offset_right = -6.0
+offset_bottom = 350.0
 alignment = 1
 
-[node name="WoodLabel" type="Label" parent="VBoxContainer" unique_id=447531767]
+[node name="WoodContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=1918917438]
 layout_mode = 2
-text = "Wood"
-horizontal_alignment = 1
 
-[node name="Wood" type="HBoxContainer" parent="VBoxContainer" unique_id=704783652]
+[node name="Wood" type="HBoxContainer" parent="VBoxContainer/WoodContainer" unique_id=704783652]
 layout_mode = 2
 alignment = 1
 
-[node name="LessWood" type="Button" parent="VBoxContainer/Wood" unique_id=2077236582]
+[node name="WoodLabel" type="Label" parent="VBoxContainer/WoodContainer/Wood" unique_id=447531767]
 layout_mode = 2
-text = "-"
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = " Logging"
 
-[node name="CurrentWood" type="Label" parent="VBoxContainer/Wood" unique_id=1338211324]
+[node name="Less5Wood" type="Button" parent="VBoxContainer/WoodContainer/Wood" unique_id=1891445219]
 layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "-5"
+
+[node name="LessWood" type="Button" parent="VBoxContainer/WoodContainer/Wood" unique_id=2077236582]
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "-1"
+
+[node name="CurrentWood" type="Label" parent="VBoxContainer/WoodContainer/Wood" unique_id=1338211324]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
 
-[node name="MoreWood" type="Button" parent="VBoxContainer/Wood" unique_id=1527486126]
+[node name="MoreWood" type="Button" parent="VBoxContainer/WoodContainer/Wood" unique_id=1527486126]
 layout_mode = 2
-text = "+"
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "+1"
 
-[node name="PlantLabel" type="Label" parent="VBoxContainer" unique_id=1785280239]
+[node name="More5Wood" type="Button" parent="VBoxContainer/WoodContainer/Wood" unique_id=1607530176]
 layout_mode = 2
-text = "Plant"
-horizontal_alignment = 1
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "+5"
 
-[node name="Plant" type="HBoxContainer" parent="VBoxContainer" unique_id=1206797517]
+[node name="Label" type="Label" parent="VBoxContainer/WoodContainer" unique_id=1098473758]
 layout_mode = 2
-alignment = 1
 
-[node name="LessPlant" type="Button" parent="VBoxContainer/Plant" unique_id=1166616987]
+[node name="PlantContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=1552373159]
 layout_mode = 2
-text = "-"
 
-[node name="CurrentPlant" type="Label" parent="VBoxContainer/Plant" unique_id=1352551383]
-layout_mode = 2
-text = "0"
-
-[node name="MorePlant" type="Button" parent="VBoxContainer/Plant" unique_id=514363554]
-layout_mode = 2
-text = "+"
-
-[node name="AnimalLabel" type="Label" parent="VBoxContainer" unique_id=1412171774]
-layout_mode = 2
-text = "Animal"
-horizontal_alignment = 1
-
-[node name="Animal" type="HBoxContainer" parent="VBoxContainer" unique_id=849371340]
+[node name="Plant" type="HBoxContainer" parent="VBoxContainer/PlantContainer" unique_id=1206797517]
 layout_mode = 2
 alignment = 1
 
-[node name="LessAnimal" type="Button" parent="VBoxContainer/Animal" unique_id=987098490]
+[node name="PlantLabel" type="Label" parent="VBoxContainer/PlantContainer/Plant" unique_id=1785280239]
 layout_mode = 2
-text = "-"
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = " Cultivating"
 
-[node name="CurrentAnimal" type="Label" parent="VBoxContainer/Animal" unique_id=246902823]
+[node name="Less5Plant" type="Button" parent="VBoxContainer/PlantContainer/Plant" unique_id=618943560]
 layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "-5"
+
+[node name="LessPlant" type="Button" parent="VBoxContainer/PlantContainer/Plant" unique_id=1166616987]
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "-1"
+
+[node name="CurrentPlant" type="Label" parent="VBoxContainer/PlantContainer/Plant" unique_id=1352551383]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
 
-[node name="MoreAnimal" type="Button" parent="VBoxContainer/Animal" unique_id=1273428324]
+[node name="MorePlant" type="Button" parent="VBoxContainer/PlantContainer/Plant" unique_id=514363554]
 layout_mode = 2
-text = "+"
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "+1"
 
-[node name="FishLabel" type="Label" parent="VBoxContainer" unique_id=1727243043]
+[node name="More5Plant" type="Button" parent="VBoxContainer/PlantContainer/Plant" unique_id=138702915]
 layout_mode = 2
-text = "Fish"
-horizontal_alignment = 1
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "+5"
 
-[node name="Fish" type="HBoxContainer" parent="VBoxContainer" unique_id=201107264]
+[node name="Label" type="Label" parent="VBoxContainer/PlantContainer" unique_id=1363483613]
+layout_mode = 2
+
+[node name="AnimalContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=2043007403]
+layout_mode = 2
+
+[node name="Animal" type="HBoxContainer" parent="VBoxContainer/AnimalContainer" unique_id=849371340]
 layout_mode = 2
 alignment = 1
 
-[node name="LessFish" type="Button" parent="VBoxContainer/Fish" unique_id=1708373847]
+[node name="AnimalLabel" type="Label" parent="VBoxContainer/AnimalContainer/Animal" unique_id=1412171774]
 layout_mode = 2
-text = "-"
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = " Ranching"
 
-[node name="CurrentFish" type="Label" parent="VBoxContainer/Fish" unique_id=1898886837]
+[node name="Less5Animal" type="Button" parent="VBoxContainer/AnimalContainer/Animal" unique_id=1347371367]
 layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "-5"
+
+[node name="LessAnimal" type="Button" parent="VBoxContainer/AnimalContainer/Animal" unique_id=987098490]
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "-1"
+
+[node name="CurrentAnimal" type="Label" parent="VBoxContainer/AnimalContainer/Animal" unique_id=246902823]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
 
-[node name="MoreFish" type="Button" parent="VBoxContainer/Fish" unique_id=2000156667]
+[node name="MoreAnimal" type="Button" parent="VBoxContainer/AnimalContainer/Animal" unique_id=1273428324]
 layout_mode = 2
-text = "+"
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "+1"
 
-[node name="HuntLabel" type="Label" parent="VBoxContainer" unique_id=2032971343]
+[node name="More5Animal" type="Button" parent="VBoxContainer/AnimalContainer/Animal" unique_id=1520738776]
 layout_mode = 2
-text = "Hunt"
-horizontal_alignment = 1
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "+5"
 
-[node name="Hunt" type="HBoxContainer" parent="VBoxContainer" unique_id=1445519672]
+[node name="Label" type="Label" parent="VBoxContainer/AnimalContainer" unique_id=1449036215]
+layout_mode = 2
+
+[node name="FishContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=703958843]
+layout_mode = 2
+
+[node name="Fish" type="HBoxContainer" parent="VBoxContainer/FishContainer" unique_id=201107264]
 layout_mode = 2
 alignment = 1
 
-[node name="LessHunt" type="Button" parent="VBoxContainer/Hunt" unique_id=871737666]
+[node name="FishLabel" type="Label" parent="VBoxContainer/FishContainer/Fish" unique_id=1727243043]
 layout_mode = 2
-text = "-"
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = " Fishing"
 
-[node name="CurrentHunt" type="Label" parent="VBoxContainer/Hunt" unique_id=1505516565]
+[node name="Less5Fish" type="Button" parent="VBoxContainer/FishContainer/Fish" unique_id=1419551121]
 layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "-5"
+
+[node name="LessFish" type="Button" parent="VBoxContainer/FishContainer/Fish" unique_id=1708373847]
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "-1"
+
+[node name="CurrentFish" type="Label" parent="VBoxContainer/FishContainer/Fish" unique_id=1898886837]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
 
-[node name="MoreHunt" type="Button" parent="VBoxContainer/Hunt" unique_id=675855370]
+[node name="MoreFish" type="Button" parent="VBoxContainer/FishContainer/Fish" unique_id=2000156667]
 layout_mode = 2
-text = "+"
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "+1"
 
-[connection signal="pressed" from="VBoxContainer/Wood/LessWood" to="." method="_on_less_wood_pressed"]
-[connection signal="pressed" from="VBoxContainer/Wood/MoreWood" to="." method="_on_more_wood_pressed"]
-[connection signal="pressed" from="VBoxContainer/Plant/LessPlant" to="." method="_on_less_plant_pressed"]
-[connection signal="pressed" from="VBoxContainer/Plant/MorePlant" to="." method="_on_more_plant_pressed"]
-[connection signal="pressed" from="VBoxContainer/Animal/LessAnimal" to="." method="_on_less_animal_pressed"]
-[connection signal="pressed" from="VBoxContainer/Animal/MoreAnimal" to="." method="_on_more_animal_pressed"]
-[connection signal="pressed" from="VBoxContainer/Fish/LessFish" to="." method="_on_less_fish_pressed"]
-[connection signal="pressed" from="VBoxContainer/Fish/MoreFish" to="." method="_on_more_fish_pressed"]
-[connection signal="pressed" from="VBoxContainer/Hunt/LessHunt" to="." method="_on_less_hunt_pressed"]
-[connection signal="pressed" from="VBoxContainer/Hunt/MoreHunt" to="." method="_on_more_hunt_pressed"]
+[node name="More5Fish" type="Button" parent="VBoxContainer/FishContainer/Fish" unique_id=754313612]
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "+5"
+
+[node name="Label" type="Label" parent="VBoxContainer/FishContainer" unique_id=1917921820]
+layout_mode = 2
+
+[node name="HuntContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=24657274]
+layout_mode = 2
+
+[node name="Hunt" type="HBoxContainer" parent="VBoxContainer/HuntContainer" unique_id=1445519672]
+layout_mode = 2
+alignment = 1
+
+[node name="HuntLabel" type="Label" parent="VBoxContainer/HuntContainer/Hunt" unique_id=2032971343]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = " Hunting"
+
+[node name="Less5Hunt" type="Button" parent="VBoxContainer/HuntContainer/Hunt" unique_id=1656152087]
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "-5"
+
+[node name="LessHunt" type="Button" parent="VBoxContainer/HuntContainer/Hunt" unique_id=871737666]
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "-1"
+
+[node name="CurrentHunt" type="Label" parent="VBoxContainer/HuntContainer/Hunt" unique_id=1505516565]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "0"
+
+[node name="MoreHunt" type="Button" parent="VBoxContainer/HuntContainer/Hunt" unique_id=675855370]
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "+1"
+
+[node name="More5Hunt" type="Button" parent="VBoxContainer/HuntContainer/Hunt" unique_id=1806445294]
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_lfn7j")
+text = "+5"
+
+[node name="Label" type="Label" parent="VBoxContainer/HuntContainer" unique_id=574855941]
+layout_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/WoodContainer/Wood/Less5Wood" to="." method="_on_less_5_wood_pressed"]
+[connection signal="pressed" from="VBoxContainer/WoodContainer/Wood/LessWood" to="." method="_on_less_wood_pressed"]
+[connection signal="pressed" from="VBoxContainer/WoodContainer/Wood/MoreWood" to="." method="_on_more_wood_pressed"]
+[connection signal="pressed" from="VBoxContainer/WoodContainer/Wood/More5Wood" to="." method="_on_more_5_wood_pressed"]
+[connection signal="pressed" from="VBoxContainer/PlantContainer/Plant/Less5Plant" to="." method="_on_less_5_plant_pressed"]
+[connection signal="pressed" from="VBoxContainer/PlantContainer/Plant/LessPlant" to="." method="_on_less_plant_pressed"]
+[connection signal="pressed" from="VBoxContainer/PlantContainer/Plant/MorePlant" to="." method="_on_more_plant_pressed"]
+[connection signal="pressed" from="VBoxContainer/PlantContainer/Plant/More5Plant" to="." method="_on_more_5_plant_pressed"]
+[connection signal="pressed" from="VBoxContainer/AnimalContainer/Animal/Less5Animal" to="." method="_on_less_5_animal_pressed"]
+[connection signal="pressed" from="VBoxContainer/AnimalContainer/Animal/LessAnimal" to="." method="_on_less_animal_pressed"]
+[connection signal="pressed" from="VBoxContainer/AnimalContainer/Animal/MoreAnimal" to="." method="_on_more_animal_pressed"]
+[connection signal="pressed" from="VBoxContainer/AnimalContainer/Animal/More5Animal" to="." method="_on_more_5_animal_pressed"]
+[connection signal="pressed" from="VBoxContainer/FishContainer/Fish/Less5Fish" to="." method="_on_less_5_fish_pressed"]
+[connection signal="pressed" from="VBoxContainer/FishContainer/Fish/LessFish" to="." method="_on_less_fish_pressed"]
+[connection signal="pressed" from="VBoxContainer/FishContainer/Fish/MoreFish" to="." method="_on_more_fish_pressed"]
+[connection signal="pressed" from="VBoxContainer/FishContainer/Fish/More5Fish" to="." method="_on_more_5_fish_pressed"]
+[connection signal="pressed" from="VBoxContainer/HuntContainer/Hunt/Less5Hunt" to="." method="_on_less_5_hunt_pressed"]
+[connection signal="pressed" from="VBoxContainer/HuntContainer/Hunt/LessHunt" to="." method="_on_less_hunt_pressed"]
+[connection signal="pressed" from="VBoxContainer/HuntContainer/Hunt/MoreHunt" to="." method="_on_more_hunt_pressed"]
+[connection signal="pressed" from="VBoxContainer/HuntContainer/Hunt/More5Hunt" to="." method="_on_more_5_hunt_pressed"]

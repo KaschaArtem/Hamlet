@@ -92,7 +92,6 @@ game = NodePath("../..")
 game = NodePath("../..")
 
 [node name="ObjectInfoUI" parent="UserInterface" unique_id=1749104847 node_paths=PackedStringArray("ground", "camera", "buildings_ui") instance=ExtResource("16_n4bim")]
-visible = false
 ground = NodePath("../../Ground")
 camera = NodePath("../../Pivot")
 buildings_ui = NodePath("../BuildingsUI")
