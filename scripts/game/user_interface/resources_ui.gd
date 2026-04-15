@@ -18,6 +18,7 @@ const RESOURCES_INFO = {
 @export var actual_animal_food: Label
 @export var max_food: Label
 
+@export_group("Info Nodes")
 @export var people_info: Control
 @export var wood_info: Control
 @export var food_info: Control
@@ -26,15 +27,22 @@ const RESOURCES_INFO = {
 @export var wood_info_label: Label
 @export var food_info_label: Label
 
+var active_tweens: Dictionary = {}
+
+func _ready() -> void:
+	game.resources_changed.connect(update_resources)
+	update_resources()
+	setup_info_tabs()
+	
+	for node in [people_info, wood_info, food_info]:
+		node.visible = false
+		node.modulate.a = 0
+		node.pivot_offset = node.size / 2
 
 func setup_info_tabs() -> void:
 	people_info_label.text = RESOURCES_INFO["people"]
 	wood_info_label.text = RESOURCES_INFO["wood"]
 	food_info_label.text = RESOURCES_INFO["food"]
-
-	people_info.visible = false
-	wood_info.visible = false
-	food_info.visible = false
 
 func update_resources() -> void:
 	actual_people.text = str(game.human_resource)
@@ -45,26 +53,36 @@ func update_resources() -> void:
 	actual_animal_food.text = str(game.animal_food_resource)
 	max_food.text = str(game.max_food_resource)
 
-func _ready() -> void:
-	game.resources_changed.connect(update_resources)
-	update_resources()
-	setup_info_tabs()
-
+func fade_node(node: Control, is_showing: bool) -> void:
+	if active_tweens.has(node):
+		active_tweens[node].kill()
+	
+	var tween = create_tween()
+	active_tweens[node] = tween
+	
+	if is_showing:
+		node.visible = true
+		tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tween.tween_property(node, "modulate:a", 1.0, 0.15)
+	else:
+		tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		tween.tween_property(node, "modulate:a", 0.0, 0.1)
+		tween.finished.connect(func(): node.visible = false)
 
 func _on_people_mouse_entered() -> void:
-	people_info.visible = true
+	fade_node(people_info, true)
 
 func _on_people_mouse_exited() -> void:
-	people_info.visible = false
+	fade_node(people_info, false)
 
 func _on_wood_mouse_entered() -> void:
-	wood_info.visible = true
+	fade_node(wood_info, true)
 
 func _on_wood_mouse_exited() -> void:
-	wood_info.visible = false
+	fade_node(wood_info, false)
 
 func _on_food_mouse_entered() -> void:
-	food_info.visible = true
+	fade_node(food_info, true)
 
 func _on_food_mouse_exited() -> void:
-	food_info.visible = false
+	fade_node(food_info, false)

@@ -37,6 +37,7 @@ layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("2_g6uq4")
 theme_override_font_sizes/font_size = 14
+text = "Name"
 horizontal_alignment = 1
 
 [node name="ObjectInfo" type="Label" parent="VBoxContainer" unique_id=1048576330]
@@ -46,5 +47,6 @@ size_flags_vertical = 3
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("2_g6uq4")
 theme_override_font_sizes/font_size = 10
+text = "info"
 horizontal_alignment = 3
 autowrap_mode = 2
