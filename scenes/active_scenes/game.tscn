@@ -44,8 +44,12 @@ environment = SubResource("Environment_5jyxj")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=509755312]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
-shadow_normal_bias = 4.0
-shadow_blur = 0.75
+shadow_bias = 0.01
+shadow_normal_bias = 1.0
+shadow_opacity = 0.95
+shadow_blur = 1.6
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 25.0
 
 [node name="Ground" type="Node3D" parent="." unique_id=1711545239 node_paths=PackedStringArray("game")]
 script = ExtResource("1_r0i7r")
@@ -114,3 +118,6 @@ main = NodePath("../GameMain")
 [node name="BackToMainMenuConfirm" parent="MenuUI" unique_id=529475325 node_paths=PackedStringArray("menu", "main") instance=ExtResource("19_n4bim")]
 menu = NodePath("..")
 main = NodePath("../GameMain")
+
+[node name="House" parent="." unique_id=1078763312 instance=ExtResource("4_5uvhb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9815023, 0, 0)
