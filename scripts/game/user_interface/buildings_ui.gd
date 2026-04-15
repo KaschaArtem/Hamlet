@@ -3,6 +3,11 @@ extends Control
 
 @export var game: Node3D
 
+
+signal building_action_clear
+signal building_action_set
+
+
 @export var house_button: Button
 @export var field_button: Button
 @export var pasture_button: Button
@@ -34,6 +39,7 @@ func handle_building(action_index: int, button: Button) -> void:
 	if GameManager.is_build_allowed == false:
 		return
 	GameManager.building_action = action_index
+	building_action_set.emit()
 	r_to_cancel_label.visible = true
 	if prev_button:
 		prev_button.remove_theme_color_override("font_color")
@@ -44,6 +50,7 @@ func handle_building(action_index: int, button: Button) -> void:
 		prev_button = button
 func clear_building_action() -> void:
 	GameManager.building_action = -999
+	building_action_clear.emit()
 	r_to_cancel_label.visible = false
 	if prev_button:
 		prev_button.remove_theme_color_override("font_color")

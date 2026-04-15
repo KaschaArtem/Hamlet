@@ -3,13 +3,23 @@ extends Node3D
 
 @export var game: Node3D
 
+
 signal builded(building_index: int)
+
+
+const TILE_TYPES = {
+	"res://scenes/game_scenes/objects/field.tscn": "field",
+	"res://scenes/game_scenes/objects/house.tscn": "house",
+	"res://scenes/game_scenes/objects/main_tile.tscn": "main_tile",
+	"res://scenes/game_scenes/objects/pasture.tscn": "pasture",
+	"res://scenes/game_scenes/objects/tile.tscn": "tile",
+	"res://scenes/game_scenes/objects/tree.tscn": "tree",
+	"res://scenes/game_scenes/objects/water.tscn": "water"
+}
 
 const GRID_SIZE = 51
 const TILE_SIZE = 1
 const GRID_CENTER = GRID_SIZE / 2
-
-var noise := FastNoiseLite.new()
 
 @export var main_tile_scene: PackedScene   # index 999
 @export var tile_scene: PackedScene        # index 0
@@ -26,6 +36,8 @@ var noise := FastNoiseLite.new()
 @export_range(-1.0, 1.0) var WOOD_SPAWN: float = 0.15
 @export_range(-1.0, 1.0) var WATER_SPAWN: float = -0.67
 
+var noise := FastNoiseLite.new()
+
 
 var ground_grid = []
 var house_amount = 0
@@ -34,6 +46,14 @@ var pasture_amount = 0
 var wood_amount = 0
 var water_amount = 0
 
+
+func get_tile_type_name(tile: Node) -> String:
+	if tile == null:
+		return "null"
+	var path = tile.scene_file_path
+	if TILE_TYPES.has(path):
+		return TILE_TYPES[path]
+	return "null"
 
 func decrease_tile_amount(building_index) -> void:
 	match building_index:

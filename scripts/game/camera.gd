@@ -4,6 +4,10 @@ extends Node3D
 @export var ground: Node3D
 @export var camera: Camera3D
 
+
+signal selected_tile_changed(new_tile)
+
+
 @export var MOUSE_SENSITIVITY := 0.3
 
 @export_range(1.0, 5.0) var ROTATION_SPEED: float = 1.2
@@ -29,6 +33,10 @@ var target_pitch: float
 var target_yaw: float
 
 @export var SMOOTHNESS := 12.0
+
+
+var current_mouse_position : Vector2
+var current_selected_tile = null
 
 
 func update_camera_position():
@@ -127,7 +135,20 @@ func handle_pitch(delta):
 		tilt_down(delta)
 
 
+func handle_select():
+	var new_selected_tile = get_tile_under_mouse()
+	if current_selected_tile != new_selected_tile:
+		current_selected_tile = new_selected_tile
+		selected_tile_changed.emit(new_selected_tile)
+
+func force_handle_select():
+	var new_selected_tile = get_tile_under_mouse()
+	current_selected_tile = new_selected_tile
+	selected_tile_changed.emit(new_selected_tile)
+
 func _process(delta):
+	handle_select()
+
 	handle_rotation(delta)
 	handle_movement(delta)
 	handle_zoom(delta)
@@ -141,38 +162,44 @@ func _process(delta):
 	update_camera_position()
 
 
-func handle_mouse_selection(event) -> void:
-	var mouse_pos = event.position
+func get_tile_under_mouse():
+	var mouse_pos = current_mouse_position
 	var ray_origin = camera.project_ray_origin(mouse_pos)
 	var ray_dir = camera.project_ray_normal(mouse_pos)
 	var ray_end = ray_origin + ray_dir * 1000
 	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
 	var result = get_world_3d().direct_space_state.intersect_ray(query)
-	if result and GameManager.building_action != -999 and GameManager.is_build_allowed != false:
-		var tile_body = result.collider
-		var tile = tile_body.get_parent()
-		ground.build_grid_tile(tile, GameManager.building_action)
+    
+	if result:
+		return result.collider.get_parent()
+	return null
+
+func handle_mouse_selection() -> void:
+	if GameManager.building_action == -999 or GameManager.is_build_allowed == false:
+		return
+	var result = get_tile_under_mouse()
+	if result:
+		ground.build_grid_tile(result, GameManager.building_action)
 
 func _input(event):
 	if !GameManager.is_input_allowed:
 		return
+	if event is InputEventMouseMotion:
+		current_mouse_position = event.position
+
 	if event is InputEventMouseButton:
-		# --- RIGHT MOUSE DRAG ---
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			is_dragging = event.pressed
 			last_mouse_pos = event.position
 
-		# --- LEFT CLICK SELECTION ---
 		elif event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			handle_mouse_selection(event)
+			handle_mouse_selection()
 
-		# --- MOUSE WHEEL ZOOM ---
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
 			zoom_in(0.2)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
 			zoom_out(0.2)
 
-	# --- MOUSE MOTION DRAG ---
 	elif event is InputEventMouseMotion and is_dragging:
 		var delta = event.position - last_mouse_pos
 		last_mouse_pos = event.position

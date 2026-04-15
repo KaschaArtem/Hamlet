@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cedvrgudrsxyh" path="res://scenes/game_scenes/user_interface/resources_ui.tscn" id="13_g6mbv"]
 [ext_resource type="PackedScene" uid="uid://da2k5a37xrgsc" path="res://scenes/game_scenes/user_interface/people_control_ui.tscn" id="14_0eppp"]
 [ext_resource type="Script" uid="uid://cwvgawu1subej" path="res://scripts/menu/game_menu.gd" id="16_ks4eg"]
+[ext_resource type="PackedScene" uid="uid://lfeyankp8gos" path="res://scenes/game_scenes/user_interface/object_info_ui.tscn" id="16_n4bim"]
 [ext_resource type="PackedScene" uid="uid://c83waugl8ljos" path="res://scenes/menu_scenes/settings.tscn" id="17_cjglu"]
 [ext_resource type="PackedScene" uid="uid://brg34vd042q85" path="res://scenes/menu_scenes/game_main.tscn" id="17_wtb1e"]
 [ext_resource type="PackedScene" uid="uid://b6xioqnm5sgfo" path="res://scenes/menu_scenes/back_to_main_menu_confirm.tscn" id="19_n4bim"]
@@ -90,6 +91,11 @@ game = NodePath("../..")
 [node name="PeopleControlUI" parent="UserInterface" unique_id=521716 node_paths=PackedStringArray("game") instance=ExtResource("14_0eppp")]
 game = NodePath("../..")
 
+[node name="ObjectInfoUI" parent="UserInterface" unique_id=1749104847 node_paths=PackedStringArray("ground", "camera", "buildings_ui") instance=ExtResource("16_n4bim")]
+ground = NodePath("../../Ground")
+camera = NodePath("../../Pivot")
+buildings_ui = NodePath("../BuildingsUI")
+
 [node name="MenuUI" type="CanvasLayer" parent="." unique_id=1374243532 node_paths=PackedStringArray("main", "settings", "back_to_main_menu_confirm")]
 process_mode = 2
 visible = false
@@ -118,6 +124,3 @@ main = NodePath("../GameMain")
 [node name="BackToMainMenuConfirm" parent="MenuUI" unique_id=529475325 node_paths=PackedStringArray("menu", "main") instance=ExtResource("19_n4bim")]
 menu = NodePath("..")
 main = NodePath("../GameMain")
-
-[node name="House" parent="." unique_id=1078763312 instance=ExtResource("4_5uvhb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9815023, 0, 0)
