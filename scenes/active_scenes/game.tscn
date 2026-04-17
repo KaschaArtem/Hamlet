@@ -22,8 +22,11 @@
 [ext_resource type="PackedScene" uid="uid://b6xioqnm5sgfo" path="res://scenes/menu_scenes/back_to_main_menu_confirm.tscn" id="19_n4bim"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ggqa2"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+sky_top_color = Color(0.050760232, 0.07049177, 0.096773066, 1)
+sky_horizon_color = Color(0.06879869, 0.11710454, 0.26603198, 1)
+sky_curve = 0.10606606
+ground_bottom_color = Color(0.050980393, 0.07058824, 0.09803922, 1)
+ground_horizon_color = Color(0.07058824, 0.11764706, 0.26666668, 1)
 
 [sub_resource type="Sky" id="Sky_oh5ud"]
 sky_material = SubResource("ProceduralSkyMaterial_ggqa2")
@@ -33,6 +36,12 @@ background_mode = 2
 sky = SubResource("Sky_oh5ud")
 tonemap_mode = 2
 glow_enabled = true
+fog_enabled = true
+fog_sun_scatter = 1.0
+fog_density = 0.003
+fog_sky_affect = 0.1
+fog_height = 0.05
+fog_height_density = 0.3
 
 [node name="Game" type="Node3D" unique_id=691731226 node_paths=PackedStringArray("ground", "MenuUI")]
 script = ExtResource("1_6djtn")
@@ -42,8 +51,24 @@ MenuUI = NodePath("MenuUI")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=414650152]
 environment = SubResource("Environment_5jyxj")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=509755312]
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=509755312]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(1, 0.9607843, 0.9411765, 1)
+light_specular = 0.5
+shadow_enabled = true
+shadow_bias = 0.01
+shadow_normal_bias = 1.0
+shadow_opacity = 0.95
+shadow_blur = 1.6
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 25.0
+
+[node name="Moon" type="DirectionalLight3D" parent="." unique_id=157708246]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(0.7019608, 0.81960785, 1, 1)
+light_energy = 0.2
+light_indirect_energy = 0.2
+light_specular = 0.2
 shadow_enabled = true
 shadow_bias = 0.01
 shadow_normal_bias = 1.0
@@ -73,9 +98,18 @@ projection = 2
 fov = 60.0
 size = 0.06
 
-[node name="Timer" type="Node3D" parent="." unique_id=1136563278 node_paths=PackedStringArray("game")]
+[node name="Timer" type="Node3D" parent="." unique_id=1136563278 node_paths=PackedStringArray("game", "world_env", "sun_light", "moon_light")]
 script = ExtResource("11_qektj")
 game = NodePath("..")
+world_env = NodePath("../WorldEnvironment")
+sun_light = NodePath("../Sun")
+moon_light = NodePath("../Moon")
+month_time = 12.0
+day_ground_bottom_color = Color(0.42745098, 0.5294118, 0.5803922, 1)
+day_ground_horizon_color = Color(0.72156864, 0.8, 0.81960785, 1)
+sunset_ground_bottom_color = Color(0.558443, 0.28909466, 0.031398866, 1)
+sunset_ground_horizon_color = Color(0.9019608, 0.49411765, 0.13333334, 1)
+night_ground_horizon_color = Color(0.015686275, 0.019607844, 0.03137255, 1)
 
 [node name="UserInterface" type="CanvasLayer" parent="." unique_id=902251080]
 

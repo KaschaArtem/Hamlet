@@ -171,7 +171,7 @@ func get_tile_under_mouse():
 	var result = get_world_3d().direct_space_state.intersect_ray(query)
 	
 	if result:
-		return result.collider.get_parent()
+		return result.collider.owner
 	return null
 
 func handle_mouse_selection() -> void:

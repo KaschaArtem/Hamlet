@@ -2,6 +2,7 @@ shader_type spatial;
 render_mode blend_mix, depth_draw_always, world_vertex_coords;
 
 uniform vec4 water_color : source_color = vec4(0.0, 0.2, 0.6, 1.0);
+uniform float night_fill : hint_range(0.0, 1.0) = 0.0;
 
 uniform sampler2D wave_noise_tex : hint_default_black, repeat_enable; // Добавлено repeat_enable
 uniform float wave_amplitude : hint_range(0.01, 5.0) = 1.0;
@@ -39,17 +40,20 @@ void vertex() {
 }
 
 void fragment() {
-    vec3 lp_normal = normalize(cross(dFdx(VERTEX), dFdy(VERTEX)));
-    NORMAL = lp_normal;
+	vec3 lp_normal = normalize(cross(dFdx(VERTEX), dFdy(VERTEX)));
+	NORMAL = lp_normal;
 
-    vec3 face_id = floor(v_world_pos * 3.0); 
-    float height_factor = clamp(v_world_pos.y * 0.2, -0.1, 0.1);
-    float color_mod = (hash(face_id) - 0.5) * facet_variation + height_factor;
+	vec3 face_id = floor(v_world_pos * 3.0); 
+	float height_factor = clamp(v_world_pos.y * 0.2, -0.1, 0.1);
+	float color_mod = (hash(face_id) - 0.5) * facet_variation + height_factor;
 
-    ALBEDO = water_color.rgb + color_mod;
-    
-    ROUGHNESS = 0.1;
-    METALLIC = 0.05;
-    SPECULAR = 0.5;
-    ALPHA = water_color.a;
+	vec3 final_color = water_color.rgb + color_mod;
+	ALBEDO = final_color;
+	
+	EMISSION = final_color * night_fill * 0.2; 
+
+	ROUGHNESS = 0.1;
+	METALLIC = 0.05;
+	SPECULAR = 0.5;
+	ALPHA = water_color.a;
 }

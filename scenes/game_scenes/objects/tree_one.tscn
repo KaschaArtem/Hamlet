@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://caj0l2nkipk8b" path="res://assets/models/buildings/one_tree_winter.glb" id="2_rjf6t"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dmbon"]
-albedo_color = Color(0, 1, 0, 1)
+albedo_color = Color(0, 0.39215687, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_kupoo"]
 material = SubResource("StandardMaterial3D_dmbon")

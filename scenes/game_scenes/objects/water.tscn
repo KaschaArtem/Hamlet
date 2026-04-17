@@ -13,12 +13,13 @@ seamless = true
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t71f7"]
 render_priority = 0
 shader = ExtResource("1_t71f7")
-shader_parameter/water_color = Color(0, 0.7529412, 1, 1)
+shader_parameter/water_color = Color(6.160736e-06, 0.5138562, 0.6878056, 1)
+shader_parameter/night_fill = 0.010000000475
 shader_parameter/wave_noise_tex = SubResource("NoiseTexture2D_ns2vu")
 shader_parameter/wave_amplitude = 0.10000000405148
 shader_parameter/wave_frequency = 1.0
 shader_parameter/wave_speed = 0.50000002049012
-shader_parameter/facet_variation = 0.10000000475
+shader_parameter/facet_variation = 0.050000002375
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1cm46"]
 material = SubResource("ShaderMaterial_t71f7")

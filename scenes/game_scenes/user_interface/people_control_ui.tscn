@@ -20,7 +20,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y4x8e"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(0, 0, 0, 0)
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 
@@ -66,11 +66,11 @@ layout_mode = 0
 offset_top = 40.0
 offset_right = 40.0
 offset_bottom = 80.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lfn7j")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_js1kg")
 theme_override_styles/hover = SubResource("StyleBoxFlat_w6re6")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_y4x8e")
-theme_override_styles/focus = SubResource("StyleBoxFlat_w6re6")
 
 [node name="Panel" type="Panel" parent="." unique_id=1915417076]
 layout_mode = 0

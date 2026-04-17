@@ -11,6 +11,7 @@ signal player_action_started
 signal player_action_ended
 signal turn_ended
 
+@export_group("Capacity")
 @export var main_tile_human_capacity: int = 10
 @export var main_tile_wood_capacity: int = 100
 @export var main_tile_food_capacity: int = 24
@@ -18,19 +19,23 @@ signal turn_ended
 @export var house_wood_capacity: int = 18
 @export var house_food_capacity: int = 8
 
+@export_group("Cost")
 @export var house_cost: int = 40
 @export var field_cost: int = 24
 @export var pasture_cost: int = 32
 
+@export_group("Base Income")
 @export var base_wood_income: float = 14.0
 @export var base_plant_food_income: float = 3.0
 @export var base_animal_food_income: float = 3.0
 @export var base_fish_food_income: float = 3.0
 @export var base_hunt_food_income: float = 3.0
 
+@export_group("Death Penalty")
 @export var wood_penalty: float = 5.0
 @export var food_penalty: float = 1.0
 
+@export_group("Start Resources")
 @export var start_human_resource = 4
 @export var start_wood_resource = 80
 @export var start_plant_food_resource = 10

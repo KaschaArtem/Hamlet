@@ -55,7 +55,8 @@ func _ready() -> void:
 	
 	game.player_action_started.connect(on_player_action_started)
 	game.player_action_ended.connect(on_player_action_ended)
-	self.visible = false
+	self.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
+	open_close_button.disabled = true
 
 func change_resource(resource_name: String, amount: int) -> void:
 	var prop_name = "people_on_" + resource_name
@@ -109,11 +110,16 @@ func check_all_buttons() -> void:
 
 func on_player_action_started() -> void:
 	update_all_ui()
-	self.visible = true
+	self.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_STOP])
+	open_close_button.disabled = false
 
 func on_player_action_ended() -> void:
-	self.visible = false
-
+	self.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
+	open_close_button.disabled = true
+	if is_open:
+		is_open = !is_open
+		move_panel(initial_pos_x)
+		
 
 func _on_less_5_wood_pressed() -> void: change_resource("wood", -5)
 func _on_less_wood_pressed() -> void: change_resource("wood", -1)

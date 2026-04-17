@@ -1,42 +1,55 @@
 [gd_scene format=3 uid="uid://d1p02ukg7kcfy"]
 
+[ext_resource type="Script" uid="uid://8gd0vxjgextb" path="res://scripts/game/objects/pasture.gd" id="1_25ok1"]
 [ext_resource type="PackedScene" uid="uid://cst8vwhli72gv" path="res://assets/models/buildings/barn.glb" id="1_t13lb"]
 [ext_resource type="PackedScene" uid="uid://b8kgucfp5j1qk" path="res://assets/models/buildings/barn_winter.glb" id="2_25ok1"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_a8q6g"]
+size = Vector3(0.81, 0.8913281, 0.61)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_25ok1"]
+size = Vector3(0.9679413, 0.080566406, 0.46923828)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eshkd"]
-albedo_color = Color(0, 1, 0, 1)
+albedo_color = Color(0, 0.39215687, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2ust3"]
 material = SubResource("StandardMaterial3D_eshkd")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_a8q6g"]
-size = Vector3(0.81, 0.81, 0.61)
+[node name="Pasture" type="Node3D" unique_id=678543669 node_paths=PackedStringArray("object", "default", "winter")]
+script = ExtResource("1_25ok1")
+object = NodePath("Object")
+default = NodePath("Object/BarnDefault")
+winter = NodePath("Object/BarnWinter")
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_t13lb"]
-height = 0.81
-radius = 0.3
+[node name="Object" type="Node3D" parent="." unique_id=2011150026]
 
-[node name="Pasture" type="Node3D" unique_id=678543669]
-
-[node name="BarnDefault" parent="." unique_id=2135587875 instance=ExtResource("1_t13lb")]
+[node name="BarnDefault" parent="Object" unique_id=2135587875 instance=ExtResource("1_t13lb")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 
-[node name="BarnWinter" parent="." unique_id=570289530 instance=ExtResource("2_25ok1")]
+[node name="BarnWinter" parent="Object" unique_id=570289530 instance=ExtResource("2_25ok1")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 visible = false
+
+[node name="StaticBodyPasture" type="StaticBody3D" parent="Object" unique_id=1663396438]
+
+[node name="CollisionShape3DBody" type="CollisionShape3D" parent="Object/StaticBodyPasture" unique_id=315913979]
+shape = SubResource("BoxShape3D_a8q6g")
+
+[node name="CollisionShape3DRoof1" type="CollisionShape3D" parent="Object/StaticBodyPasture" unique_id=2105123797]
+transform = Transform3D(1, 0, 0, 0, 0.913375, -0.40711927, 0, 0.40711927, 0.913375, -0.00037384033, 0.47155952, 0.1961428)
+shape = SubResource("BoxShape3D_25ok1")
+
+[node name="CollisionShape3DRoof2" type="CollisionShape3D" parent="Object/StaticBodyPasture" unique_id=1962314828]
+transform = Transform3D(1, 0, 0, 0, 0.9135454, 0.40673664, 0, -0.40673664, 0.9135454, 0, 0.472, -0.196)
+shape = SubResource("BoxShape3D_25ok1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1387469663]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = SubResource("BoxMesh_2ust3")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=237516426]
+[node name="StaticBodyGround" type="StaticBody3D" parent="." unique_id=237516426]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1136697543]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBodyGround" unique_id=1136697543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.040664047, 0)
 shape = SubResource("BoxShape3D_a8q6g")
-
-[node name="CollisionShape3DBody" type="CollisionShape3D" parent="StaticBody3D" unique_id=315913979]
-shape = SubResource("BoxShape3D_a8q6g")
-
-[node name="CollisionShape3DRoof" type="CollisionShape3D" parent="StaticBody3D" unique_id=1426855178]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0.25, 0)
-shape = SubResource("CylinderShape3D_t13lb")

@@ -14,5 +14,5 @@ func _ready() -> void:
 	var scale_mult = randf_range(0.8, 1.2)
 
 	object.position += Vector3(offset_x, 0, offset_z)
-	object.rotation.y = rotation_y
+	object.rotation_degrees.y = rotation_y
 	object.scale *= scale_mult
