@@ -3,39 +3,38 @@
 [ext_resource type="Script" uid="uid://d02mxhv33pcbi" path="res://scripts/game/user_interface/object_info_ui.gd" id="1_4gh7u"]
 [ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="2_g6uq4"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hvcve"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g6uq4"]
 bg_color = Color(0, 0, 0, 0.49803922)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
 
 [node name="ObjectInfoUI" type="Control" unique_id=1749104847 node_paths=PackedStringArray("panel", "container", "object_name", "object_info")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_4gh7u")
-panel = NodePath("Panel")
-container = NodePath("VBoxContainer")
-object_name = NodePath("VBoxContainer/ObjectName")
-object_info = NodePath("VBoxContainer/ObjectInfo")
+panel = NodePath("")
+container = NodePath("PanelContainer/VBoxContainer")
+object_name = NodePath("PanelContainer/VBoxContainer/ObjectName")
+object_info = NodePath("PanelContainer/VBoxContainer/ObjectInfo")
 
-[node name="Panel" type="Panel" parent="." unique_id=94403966]
-custom_minimum_size = Vector2(180, 16)
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1741459178]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 420.0
-offset_right = 188.0
-offset_bottom = 420.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_hvcve")
+offset_left = 12.0
+offset_top = 440.0
+offset_right = 176.0
+offset_bottom = 480.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_g6uq4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2078187003]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 428.0
-offset_right = 180.0
-offset_bottom = 463.0
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=2078187003]
+layout_mode = 2
 
-[node name="ObjectName" type="Label" parent="VBoxContainer" unique_id=918775803]
+[node name="ObjectName" type="Label" parent="PanelContainer/VBoxContainer" unique_id=918775803]
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("2_g6uq4")
@@ -43,7 +42,7 @@ theme_override_font_sizes/font_size = 14
 text = "Name"
 horizontal_alignment = 1
 
-[node name="ObjectInfo" type="Label" parent="VBoxContainer" unique_id=1048576330]
+[node name="ObjectInfo" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1048576330]
 custom_minimum_size = Vector2(164, 0)
 layout_mode = 2
 size_flags_vertical = 1
@@ -54,4 +53,4 @@ text = "info"
 horizontal_alignment = 3
 autowrap_mode = 2
 
-[connection signal="resized" from="VBoxContainer/ObjectInfo" to="." method="_on_object_info_resized"]
+[connection signal="resized" from="PanelContainer/VBoxContainer/ObjectInfo" to="." method="_on_object_info_resized"]

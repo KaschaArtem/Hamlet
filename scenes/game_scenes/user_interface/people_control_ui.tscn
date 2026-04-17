@@ -2,9 +2,25 @@
 
 [ext_resource type="Script" uid="uid://dsemmthx1ja5w" path="res://scripts/game/user_interface/people_control_ui.gd" id="1_d5b7o"]
 [ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="2_lfn7j"]
+[ext_resource type="Theme" uid="uid://bylmv7yacf4xv" path="res://scenes/themes/people_control_button.tres" id="3_js1kg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lfn7j"]
 bg_color = Color(0, 0, 0, 0.49803922)
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_js1kg"]
+bg_color = Color(0.24840015, 0.24840018, 0.24840015, 0.49803922)
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w6re6"]
+bg_color = Color(0.12225223, 0.12225223, 0.12225223, 0.49803922)
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y4x8e"]
+bg_color = Color(0, 0, 0, 1)
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 
@@ -51,9 +67,10 @@ offset_top = 40.0
 offset_right = 40.0
 offset_bottom = 80.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lfn7j")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_lfn7j")
-theme_override_styles/hover = SubResource("StyleBoxFlat_lfn7j")
-theme_override_styles/focus = SubResource("StyleBoxFlat_lfn7j")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_js1kg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_w6re6")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_y4x8e")
+theme_override_styles/focus = SubResource("StyleBoxFlat_w6re6")
 
 [node name="Panel" type="Panel" parent="." unique_id=1915417076]
 layout_mode = 0
@@ -84,14 +101,20 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = " Logging"
 
 [node name="Less5Wood" type="Button" parent="VBoxContainer/WoodContainer/Wood" unique_id=1891445219]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-5"
 
 [node name="LessWood" type="Button" parent="VBoxContainer/WoodContainer/Wood" unique_id=2077236582]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-1"
 
@@ -101,14 +124,20 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
 
 [node name="MoreWood" type="Button" parent="VBoxContainer/WoodContainer/Wood" unique_id=1527486126]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+1"
 
 [node name="More5Wood" type="Button" parent="VBoxContainer/WoodContainer/Wood" unique_id=1607530176]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+5"
 
@@ -129,14 +158,20 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = " Cultivating"
 
 [node name="Less5Plant" type="Button" parent="VBoxContainer/PlantContainer/Plant" unique_id=618943560]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-5"
 
 [node name="LessPlant" type="Button" parent="VBoxContainer/PlantContainer/Plant" unique_id=1166616987]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-1"
 
@@ -146,14 +181,20 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
 
 [node name="MorePlant" type="Button" parent="VBoxContainer/PlantContainer/Plant" unique_id=514363554]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+1"
 
 [node name="More5Plant" type="Button" parent="VBoxContainer/PlantContainer/Plant" unique_id=138702915]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+5"
 
@@ -174,14 +215,20 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = " Ranching"
 
 [node name="Less5Animal" type="Button" parent="VBoxContainer/AnimalContainer/Animal" unique_id=1347371367]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-5"
 
 [node name="LessAnimal" type="Button" parent="VBoxContainer/AnimalContainer/Animal" unique_id=987098490]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-1"
 
@@ -191,14 +238,20 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
 
 [node name="MoreAnimal" type="Button" parent="VBoxContainer/AnimalContainer/Animal" unique_id=1273428324]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+1"
 
 [node name="More5Animal" type="Button" parent="VBoxContainer/AnimalContainer/Animal" unique_id=1520738776]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+5"
 
@@ -219,14 +272,20 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = " Fishing"
 
 [node name="Less5Fish" type="Button" parent="VBoxContainer/FishContainer/Fish" unique_id=1419551121]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-5"
 
 [node name="LessFish" type="Button" parent="VBoxContainer/FishContainer/Fish" unique_id=1708373847]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-1"
 
@@ -236,14 +295,20 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
 
 [node name="MoreFish" type="Button" parent="VBoxContainer/FishContainer/Fish" unique_id=2000156667]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+1"
 
 [node name="More5Fish" type="Button" parent="VBoxContainer/FishContainer/Fish" unique_id=754313612]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+5"
 
@@ -264,14 +329,20 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = " Hunting"
 
 [node name="Less5Hunt" type="Button" parent="VBoxContainer/HuntContainer/Hunt" unique_id=1656152087]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-5"
 
 [node name="LessHunt" type="Button" parent="VBoxContainer/HuntContainer/Hunt" unique_id=871737666]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-1"
 
@@ -281,14 +352,20 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
 
 [node name="MoreHunt" type="Button" parent="VBoxContainer/HuntContainer/Hunt" unique_id=675855370]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+1"
 
 [node name="More5Hunt" type="Button" parent="VBoxContainer/HuntContainer/Hunt" unique_id=1806445294]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+5"
 
