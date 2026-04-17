@@ -39,19 +39,19 @@ extends Control
 @export var more_hunt: Button
 @export var more_5_hunt: Button
 
-@export_group("Panels")
-@export var panel_main: Panel
-@export var panel_sub: Panel
+@export_group("Control UI")
+@export var panel: Panel
+@export var open_close_button: Button
 
 
+var tween: Tween
 var initial_pos_x: float
-var current_target_x: float
 var target_offset: float = 316.0
+var is_open: bool = false
 
 
 func _ready() -> void:
 	initial_pos_x = self.position.x
-	current_target_x = initial_pos_x
 	
 	game.player_action_started.connect(on_player_action_started)
 	game.player_action_ended.connect(on_player_action_ended)
@@ -107,22 +107,6 @@ func check_all_buttons() -> void:
 	more_5_hunt.disabled = full
 
 
-func _process(delta: float) -> void:
-	if not self.visible:
-		return
-
-	var mouse_pos = get_global_mouse_position()
-	var is_hovering = panel_main.get_global_rect().has_point(mouse_pos) or \
-					  panel_sub.get_global_rect().has_point(mouse_pos)
-
-	if is_hovering:
-		current_target_x = initial_pos_x + target_offset
-	else:
-		current_target_x = initial_pos_x
-
-	self.position.x = lerp(self.position.x, current_target_x, 15.0 * delta)
-
-
 func on_player_action_started() -> void:
 	update_all_ui()
 	self.visible = true
@@ -155,3 +139,19 @@ func _on_less_5_hunt_pressed() -> void: change_resource("hunt", -5)
 func _on_less_hunt_pressed() -> void: change_resource("hunt", -1)
 func _on_more_hunt_pressed() -> void: change_resource("hunt", 1)
 func _on_more_5_hunt_pressed() -> void: change_resource("hunt", 5)
+
+func move_panel(target_x: float) -> void:
+	if tween:
+		tween.kill()
+	
+	tween = create_tween()
+	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "position:x", target_x, 0.3)
+
+func _on_open_close_pressed() -> void:
+	is_open = !is_open
+	
+	if is_open:
+		move_panel(initial_pos_x + target_offset)
+	else:
+		move_panel(initial_pos_x)

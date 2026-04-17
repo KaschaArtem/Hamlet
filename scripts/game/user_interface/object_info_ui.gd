@@ -14,6 +14,9 @@ var TILES_INFO = {
 	"pasture": ["Pasture", "Produce animal food. Works less efficient on winter."]
 }
 
+@export var panel: Panel
+@export var container: VBoxContainer
+
 @export var object_name: Label
 @export var object_info: Label
 
@@ -57,7 +60,7 @@ func show_info(type: String) -> void:
 		
 	object_name.text = TILES_INFO[type][0]
 	object_info.text = TILES_INFO[type][1]
-	
+
 	if not self.visible or self.modulate.a < 0.1:
 		fade_in()
 
@@ -80,3 +83,7 @@ func update_info_on_set() -> void:
 		_: 
 			clear_info()
 			fade_out()
+
+
+func _on_object_info_resized() -> void:
+	panel.size.y = container.size.y + 16.0

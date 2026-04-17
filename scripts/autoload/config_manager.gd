@@ -26,6 +26,12 @@ func calc_valid_resolutions():
 	for res in RESOLUTIONS:
 		if res.x <= screen_size.x and res.y <= screen_size.y:
 			valid_resolutions.append(res)
+
+func set_resolution(new_res: Vector2i):
+	DisplayServer.window_set_size(new_res)
+	get_tree().root.size = new_res
+	center_window()
+
 func center_window():
 	if DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_WINDOWED:
 		return
@@ -40,7 +46,7 @@ func load_config() -> bool:
 	var err = config.load(CONFIG_PATH)
 	if err != OK:
 		return false
-	DisplayServer.window_set_size(config.get_value("display", "resolution", Vector2i(1152, 648)))
+	set_resolution(config.get_value("display", "resolution", Vector2i(1152, 648)))
 	DisplayServer.window_set_mode(config.get_value("display", "mode", DisplayServer.WINDOW_MODE_WINDOWED))
 	center_window()
 	update_main_bus(config.get_value("audio", "main", 10))
@@ -71,15 +77,15 @@ func toggle_display_mode():
 	var mode = DisplayServer.window_get_mode()
 	match mode:
 		DisplayServer.WINDOW_MODE_WINDOWED:
-			DisplayServer.window_set_size(valid_resolutions[-1])
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+			set_resolution(valid_resolutions[-1])
 		DisplayServer.WINDOW_MODE_FULLSCREEN:
-			DisplayServer.window_set_size(valid_resolutions[-1])
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			set_resolution(valid_resolutions[-1])
 			center_window()
 		_:
-			DisplayServer.window_set_size(valid_resolutions[-1])
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			DisplayServer.window_set_size(valid_resolutions[-1])
 			center_window()
 
 func decrease_resolution():

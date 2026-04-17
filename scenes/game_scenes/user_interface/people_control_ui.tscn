@@ -3,19 +3,16 @@
 [ext_resource type="Script" uid="uid://dsemmthx1ja5w" path="res://scripts/game/user_interface/people_control_ui.gd" id="1_d5b7o"]
 [ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="2_lfn7j"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lfn7j"]
+bg_color = Color(0, 0, 0, 0.49803922)
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5b7o"]
 bg_color = Color(0, 0, 0, 0.49803922)
 corner_radius_bottom_right = 24
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lfn7j"]
-bg_color = Color(0, 0, 0, 0.49803922)
-border_width_left = 1
-border_color = Color(0, 0, 0, 0.49019608)
-border_blend = true
-corner_radius_top_right = 24
-corner_radius_bottom_right = 24
-
-[node name="PeopleControlUI" type="Control" unique_id=521716 node_paths=PackedStringArray("less_5_wood", "less_wood", "current_wood", "more_wood", "more_5_wood", "less_5_plant", "less_plant", "current_plant", "more_plant", "more_5_plant", "less_5_animal", "less_animal", "current_animal", "more_animal", "more_5_animal", "less_5_fish", "less_fish", "current_fish", "more_fish", "more_5_fish", "less_5_hunt", "less_hunt", "current_hunt", "more_hunt", "more_5_hunt", "panel_main", "panel_sub")]
+[node name="PeopleControlUI" type="Control" unique_id=521716 node_paths=PackedStringArray("less_5_wood", "less_wood", "current_wood", "more_wood", "more_5_wood", "less_5_plant", "less_plant", "current_plant", "more_plant", "more_5_plant", "less_5_animal", "less_animal", "current_animal", "more_animal", "more_5_animal", "less_5_fish", "less_fish", "current_fish", "more_fish", "more_5_fish", "less_5_hunt", "less_hunt", "current_hunt", "more_hunt", "more_5_hunt", "panel", "open_close_button")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_d5b7o")
@@ -44,30 +41,32 @@ less_hunt = NodePath("VBoxContainer/HuntContainer/Hunt/LessHunt")
 current_hunt = NodePath("VBoxContainer/HuntContainer/Hunt/CurrentHunt")
 more_hunt = NodePath("VBoxContainer/HuntContainer/Hunt/MoreHunt")
 more_5_hunt = NodePath("VBoxContainer/HuntContainer/Hunt/More5Hunt")
-panel_main = NodePath("PanelMain")
-panel_sub = NodePath("PanelSub")
+panel = NodePath("Panel")
+open_close_button = NodePath("Open_Close")
 
-[node name="PanelMain" type="Panel" parent="." unique_id=1915417076]
+[node name="Open_Close" type="Button" parent="." unique_id=506363216]
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 0
-offset_left = -317.0
 offset_top = 40.0
-offset_right = -1.0
+offset_right = 40.0
+offset_bottom = 80.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lfn7j")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lfn7j")
+theme_override_styles/hover = SubResource("StyleBoxFlat_lfn7j")
+theme_override_styles/focus = SubResource("StyleBoxFlat_lfn7j")
+
+[node name="Panel" type="Panel" parent="." unique_id=1915417076]
+layout_mode = 0
+offset_left = -316.0
+offset_top = 40.0
 offset_bottom = 356.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_d5b7o")
 
-[node name="PanelSub" type="Panel" parent="." unique_id=1026614972]
-layout_mode = 0
-offset_left = -1.0
-offset_top = 40.0
-offset_right = 47.0
-offset_bottom = 88.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_lfn7j")
-
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1528243772]
 layout_mode = 0
-offset_left = -313.0
+offset_left = -312.0
 offset_top = 44.0
-offset_right = -7.0
+offset_right = -6.0
 offset_bottom = 350.0
 alignment = 1
 
@@ -296,6 +295,7 @@ text = "+5"
 [node name="Label" type="Label" parent="VBoxContainer/HuntContainer" unique_id=574855941]
 layout_mode = 2
 
+[connection signal="pressed" from="Open_Close" to="." method="_on_open_close_pressed"]
 [connection signal="pressed" from="VBoxContainer/WoodContainer/Wood/Less5Wood" to="." method="_on_less_5_wood_pressed"]
 [connection signal="pressed" from="VBoxContainer/WoodContainer/Wood/LessWood" to="." method="_on_less_wood_pressed"]
 [connection signal="pressed" from="VBoxContainer/WoodContainer/Wood/MoreWood" to="." method="_on_more_wood_pressed"]
