@@ -169,7 +169,7 @@ func get_tile_under_mouse():
 	var ray_end = ray_origin + ray_dir * 1000
 	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
 	var result = get_world_3d().direct_space_state.intersect_ray(query)
-    
+	
 	if result:
 		return result.collider.get_parent()
 	return null

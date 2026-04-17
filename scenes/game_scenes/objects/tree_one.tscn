@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dlure545d2ipp"]
+
+[ext_resource type="PackedScene" uid="uid://b067wcs12kstw" path="res://assets/models/buildings/one_tree.glb" id="1_l73gh"]
+[ext_resource type="Script" uid="uid://cetrdjl2axfdy" path="res://scripts/game/objects/tree_one.gd" id="1_rjf6t"]
+[ext_resource type="PackedScene" uid="uid://caj0l2nkipk8b" path="res://assets/models/buildings/one_tree_winter.glb" id="2_rjf6t"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dmbon"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kupoo"]
+material = SubResource("StandardMaterial3D_dmbon")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dmbon"]
+size = Vector3(1, 0.001, 1)
+
+[node name="TreeOne" type="Node3D" unique_id=1429985191 node_paths=PackedStringArray("object", "default", "winter")]
+script = ExtResource("1_rjf6t")
+object = NodePath("Object")
+default = NodePath("Object/OneTreeDefault")
+winter = NodePath("Object/OneTreeWinter")
+
+[node name="Object" type="Node3D" parent="." unique_id=1065697323]
+
+[node name="OneTreeDefault" parent="Object" unique_id=175852873 instance=ExtResource("1_l73gh")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="OneTreeWinter" parent="Object" unique_id=290537735 instance=ExtResource("2_rjf6t")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=633324391]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_kupoo")
+
+[node name="StaticBodyGround" type="StaticBody3D" parent="." unique_id=555810292]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBodyGround" unique_id=1931180998]
+shape = SubResource("BoxShape3D_dmbon")

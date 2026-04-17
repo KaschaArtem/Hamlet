@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dncobx6fil0al" path="res://scenes/game_scenes/objects/house.tscn" id="4_5uvhb"]
 [ext_resource type="PackedScene" uid="uid://cjxhndyn3jg3" path="res://scenes/game_scenes/objects/main_tile.tscn" id="4_g754w"]
 [ext_resource type="PackedScene" uid="uid://d1p02ukg7kcfy" path="res://scenes/game_scenes/objects/pasture.tscn" id="5_g754w"]
-[ext_resource type="PackedScene" uid="uid://dlure545d2ipp" path="res://scenes/game_scenes/objects/tree.tscn" id="8_inwm1"]
+[ext_resource type="PackedScene" uid="uid://dlure545d2ipp" path="res://scenes/game_scenes/objects/tree_one.tscn" id="8_inwm1"]
 [ext_resource type="PackedScene" uid="uid://bktngcc427rq0" path="res://scenes/game_scenes/objects/water.tscn" id="9_cq3oe"]
 [ext_resource type="Script" uid="uid://m10xkivh4hxe" path="res://scripts/game/timer.gd" id="11_qektj"]
 [ext_resource type="PackedScene" uid="uid://dx75bnqqvdm21" path="res://scenes/game_scenes/user_interface/buildings_ui.tscn" id="12_7f75v"]
@@ -60,7 +60,7 @@ tile_scene = ExtResource("2_amqpi")
 house_scene = ExtResource("4_5uvhb")
 field_scene = ExtResource("3_6djtn")
 pasture_scene = ExtResource("5_g754w")
-tree_scene = ExtResource("8_inwm1")
+tree_one_scene = ExtResource("8_inwm1")
 water_scene = ExtResource("9_cq3oe")
 
 [node name="Pivot" type="Node3D" parent="." unique_id=1567863974 node_paths=PackedStringArray("ground", "camera")]
@@ -91,7 +91,8 @@ game = NodePath("../..")
 [node name="PeopleControlUI" parent="UserInterface" unique_id=521716 node_paths=PackedStringArray("game") instance=ExtResource("14_0eppp")]
 game = NodePath("../..")
 
-[node name="ObjectInfoUI" parent="UserInterface" unique_id=1749104847 node_paths=PackedStringArray("ground", "camera", "buildings_ui") instance=ExtResource("16_n4bim")]
+[node name="ObjectInfoUI" parent="UserInterface" unique_id=1749104847 node_paths=PackedStringArray("game", "ground", "camera", "buildings_ui") instance=ExtResource("16_n4bim")]
+game = NodePath("../..")
 ground = NodePath("../../Ground")
 camera = NodePath("../../Pivot")
 buildings_ui = NodePath("../BuildingsUI")

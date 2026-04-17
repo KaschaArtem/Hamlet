@@ -13,7 +13,7 @@ const TILE_TYPES = {
 	"res://scenes/game_scenes/objects/main_tile.tscn": "main_tile",
 	"res://scenes/game_scenes/objects/pasture.tscn": "pasture",
 	"res://scenes/game_scenes/objects/tile.tscn": "tile",
-	"res://scenes/game_scenes/objects/tree.tscn": "tree",
+	"res://scenes/game_scenes/objects/tree_one.tscn": "tree",
 	"res://scenes/game_scenes/objects/water.tscn": "water"
 }
 
@@ -21,14 +21,16 @@ const GRID_SIZE = 51
 const TILE_SIZE = 1
 const GRID_CENTER = GRID_SIZE / 2
 
+@export_group("Object Scenes")
 @export var main_tile_scene: PackedScene   # index 999
 @export var tile_scene: PackedScene        # index 0
 @export var house_scene: PackedScene       # index 1
 @export var field_scene: PackedScene       # index 2
 @export var pasture_scene: PackedScene     # index 3
-@export var tree_scene: PackedScene        # index -1
+@export var tree_one_scene: PackedScene    # index -1
 @export var water_scene: PackedScene       # index -2
 
+@export_group("Generarion Settings")
 @export_range(0.0, 0.15) var NOISE_FREQUENCY: float = 0.08
 @export_range(0, 5) var NOISE_FRACTAL_OCTAVES: int = 2
 @export_range(0.0, 1.0) var NOISE_FRACTAL_GAIN: float = 0.25
@@ -257,7 +259,7 @@ func add_pasture_tile(x, z):
 	pasture.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	add_child(pasture)
 func add_tree_tile(x, z):
-	var tree = tree_scene.instantiate()
+	var tree = tree_one_scene.instantiate()
 	tree.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	add_child(tree)
 func add_water_tile(x, z):

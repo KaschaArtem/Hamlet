@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbiyfw15uxatc"
-path.s3tc="res://.godot/imported/house_v4_house_color.png-ba2a2b4fdf4e524bcddd61884d319445.s3tc.ctex"
+uid="uid://yr5o2641uh46"
+path.s3tc="res://.godot/imported/three_tree_winter_tree.png-d650da5fcbd8d032c8dffc2dea9c3d72.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "40149716895429aeb55fec4f6652b211"
+"md5": "ace2ae442628735c7151614216fd3304"
 }
 
 [deps]
 
-source_file="res://assets/models/house_v4_house_color.png"
-dest_files=["res://.godot/imported/house_v4_house_color.png-ba2a2b4fdf4e524bcddd61884d319445.s3tc.ctex"]
+source_file="res://assets/models/buildings/three_tree_winter_tree.png"
+dest_files=["res://.godot/imported/three_tree_winter_tree.png-d650da5fcbd8d032c8dffc2dea9c3d72.s3tc.ctex"]
 
 [params]
 

@@ -45,16 +45,13 @@ extends Control
 
 
 var initial_pos_x: float
+var current_target_x: float
 var target_offset: float = 316.0
-var is_mouse_over: bool = false
 
 
 func _ready() -> void:
 	initial_pos_x = self.position.x
-	panel_main.mouse_entered.connect(_on_mouse_entered)
-	panel_main.mouse_exited.connect(_on_mouse_exited)
-	panel_sub.mouse_entered.connect(_on_mouse_entered)
-	panel_sub.mouse_exited.connect(_on_mouse_exited)
+	current_target_x = initial_pos_x
 	
 	game.player_action_started.connect(on_player_action_started)
 	game.player_action_ended.connect(on_player_action_ended)
@@ -110,21 +107,20 @@ func check_all_buttons() -> void:
 	more_5_hunt.disabled = full
 
 
-func _on_mouse_entered() -> void:
-	is_mouse_over = true
-	move_panel(initial_pos_x + target_offset)
+func _process(delta: float) -> void:
+	if not self.visible:
+		return
 
-func _on_mouse_exited() -> void:
-	await get_tree().create_timer(0.05).timeout
-	if not panel_main.get_global_rect().has_point(get_global_mouse_position()) and \
-	   not panel_sub.get_global_rect().has_point(get_global_mouse_position()):
-		is_mouse_over = false
-		move_panel(initial_pos_x)
+	var mouse_pos = get_global_mouse_position()
+	var is_hovering = panel_main.get_global_rect().has_point(mouse_pos) or \
+					  panel_sub.get_global_rect().has_point(mouse_pos)
 
-func move_panel(target_x: float) -> void:
-	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "position:x", target_x, 0.3)
+	if is_hovering:
+		current_target_x = initial_pos_x + target_offset
+	else:
+		current_target_x = initial_pos_x
+
+	self.position.x = lerp(self.position.x, current_target_x, 15.0 * delta)
 
 
 func on_player_action_started() -> void:

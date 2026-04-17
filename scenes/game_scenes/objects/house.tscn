@@ -1,15 +1,7 @@
 [gd_scene format=3 uid="uid://dncobx6fil0al"]
 
-[ext_resource type="PackedScene" uid="uid://ctuot6lwwvx02" path="res://assets/models/house_v4.glb" id="1_k47um"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5hv1e"]
-albedo_color = Color(1, 1, 0, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_mb83u"]
-material = SubResource("StandardMaterial3D_5hv1e")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_mhpnm"]
-size = Vector3(1, 0.001, 1)
+[ext_resource type="PackedScene" uid="uid://celpjn8lr8pul" path="res://assets/models/buildings/house.glb" id="1_k47um"]
+[ext_resource type="PackedScene" uid="uid://duwrh0xw5moc0" path="res://assets/models/buildings/house_winter.glb" id="2_mhpnm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_st5od"]
 size = Vector3(0.6, 0.8, 0.9)
@@ -17,23 +9,38 @@ size = Vector3(0.6, 0.8, 0.9)
 [sub_resource type="BoxShape3D" id="BoxShape3D_k47um"]
 size = Vector3(0.45, 0.45, 0.9)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5hv1e"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mb83u"]
+material = SubResource("StandardMaterial3D_5hv1e")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mhpnm"]
+size = Vector3(1, 0.001, 1)
+
 [node name="House" type="Node3D" unique_id=1078763312]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1797774305]
+[node name="HouseDefault" parent="." unique_id=1670893570 instance=ExtResource("1_k47um")]
+transform = Transform3D(0.26, 0, 0, 0, 0.26, 0, 0, 0, 0.26, 0, 0, -0.13)
+
+[node name="HouseWinter" parent="." unique_id=1802262567 instance=ExtResource("2_mhpnm")]
+transform = Transform3D(0.26, 0, 0, 0, 0.26, 0, 0, 0, 0.26, 0, 0, -0.13)
+visible = false
+
+[node name="StaticBodyHouse" type="StaticBody3D" parent="." unique_id=339230747]
+
+[node name="CollisionShape3DBody" type="CollisionShape3D" parent="StaticBodyHouse" unique_id=1297106531]
+shape = SubResource("BoxShape3D_st5od")
+
+[node name="CollisionShape3DRoof" type="CollisionShape3D" parent="StaticBodyHouse" unique_id=4922139]
+transform = Transform3D(0.70710677, -0.70710677, 0, 0.70710677, 0.70710677, 0, 0, 0, 1, 0, 0.3876059, 0)
+shape = SubResource("BoxShape3D_k47um")
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1797774305]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = SubResource("BoxMesh_mb83u")
 
-[node name="house_v4" parent="." unique_id=381019956 instance=ExtResource("1_k47um")]
-transform = Transform3D(0.26, 0, 0, 0, 0.26, 0, 0, 0, 0.26, 0, -0.001, -0.13)
+[node name="StaticBodyGround" type="StaticBody3D" parent="." unique_id=1288547837]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1288547837]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1886872220]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBodyGround" unique_id=1886872220]
 shape = SubResource("BoxShape3D_mhpnm")
-
-[node name="CollisionShape3DBody" type="CollisionShape3D" parent="StaticBody3D" unique_id=1297106531]
-shape = SubResource("BoxShape3D_st5od")
-
-[node name="CollisionShape3DRoof" type="CollisionShape3D" parent="StaticBody3D" unique_id=4922139]
-transform = Transform3D(0.70710677, -0.70710677, 0, 0.70710677, 0.70710677, 0, 0, 0, 1, 0, 0.3876059, 0)
-shape = SubResource("BoxShape3D_k47um")

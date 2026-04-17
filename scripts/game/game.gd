@@ -22,24 +22,24 @@ signal turn_ended
 @export var field_cost: int = 24
 @export var pasture_cost: int = 32
 
-@export var base_wood_income: int = 14
-@export var base_plant_food_income: int = 3
-@export var base_animal_food_income: int = 3
-@export var base_fish_food_income: int = 3
-@export var base_hunt_food_income: int = 3
+@export var base_wood_income: float = 14.0
+@export var base_plant_food_income: float = 3.0
+@export var base_animal_food_income: float = 3.0
+@export var base_fish_food_income: float = 3.0
+@export var base_hunt_food_income: float = 3.0
 
-@export var wood_penalty: int = 5
-@export var food_penalty: int = 1
+@export var wood_penalty: float = 5.0
+@export var food_penalty: float = 1.0
 
 @export var start_human_resource = 4
 @export var start_wood_resource = 80
 @export var start_plant_food_resource = 10
 @export var start_animal_food_resource = 8
 
-var human_resource = start_human_resource
-var wood_resource = start_wood_resource
-var plant_food_resource = start_plant_food_resource
-var animal_food_resource = start_animal_food_resource
+var human_resource : int = start_human_resource
+var wood_resource : float = start_wood_resource
+var plant_food_resource : float = start_plant_food_resource
+var animal_food_resource : float = start_animal_food_resource
 
 var max_human_resource
 var max_wood_resource
@@ -118,7 +118,7 @@ func calculate_wood_production() -> void:
 	production *= distance_mod
 	production *= wood_season_mod
 
-	wood_resource += int(round(production))
+	wood_resource += round(production * 10) / 10.0
 
 
 func calculate_food_production() -> void:
@@ -129,8 +129,8 @@ func calculate_food_production() -> void:
 	var plant_prod = base_plant_food_income * effective_plant_workers
 	var animal_prod = base_animal_food_income * effective_animal_workers
 
-	plant_food_resource += int(round(plant_prod))
-	animal_food_resource += int(round(animal_prod))
+	plant_food_resource += round(plant_prod * 10) / 10.0
+	animal_food_resource += round(animal_prod * 10) / 10.0
 
 
 func calculate_fish_production() -> void:
@@ -142,7 +142,7 @@ func calculate_fish_production() -> void:
 	
 	var production = base_fish_food_income * people_on_fish * fish_season_mod * distance_mod
 
-	animal_food_resource += int(round(production))
+	animal_food_resource += round(production * 10) / 10.0
 
 
 func calculate_hunt_production() -> void:
@@ -160,7 +160,7 @@ func calculate_hunt_production() -> void:
 	production *= distance_mod
 	production *= hunt_season_mod
 
-	animal_food_resource += int(round(production))
+	animal_food_resource += round(production * 10) / 10.0 
 
 func get_effective_workers(workers: int, capacity: int, k: float = 2.0) -> float:
 	if capacity <= 0:
@@ -173,29 +173,32 @@ func get_effective_workers(workers: int, capacity: int, k: float = 2.0) -> float
 
 func calculate_wood_consumption(multiplier: float) -> void:
 
-	wood_resource -= int(round(human_resource * 0.5 * multiplier))
+	wood_resource -= round(human_resource * 0.5 * multiplier * 10) / 10.0
 
 	if wood_resource < 0:
-		human_resource -= int(round(wood_resource)) / wood_penalty
+		human_resource -= int(round(wood_resource / wood_penalty))
 		wood_resource = 0
 
 
 func calculate_food_consumption() -> void:
-
 	var total_food = plant_food_resource + animal_food_resource
-
-	if (total_food - human_resource) >= 0:
-
-		var plant_food_consumption = int(round(human_resource * float(plant_food_resource) / total_food))
-		var animal_food_consumption = human_resource - plant_food_consumption
-
-		plant_food_resource -= plant_food_consumption
-		animal_food_resource -= animal_food_consumption
-
+    
+	if total_food >= human_resource:
+		if total_food > 0:
+			var ratio = float(plant_food_resource) / total_food
+			var plant_consumed = int(round(human_resource * ratio))
+			var animal_consumed = human_resource - plant_consumed
+            
+			plant_food_resource = max(0, plant_food_resource - plant_consumed)
+			animal_food_resource = max(0, animal_food_resource - animal_consumed)
+    
 	else:
+		var deficit = human_resource - total_food
 
-		human_resource -= int(round((human_resource - total_food))) / food_penalty
-
+		var loss = round((float(deficit) / food_penalty) * 10.0) / 10.0
+        
+		human_resource -= int(loss)
+        
 		plant_food_resource = 0
 		animal_food_resource = 0
 
@@ -213,15 +216,14 @@ func process_spring():
 	calculate_fish_production()
 	calculate_hunt_production()
 
-	calculate_wood_consumption(0.8)
 	calculate_food_consumption()
 
 
 func process_summer():
 
-	plant_season_mod = 1.2
+	plant_season_mod = 1.5
 	animal_season_mod = 1.0
-	fish_season_mod = 1.1
+	fish_season_mod = 1.2
 	hunt_season_mod = 1.0
 	wood_season_mod = 1.0
 
@@ -230,7 +232,6 @@ func process_summer():
 	calculate_fish_production()
 	calculate_hunt_production()
 
-	calculate_wood_consumption(0.0)
 	calculate_food_consumption()
 
 
@@ -247,7 +248,6 @@ func process_autumn():
 	calculate_fish_production()
 	calculate_hunt_production()
 
-	calculate_wood_consumption(1.2)
 	calculate_food_consumption()
 
 
@@ -255,9 +255,9 @@ func process_winter():
 
 	plant_season_mod = 0.0
 	animal_season_mod = 0.8
-	fish_season_mod = 0.7
-	hunt_season_mod = 0.8
-	wood_season_mod = 0.9
+	fish_season_mod = 0.6
+	hunt_season_mod = 0.6
+	wood_season_mod = 0.6
 
 	calculate_wood_production()
 	calculate_food_production()

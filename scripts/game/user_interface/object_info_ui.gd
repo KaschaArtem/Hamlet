@@ -1,13 +1,14 @@
 extends Node
 
 
+@export var game: Node3D
 @export var ground: Node3D
 @export var camera: Node3D
 
 @export var buildings_ui: Control
 
 
-const TILES_INFO = {
+var TILES_INFO = {
 	"house": ["House", "Increase max amount of PEOPLE, WOOD, FOOD. Increase resource income, when stands near resource tile."],
 	"field": ["Field", "Produce plant food. Doesn't work on winter."],
 	"pasture": ["Pasture", "Produce animal food. Works less efficient on winter."]
