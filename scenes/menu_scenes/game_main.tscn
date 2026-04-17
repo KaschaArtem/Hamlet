@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://brg34vd042q85"]
 
-[ext_resource type="FontFile" uid="uid://cobs47avupod7" path="res://assets/fonts/Alegreya-VariableFont_wght.ttf" id="1_ac1fq"]
 [ext_resource type="Script" uid="uid://cdcv8j661vhiy" path="res://scripts/menu/game_main.gd" id="1_i1thi"]
+[ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="2_i1thi"]
 
 [node name="GameMain" type="Control" unique_id=189440781 node_paths=PackedStringArray("continue_button", "settings_button", "back_to_main_menu_button")]
 layout_mode = 3
@@ -32,20 +32,20 @@ grow_vertical = 2
 [node name="ContinueButton" type="Button" parent="Main" unique_id=1779159906]
 layout_mode = 2
 focus_neighbor_bottom = NodePath("../SettingsButton")
-theme_override_fonts/font = ExtResource("1_ac1fq")
+theme_override_fonts/font = ExtResource("2_i1thi")
 action_mode = 0
 text = "Continue"
 
 [node name="SettingsButton" type="Button" parent="Main" unique_id=1295143981]
 layout_mode = 2
 focus_neighbor_top = NodePath("../ContinueButton")
-theme_override_fonts/font = ExtResource("1_ac1fq")
+theme_override_fonts/font = ExtResource("2_i1thi")
 action_mode = 0
 text = "Settings"
 
 [node name="BackToMainMenuButton" type="Button" parent="Main" unique_id=128601153]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_ac1fq")
+theme_override_fonts/font = ExtResource("2_i1thi")
 text = "Back To Main Menu"
 
 [connection signal="pressed" from="Main/ContinueButton" to="." method="_on_continue_button_pressed"]

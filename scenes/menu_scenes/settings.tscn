@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c83waugl8ljos"]
 
 [ext_resource type="Script" uid="uid://fc4dan5ybyso" path="res://scripts/menu/settings.gd" id="1_bbxhd"]
-[ext_resource type="FontFile" uid="uid://cobs47avupod7" path="res://assets/fonts/Alegreya-VariableFont_wght.ttf" id="2_0urak"]
+[ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="2_fl6pt"]
 
 [node name="Settings" type="Control" unique_id=265393910 node_paths=PackedStringArray("display_mode_button", "display_mode_label", "display_resolution_button", "dislpay_resolution_label", "main_value", "main_slider", "music_value", "music_slider", "effects_value", "effects_slider")]
 layout_mode = 3
@@ -41,7 +41,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/Display" unique_id=1523458339]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 text = "Display"
 horizontal_alignment = 1
 
@@ -57,12 +57,12 @@ offset_bottom = 23.0
 [node name="Label" type="Label" parent="VBoxContainer/Display/DisplayMode/HBoxContainer" unique_id=1135078768]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 text = "Display Mode"
 
 [node name="DisplayModeLabel" type="Label" parent="VBoxContainer/Display/DisplayMode/HBoxContainer" unique_id=474639675]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 text = "Unknown"
 
 [node name="DisplayResolution" type="Button" parent="VBoxContainer/Display" unique_id=1701539921]
@@ -77,12 +77,12 @@ offset_bottom = 23.0
 [node name="Label" type="Label" parent="VBoxContainer/Display/DisplayResolution/HBoxContainer" unique_id=2017917727]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 text = "Display Resolution"
 
 [node name="DisplayModeLabel" type="Label" parent="VBoxContainer/Display/DisplayResolution/HBoxContainer" unique_id=1601707703]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 text = "Unknown"
 
 [node name="Audio" type="VBoxContainer" parent="VBoxContainer" unique_id=300994361]
@@ -90,7 +90,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/Audio" unique_id=342761630]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 text = "Audio"
 horizontal_alignment = 1
 
@@ -100,12 +100,12 @@ layout_mode = 2
 [node name="Label" type="Label" parent="VBoxContainer/Audio/Main" unique_id=418452253]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 text = "Main"
 
 [node name="MainValue" type="Label" parent="VBoxContainer/Audio/Main" unique_id=1960428339]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 text = "0"
 
 [node name="MainSlider" type="HSlider" parent="VBoxContainer/Audio/Main" unique_id=611249890]
@@ -120,12 +120,12 @@ layout_mode = 2
 [node name="Label" type="Label" parent="VBoxContainer/Audio/Music" unique_id=1728645575]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 text = "Music"
 
 [node name="MusicValue" type="Label" parent="VBoxContainer/Audio/Music" unique_id=1259083454]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 text = "0"
 
 [node name="MusicSlider" type="HSlider" parent="VBoxContainer/Audio/Music" unique_id=889410999]
@@ -140,12 +140,12 @@ layout_mode = 2
 [node name="Label" type="Label" parent="VBoxContainer/Audio/Effects" unique_id=906901988]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 text = "Effects"
 
 [node name="EffectsValue" type="Label" parent="VBoxContainer/Audio/Effects" unique_id=950342328]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 text = "0"
 
 [node name="EffectsSlider" type="HSlider" parent="VBoxContainer/Audio/Effects" unique_id=1616920418]
@@ -158,7 +158,7 @@ max_value = 10.0
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_fonts/font = ExtResource("2_0urak")
+theme_override_fonts/font = ExtResource("2_fl6pt")
 action_mode = 0
 text = "Back"
 

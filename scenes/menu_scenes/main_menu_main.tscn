@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ckbyorsu0r5b8"]
 
 [ext_resource type="Script" uid="uid://bllqekj2xx2x4" path="res://scripts/menu/main_menu_main.gd" id="1_b7wje"]
-[ext_resource type="FontFile" uid="uid://cobs47avupod7" path="res://assets/fonts/Alegreya-VariableFont_wght.ttf" id="2_e3ucf"]
+[ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="2_4hw17"]
 
 [node name="MainMenuMain" type="Control" unique_id=605065153 node_paths=PackedStringArray("new_game_button", "continue_button", "settings_button", "exit_game_button")]
 layout_mode = 3
@@ -33,7 +33,7 @@ grow_vertical = 2
 [node name="NewGameButton" type="Button" parent="Main" unique_id=1559205205]
 layout_mode = 2
 focus_neighbor_bottom = NodePath("../ContinueButton")
-theme_override_fonts/font = ExtResource("2_e3ucf")
+theme_override_fonts/font = ExtResource("2_4hw17")
 action_mode = 0
 text = "New Game"
 
@@ -41,7 +41,7 @@ text = "New Game"
 layout_mode = 2
 focus_neighbor_top = NodePath("../NewGameButton")
 focus_neighbor_bottom = NodePath("../SettingsButton")
-theme_override_fonts/font = ExtResource("2_e3ucf")
+theme_override_fonts/font = ExtResource("2_4hw17")
 disabled = true
 action_mode = 0
 text = "Continue"
@@ -50,14 +50,14 @@ text = "Continue"
 layout_mode = 2
 focus_neighbor_top = NodePath("../ContinueButton")
 focus_neighbor_bottom = NodePath("../ExitGameButton")
-theme_override_fonts/font = ExtResource("2_e3ucf")
+theme_override_fonts/font = ExtResource("2_4hw17")
 action_mode = 0
 text = "Settings"
 
 [node name="ExitGameButton" type="Button" parent="Main" unique_id=1118754811]
 layout_mode = 2
 focus_neighbor_top = NodePath("../SettingsButton")
-theme_override_fonts/font = ExtResource("2_e3ucf")
+theme_override_fonts/font = ExtResource("2_4hw17")
 action_mode = 0
 text = "Exit Game"
 
