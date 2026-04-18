@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://dvku0kkeky5io" path="res://scripts/game/ground.gd" id="1_r0i7r"]
 [ext_resource type="PackedScene" uid="uid://ci0nlieych60m" path="res://scenes/game_scenes/objects/tile.tscn" id="2_amqpi"]
 [ext_resource type="PackedScene" uid="uid://w5ckrpu1yclv" path="res://scenes/game_scenes/objects/field.tscn" id="3_6djtn"]
+[ext_resource type="Texture2D" uid="uid://cy378356dv36m" path="res://assets/icons/game_ui/fishing-hook.png" id="3_hih2d"]
 [ext_resource type="PackedScene" uid="uid://dncobx6fil0al" path="res://scenes/game_scenes/objects/house.tscn" id="4_5uvhb"]
 [ext_resource type="PackedScene" uid="uid://cjxhndyn3jg3" path="res://scenes/game_scenes/objects/main_tile.tscn" id="4_g754w"]
 [ext_resource type="PackedScene" uid="uid://d1p02ukg7kcfy" path="res://scenes/game_scenes/objects/pasture.tscn" id="5_g754w"]
@@ -81,6 +82,7 @@ directional_shadow_max_distance = 20.0
 [node name="Ground" type="Node3D" parent="." unique_id=1711545239 node_paths=PackedStringArray("game")]
 script = ExtResource("1_r0i7r")
 game = NodePath("..")
+fish_icon_texture = ExtResource("3_hih2d")
 main_tile_scene = ExtResource("4_g754w")
 tile_scene = ExtResource("2_amqpi")
 house_scene = ExtResource("4_5uvhb")
@@ -105,7 +107,7 @@ game = NodePath("..")
 world_env = NodePath("../WorldEnvironment")
 sun_light = NodePath("../Sun")
 moon_light = NodePath("../Moon")
-month_time = 12.0
+month_time = 2.0
 day_ground_bottom_color = Color(0.42745098, 0.5294118, 0.5803922, 1)
 day_ground_horizon_color = Color(0.72156864, 0.8, 0.81960785, 1)
 sunset_ground_bottom_color = Color(0.558443, 0.28909466, 0.031398866, 1)

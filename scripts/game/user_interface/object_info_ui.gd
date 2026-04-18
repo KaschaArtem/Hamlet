@@ -11,7 +11,8 @@ var TILES_INFO = {
 	"house": ["House", "Increase max amount of PEOPLE, WOOD, FOOD. Increase resource income, when stands near resource tile."],
 	"field": ["Field", "Produce plant food. Doesn't work on winter."],
 	"pasture": ["Pasture", "Produce animal food. Works less efficient on winter."],
-	"tree": ["Tree", "Cut to get WOOD. Press F on this tile to choose this tree for cutting during next month."]
+	"tree": ["Tree", "Cut to get WOOD. Press F on this tile to choose this tree for cutting during next month. Tree tile will desappeared after this."],
+	"water": ["Water", "Used for fishing. Press F on water cluster to choose it for fishing during next month. This will take some fish from this water cluster."]
 }
 
 @export var panel: Panel

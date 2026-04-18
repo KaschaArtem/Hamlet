@@ -25,10 +25,10 @@ signal turn_ended
 @export var pasture_cost: int = 32
 
 @export_group("Base Income")
-@export var base_wood_income: float = 14.0
+@export var base_wood_income: float = 15.0
 @export var base_plant_food_income: float = 3.0
 @export var base_animal_food_income: float = 3.0
-@export var base_fish_food_income: float = 3.0
+@export var base_fish_food_income: float = 1.0
 @export var base_hunt_food_income: float = 3.0
 
 @export_group("Death Penalty")
@@ -115,14 +115,12 @@ func calculate_wood_production() -> void:
 		return
 	ground.remove_to_cut_tree()
 
-	var production = base_wood_income * people_on_wood
-	production *= wood_season_mod
+	var production = base_wood_income * people_on_wood * wood_season_mod
 
 	wood_resource += round(production * 10) / 10.0
 
 
 func calculate_food_production() -> void:
-
 	var effective_plant_workers = get_effective_workers(people_on_plant, ground.field_amount)
 	var effective_animal_workers = get_effective_workers(people_on_animal, ground.pasture_amount)
 
@@ -134,13 +132,13 @@ func calculate_food_production() -> void:
 
 
 func calculate_fish_production() -> void:
-
 	if people_on_fish <= 0:
 		return
-	var water_dist = ground.get_nearest_water_distance()
-	var distance_mod = clamp(1 - (water_dist - 1) * 0.125, 0.5, 1)
+	if ground.current_water_cluster == null:
+		return
 	
-	var production = base_fish_food_income * people_on_fish * fish_season_mod * distance_mod
+	var production = ground.count_fish_decreasement(base_fish_food_income * people_on_fish * fish_season_mod)
+	print(production)
 
 	animal_food_resource += round(production * 10) / 10.0
 
@@ -182,23 +180,23 @@ func calculate_wood_consumption(multiplier: float) -> void:
 
 func calculate_food_consumption() -> void:
 	var total_food = plant_food_resource + animal_food_resource
-    
+	
 	if total_food >= human_resource:
 		if total_food > 0:
 			var ratio = float(plant_food_resource) / total_food
 			var plant_consumed = int(round(human_resource * ratio))
 			var animal_consumed = human_resource - plant_consumed
-            
+			
 			plant_food_resource = max(0, plant_food_resource - plant_consumed)
 			animal_food_resource = max(0, animal_food_resource - animal_consumed)
-    
+	
 	else:
 		var deficit = human_resource - total_food
 
 		var loss = round((float(deficit) / food_penalty) * 10.0) / 10.0
-        
+		
 		human_resource -= int(loss)
-        
+		
 		plant_food_resource = 0
 		animal_food_resource = 0
 

@@ -21,6 +21,8 @@ const GRID_SIZE = 51
 const TILE_SIZE = 1
 const GRID_CENTER = GRID_SIZE / 2
 
+@export var fish_icon_texture: Texture2D
+
 @export_group("Object Scenes")
 @export var main_tile_scene: PackedScene   # index 999
 @export var tile_scene: PackedScene        # index 0
@@ -41,14 +43,18 @@ const GRID_CENTER = GRID_SIZE / 2
 var noise := FastNoiseLite.new()
 
 
-var ground_grid = []
 var house_amount = 0
 var field_amount = 0
 var pasture_amount = 0
 var wood_amount = 0
 var water_amount = 0
 
+var ground_grid = []
+var water_clusters = []
+var water_map = []
+
 var current_to_cut_tree = null
+var current_water_cluster = null
 
 
 func get_tile_type_name(tile: Node) -> String:
@@ -154,8 +160,19 @@ func remove_to_cut_tree() -> void:
 	remove_tile_at(int(pos.x), int(pos.z), -1)
 	current_to_cut_tree = null
 
-func get_nearest_water_distance() -> int:
-	return get_nearest_tile_distance(-2)
+func count_fish_decreasement(possible_income: float) -> float:
+	var actual_income: float = 0.0
+	var current_fish = current_water_cluster.current_fish
+	
+	if current_fish >= possible_income:
+		actual_income = possible_income
+	else:
+		actual_income = current_fish
+	
+	current_water_cluster.current_fish -= actual_income
+	print("left ", current_water_cluster.current_fish)
+	return actual_income
+	
 
 func get_city_bounds():
 	var top = GRID_SIZE
@@ -287,9 +304,103 @@ func generate_grid():
 					add_water_tile(x, z)
 					increase_tile_amount(-2)
 
+
+func flood_fill_water(start_x: int, start_z: int, visited: Array, cluster_idx: int) -> Array:
+	var cluster_cells = []
+	var queue = [Vector2i(start_x, start_z)]
+	visited[start_z][start_x] = true
+	
+	var directions = [
+		Vector2i(1, 0), Vector2i(-1, 0), 
+		Vector2i(0, 1), Vector2i(0, -1)
+	]
+	
+	while queue.size() > 0:
+		var curr = queue.pop_front()
+		cluster_cells.append(curr)
+		
+		water_map[curr.y][curr.x] = cluster_idx
+		
+		for dir in directions:
+			var nx = curr.x + dir.x
+			var nz = curr.y + dir.y
+			
+			if nx >= 0 and nx < GRID_SIZE and nz >= 0 and nz < GRID_SIZE:
+				if not visited[nz][nx] and ground_grid[nz][nx]["type"] == -2:
+					visited[nz][nx] = true
+					queue.append(Vector2i(nx, nz))
+	return cluster_cells
+
+func create_cluster_icon(pos: Vector3) -> Sprite3D:
+	var sprite = Sprite3D.new()
+	sprite.texture = fish_icon_texture
+	
+	sprite.visible = false
+	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	sprite.modulate = Color(0.75, 0.75, 0.75, 0.75)
+
+	sprite.position = Vector3(pos.x, 2.0, pos.z)
+	sprite.scale = Vector3(0.6, 0.6, 0.6)
+	
+	add_child(sprite)
+	return sprite
+
+func identify_water_clusters():
+	water_map = []
+	var visited = []
+	for z in range(GRID_SIZE):
+		water_map.append([])
+		visited.append([])
+		for x in range(GRID_SIZE):
+			water_map[z].append(-1)
+			visited[z].append(false)
+			
+	for z in range(GRID_SIZE):
+		for x in range(GRID_SIZE):
+			if ground_grid[z][x]["type"] == -2 and not visited[z][x]:
+				var cluster_index = water_clusters.size()
+				var cells = flood_fill_water(x, z, visited, cluster_index)
+				
+				var sum_x = 0.0
+				var sum_z = 0.0
+				for cell in cells:
+					sum_x += cell.x
+					sum_z += cell.y
+				
+				var avg_x = sum_x / cells.size()
+				var avg_z = sum_z / cells.size()
+				var offset = TILE_SIZE / 2.0
+				var world_center = Vector3((avg_x * TILE_SIZE) + offset, 0, (avg_z * TILE_SIZE) + offset)
+				
+				var max_f = cells.size()
+				var cluster_data = {
+					"cells": cells,
+					"center_world_pos": world_center,
+					"max_fish": max_f,
+					"current_fish": max_f * 0.6,
+					"icon_node": null
+				}
+				
+				cluster_data["icon_node"] = create_cluster_icon(world_center)
+				
+				water_clusters.append(cluster_data)
+
+
 func _ready() -> void:
+	game.player_action_started.connect(on_player_action_started)
 	init_ground_grid()
+	identify_water_clusters()
 	generate_grid()
+
+
+func on_player_action_started() -> void:
+	for cluster in water_clusters:
+		if cluster.current_fish < 0.5:
+			cluster.current_fish = 0.5
+		var growth = cluster.current_fish * 0.1
+		cluster.current_fish += growth
+		cluster.current_fish = min(cluster.current_fish, cluster.max_fish)
+
 
 func can_build_empty_tile(x, z) -> bool:
 	var original_positive = 0
@@ -405,8 +516,18 @@ func build_grid_tile(tile_object, building_index) -> void:
 			build_pasture_tile(tile_object, x, z)
 	builded.emit(building_index)
 
+
 func select_to_cut_tree(to_cut_tree) -> void:
 	if current_to_cut_tree != null:
 		current_to_cut_tree.hide_axe_icon()
 	current_to_cut_tree = to_cut_tree
 	current_to_cut_tree.show_axe_icon()
+
+func select_water_cluster(water_tile: Node3D) -> void:
+	var x = int(round(water_tile.position.x / TILE_SIZE))
+	var z = int(round(water_tile.position.z / TILE_SIZE))
+	var cluster_idx = water_map[z][x]
+	if current_water_cluster != null:
+		current_water_cluster.icon_node.visible = false
+	current_water_cluster = water_clusters[cluster_idx]
+	current_water_cluster.icon_node.visible = true
