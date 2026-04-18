@@ -2,7 +2,16 @@
 
 [ext_resource type="PackedScene" uid="uid://b067wcs12kstw" path="res://assets/models/buildings/one_tree.glb" id="1_l73gh"]
 [ext_resource type="Script" uid="uid://cetrdjl2axfdy" path="res://scripts/game/objects/tree_one.gd" id="1_rjf6t"]
+[ext_resource type="Texture2D" uid="uid://dgsmnn3w43it5" path="res://assets/icons/game_ui/axe-tool.png" id="2_gsm3n"]
 [ext_resource type="PackedScene" uid="uid://caj0l2nkipk8b" path="res://assets/models/buildings/one_tree_winter.glb" id="2_rjf6t"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_rjf6t"]
+height = 0.5097046
+radius = 0.40185547
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gsm3n"]
+height = 0.5673828
+radius = 0.29638672
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dmbon"]
 albedo_color = Color(0, 0.39215687, 0, 1)
@@ -13,13 +22,21 @@ material = SubResource("StandardMaterial3D_dmbon")
 [sub_resource type="BoxShape3D" id="BoxShape3D_dmbon"]
 size = Vector3(1, 0.001, 1)
 
-[node name="TreeOne" type="Node3D" unique_id=1429985191 node_paths=PackedStringArray("object", "default", "winter")]
+[node name="TreeOne" type="Node3D" unique_id=1429985191 node_paths=PackedStringArray("object", "axe_icon", "default", "winter")]
 script = ExtResource("1_rjf6t")
 object = NodePath("Object")
+axe_icon = NodePath("Object/AxeIcon")
 default = NodePath("Object/OneTreeDefault")
 winter = NodePath("Object/OneTreeWinter")
 
 [node name="Object" type="Node3D" parent="." unique_id=1065697323]
+
+[node name="AxeIcon" type="Sprite3D" parent="Object" unique_id=2092617675]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 1.5377984, 0)
+visible = false
+modulate = Color(0.6392157, 0.6392157, 0.6392157, 0.73333335)
+billboard = 1
+texture = ExtResource("2_gsm3n")
 
 [node name="OneTreeDefault" parent="Object" unique_id=175852873 instance=ExtResource("1_l73gh")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -27,6 +44,16 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 [node name="OneTreeWinter" parent="Object" unique_id=290537735 instance=ExtResource("2_rjf6t")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 visible = false
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Object" unique_id=2146846556]
+
+[node name="CollisionShape3DBody1" type="CollisionShape3D" parent="Object/StaticBody3D" unique_id=1010525311]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2548523, 0)
+shape = SubResource("CylinderShape3D_rjf6t")
+
+[node name="CollisionShape3DBody2" type="CollisionShape3D" parent="Object/StaticBody3D" unique_id=549059661]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.77355874, 0)
+shape = SubResource("CylinderShape3D_gsm3n")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=633324391]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)

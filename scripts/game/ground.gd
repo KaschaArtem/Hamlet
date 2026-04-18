@@ -48,6 +48,8 @@ var pasture_amount = 0
 var wood_amount = 0
 var water_amount = 0
 
+var current_to_cut_tree = null
+
 
 func get_tile_type_name(tile: Node) -> String:
 	if tile == null:
@@ -69,6 +71,7 @@ func decrease_tile_amount(building_index) -> void:
 			wood_amount -= 1
 		-2:
 			water_amount -= 1
+
 func increase_tile_amount(building_index) -> void:
 	match building_index:
 		1:
@@ -82,12 +85,7 @@ func increase_tile_amount(building_index) -> void:
 		-2:
 			water_amount += 1
 
-func get_rapid_index(x: int, z: int) -> int:
-	if x >= 0 and x < GRID_SIZE and z >= 0 and z < GRID_SIZE:
-		return ground_grid[z][x]["rapid_index"]
-	return -1
-
-func get_nearest_tile_distance(target_type: int, remove_tile: bool = false) -> int:
+func get_nearest_tile_distance(target_type: int) -> int:
 
 	var visited = []
 	for z in range(GRID_SIZE):
@@ -118,10 +116,6 @@ func get_nearest_tile_distance(target_type: int, remove_tile: bool = false) -> i
 		var dist = current.dist
 
 		if ground_grid[z][x]["type"] == target_type:
-
-			if remove_tile:
-				remove_tile_at(x, z, target_type)
-
 			return dist
 
 		for dir in directions:
@@ -143,7 +137,6 @@ func get_nearest_tile_distance(target_type: int, remove_tile: bool = false) -> i
 func remove_tile_at(x: int, z: int, tile_type: int) -> void:
 
 	ground_grid[z][x]["type"] = 0
-	ground_grid[z][x]["rapid_index"] = randi() % 4
 	decrease_tile_amount(tile_type)
 
 	var world_pos = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
@@ -156,11 +149,13 @@ func remove_tile_at(x: int, z: int, tile_type: int) -> void:
 	add_empty_tile(x, z)
 
 
-func get_nearest_forest_distance(remove_tree: bool) -> int:
-	return get_nearest_tile_distance(-1, remove_tree)
+func remove_to_cut_tree() -> void:
+	var pos = current_to_cut_tree.global_position
+	remove_tile_at(int(pos.x), int(pos.z), -1)
+	current_to_cut_tree = null
 
 func get_nearest_water_distance() -> int:
-	return get_nearest_tile_distance(-2, false)
+	return get_nearest_tile_distance(-2)
 
 func get_city_bounds():
 	var top = GRID_SIZE
@@ -182,6 +177,7 @@ func setup_noise():
 	noise.frequency = NOISE_FREQUENCY
 	noise.fractal_octaves = NOISE_FRACTAL_OCTAVES
 	noise.fractal_gain = NOISE_FRACTAL_GAIN
+
 func clean_water():
 	var new_grid = ground_grid.duplicate(true)
 	for z in range(GRID_SIZE):
@@ -224,9 +220,8 @@ func init_ground_grid():
 					value = -1
 				else:
 					value = 0
-			# Создаем словарь для каждого тайла с типом и случайным индексом
-			ground_grid[z].append({"type": value, "rapid_index": randi() % 4})
-	ground_grid[GRID_CENTER][GRID_CENTER] = {"type": 999, "rapid_index": randi() % 4}
+			ground_grid[z].append({"type": value})
+	ground_grid[GRID_CENTER][GRID_CENTER] = {"type": 999}
 	clean_water()
 
 func apply_chess_color(tile, x, z):
@@ -360,28 +355,24 @@ func build_empty_tile(tile_object, x, z):
 	add_empty_tile(x, z)
 	decrease_tile_amount(ground_grid[z][x]["type"])
 	ground_grid[z][x]["type"] = 0
-	ground_grid[z][x]["rapid_index"] = randi() % 4
 func build_house_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_house_tile(x, z)
 	increase_tile_amount(1)
 	ground_grid[z][x]["type"] = 1
-	ground_grid[z][x]["rapid_index"] = randi() % 4
 func build_field_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_field_tile(x, z)
 	increase_tile_amount(2)
 	ground_grid[z][x]["type"] = 2
-	ground_grid[z][x]["rapid_index"] = randi() % 4
 func build_pasture_tile(tile_object, x, z):
 	tile_object.queue_free()
 	add_pasture_tile(x, z)
 	increase_tile_amount(3)
 	ground_grid[z][x]["type"] = 3
-	ground_grid[z][x]["rapid_index"] = randi() % 4
 
 
-func build_grid_tile(tile_object, building_index):
+func build_grid_tile(tile_object, building_index) -> void:
 	var x = int(tile_object.position.x / TILE_SIZE)
 	var z = int(tile_object.position.z / TILE_SIZE)
 	if ground_grid[z][x]["type"] == 999 or \
@@ -413,3 +404,9 @@ func build_grid_tile(tile_object, building_index):
 				return
 			build_pasture_tile(tile_object, x, z)
 	builded.emit(building_index)
+
+func select_to_cut_tree(to_cut_tree) -> void:
+	if current_to_cut_tree != null:
+		current_to_cut_tree.hide_axe_icon()
+	current_to_cut_tree = to_cut_tree
+	current_to_cut_tree.show_axe_icon()

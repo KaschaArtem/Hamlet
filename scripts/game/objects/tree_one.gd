@@ -3,6 +3,7 @@ extends Node3D
 
 @export var object: Node3D
 
+@export var axe_icon: Sprite3D
 @export var default: Node3D
 @export var winter: Node3D
 
@@ -16,3 +17,9 @@ func _ready() -> void:
 	object.position += Vector3(offset_x, 0, offset_z)
 	object.rotation_degrees.y = rotation_y
 	object.scale *= scale_mult
+
+func show_axe_icon() -> void:
+	axe_icon.visible = true
+
+func hide_axe_icon() -> void:
+	axe_icon.visible = false

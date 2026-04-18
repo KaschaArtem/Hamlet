@@ -13,7 +13,7 @@ seamless = true
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t71f7"]
 render_priority = 0
 shader = ExtResource("1_t71f7")
-shader_parameter/water_color = Color(6.160736e-06, 0.5138562, 0.6878056, 1)
+shader_parameter/water_color = Color(0, 0.43888584, 0.5887289, 1)
 shader_parameter/night_fill = 0.10000000475
 shader_parameter/wave_noise_tex = SubResource("NoiseTexture2D_ns2vu")
 shader_parameter/wave_amplitude = 0.10000000405148
@@ -28,7 +28,7 @@ subdivide_width = 2
 subdivide_depth = 2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dnuet"]
-albedo_color = Color(0, 0, 1, 1)
+albedo_color = Color(0, 0, 0.39215687, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_vkipq"]
 material = SubResource("StandardMaterial3D_dnuet")

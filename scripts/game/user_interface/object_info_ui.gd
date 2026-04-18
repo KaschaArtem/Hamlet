@@ -10,7 +10,8 @@ extends Node
 var TILES_INFO = {
 	"house": ["House", "Increase max amount of PEOPLE, WOOD, FOOD. Increase resource income, when stands near resource tile."],
 	"field": ["Field", "Produce plant food. Doesn't work on winter."],
-	"pasture": ["Pasture", "Produce animal food. Works less efficient on winter."]
+	"pasture": ["Pasture", "Produce animal food. Works less efficient on winter."],
+	"tree": ["Tree", "Cut to get WOOD. Press F on this tile to choose this tree for cutting during next month."]
 }
 
 @export var panel: Panel

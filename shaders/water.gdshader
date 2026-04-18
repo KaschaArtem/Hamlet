@@ -55,5 +55,5 @@ void fragment() {
 	ROUGHNESS = 0.1;
 	METALLIC = 0.05;
 	SPECULAR = 0.5;
-	ALPHA = water_color.a;
+	ALPHA = 0.95;
 }

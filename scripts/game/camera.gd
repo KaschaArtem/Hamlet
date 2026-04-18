@@ -11,11 +11,11 @@ signal selected_tile_changed(new_tile)
 @export var MOUSE_SENSITIVITY := 0.3
 
 @export_range(1.0, 5.0) var ROTATION_SPEED: float = 1.2
-@export_range(2.0, 20.0) var MOVE_SPEED: float = 8.0
+@export_range(2.0, 20.0) var MOVE_SPEED: float = 10.0
 
 @export_range(2.0, 20.0) var ZOOM_SPEED = 10.0
 const MIN_RADIUS = 2.0
-const MAX_RADIUS = 20.0
+const MAX_RADIUS = 16.0
 
 @export_range(0, 150) var PITCH_SPEED = 60
 const MIN_PITCH_DEG = -89.9
@@ -33,7 +33,6 @@ var target_pitch: float
 var target_yaw: float
 
 @export var SMOOTHNESS := 12.0
-
 
 var current_mouse_position : Vector2
 var current_selected_tile = null
@@ -77,14 +76,10 @@ func handle_movement(delta):
 		return
 	var input_dir = Vector3.ZERO
 
-	if Input.is_action_pressed("move_camera_forward"):
-		input_dir.z += 1
-	if Input.is_action_pressed("move_camera_back"):
-		input_dir.z -= 1
-	if Input.is_action_pressed("move_camera_left"):
-		input_dir.x -= 1
-	if Input.is_action_pressed("move_camera_right"):
-		input_dir.x += 1
+	if Input.is_action_pressed("move_camera_forward"): input_dir.z += 1
+	if Input.is_action_pressed("move_camera_back"):    input_dir.z -= 1
+	if Input.is_action_pressed("move_camera_left"):    input_dir.x -= 1
+	if Input.is_action_pressed("move_camera_right"):   input_dir.x += 1
 
 	if input_dir != Vector3.ZERO:
 		input_dir = input_dir.normalized() * MOVE_SPEED * delta
@@ -92,13 +87,10 @@ func handle_movement(delta):
 		var right = transform.basis.x
 		target_position += forward * input_dir.z + right * input_dir.x
 
-		var min_x = 0
-		var max_x = ground.GRID_SIZE * ground.TILE_SIZE
-		var min_z = 0
-		var max_z = ground.GRID_SIZE * ground.TILE_SIZE
-
-		target_position.x = clamp(target_position.x, min_x, max_x)
-		target_position.z = clamp(target_position.z, min_z, max_z)
+	var max_coord = ground.GRID_SIZE * ground.TILE_SIZE
+	var margin = ground.TILE_SIZE
+	target_position.x = clamp(target_position.x, -margin, max_coord + margin)
+	target_position.z = clamp(target_position.z, -margin, max_coord + margin)
 
 func zoom_in(delta):
 	target_radius -= ZOOM_SPEED * delta
@@ -134,32 +126,29 @@ func handle_pitch(delta):
 	if Input.is_action_pressed("tilt_camera_down"):
 		tilt_down(delta)
 
+func apply_border_safety(target_r: float) -> float:
+	var pitch_rad = deg_to_rad(pitch_deg)
+	var horizontal_distance = target_r * cos(-pitch_rad)
+	
+	var forward_dir = transform.basis.z.normalized()
+	var offset = Vector3(forward_dir.x, 0, forward_dir.z) * horizontal_distance
+	
+	var camera_xz_pos = position + offset
 
-func handle_select():
-	var new_selected_tile = get_tile_under_mouse()
-	if current_selected_tile != new_selected_tile:
-		current_selected_tile = new_selected_tile
-		selected_tile_changed.emit(new_selected_tile)
-
-func force_handle_select():
-	var new_selected_tile = get_tile_under_mouse()
-	current_selected_tile = new_selected_tile
-	selected_tile_changed.emit(new_selected_tile)
-
-func _process(delta):
-	handle_select()
-
-	handle_rotation(delta)
-	handle_movement(delta)
-	handle_zoom(delta)
-	handle_pitch(delta)
-
-	position = position.lerp(target_position, SMOOTHNESS * delta)
-	radius = lerp(radius, target_radius, SMOOTHNESS * delta)
-	pitch_deg = lerp(pitch_deg, target_pitch, SMOOTHNESS * delta)
-	rotation.y = lerp(rotation.y, target_yaw, SMOOTHNESS * delta)
-
-	update_camera_position()
+	var max_coord = ground.GRID_SIZE * ground.TILE_SIZE
+	
+	var out_left = max(0.0, -camera_xz_pos.x)
+	var out_right = max(0.0, camera_xz_pos.x - max_coord)
+	var out_top = max(0.0, -camera_xz_pos.z)
+	var out_bottom = max(0.0, camera_xz_pos.z - max_coord)
+	
+	var total_out = out_left + out_right + out_top + out_bottom
+	
+	if total_out > 0:
+		var penalty = total_out * 1.5
+		return clamp(target_r - penalty, MIN_RADIUS, MAX_RADIUS)
+	
+	return target_r
 
 
 func get_tile_under_mouse():
@@ -174,38 +163,77 @@ func get_tile_under_mouse():
 		return result.collider.owner
 	return null
 
+
+func handle_select():
+	var new_selected_tile = get_tile_under_mouse()
+	if current_selected_tile != new_selected_tile:
+		current_selected_tile = new_selected_tile
+		selected_tile_changed.emit(current_selected_tile)
+
+func force_handle_select():
+	var new_selected_tile = get_tile_under_mouse()
+	current_selected_tile = new_selected_tile
+	selected_tile_changed.emit(current_selected_tile)
+
+func _process(delta):
+	handle_select()
+	handle_rotation(delta)
+	handle_movement(delta)
+	handle_zoom(delta)
+	handle_pitch(delta)
+
+	position = position.lerp(target_position, SMOOTHNESS * delta)
+	pitch_deg = lerp(pitch_deg, target_pitch, SMOOTHNESS * delta)
+	rotation.y = lerp(rotation.y, target_yaw, SMOOTHNESS * delta)
+	var desired_radius = lerp(radius, target_radius, SMOOTHNESS * delta)
+	radius = apply_border_safety(desired_radius)
+
+	update_camera_position()
+
+
 func handle_mouse_selection() -> void:
-	if GameManager.building_action == -999 or GameManager.is_build_allowed == false:
-		return
 	var result = get_tile_under_mouse()
-	if result:
+	if !result:
+		return
+	if GameManager.building_action != -999 and GameManager.is_build_allowed != false:
 		ground.build_grid_tile(result, GameManager.building_action)
 
-func _input(event):
-	if !GameManager.is_input_allowed:
+func handle_resource_selection() -> void:
+	var result = get_tile_under_mouse()
+	if !result:
 		return
+	if GameManager.building_action == -999 and ground.get_tile_type_name(result) == "tree":
+		ground.select_to_cut_tree(result)
+
+func _input(event: InputEvent) -> void:
+	if not GameManager.is_input_allowed:
+		return
+
 	if event is InputEventMouseMotion:
 		current_mouse_position = event.position
+		
+		if is_dragging:
+			target_yaw -= event.relative.x * MOUSE_SENSITIVITY * 0.01
+			target_pitch -= event.relative.y * MOUSE_SENSITIVITY
+			target_pitch = clamp(target_pitch, MIN_PITCH_DEG, MAX_PITCH_DEG)
 
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_RIGHT:
-			is_dragging = event.pressed
-			last_mouse_pos = event.position
+	elif event is InputEventMouseButton:
+		match event.button_index:
+			MOUSE_BUTTON_RIGHT:
+				is_dragging = event.pressed
+			
+			MOUSE_BUTTON_LEFT:
+				if event.pressed:
+					handle_mouse_selection()
+			
+			MOUSE_BUTTON_WHEEL_UP:
+				if event.pressed: zoom_in(0.2)
+			
+			MOUSE_BUTTON_WHEEL_DOWN:
+				if event.pressed: zoom_out(0.2)
 
-		elif event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			handle_mouse_selection()
-
-		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
-			zoom_in(0.2)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
-			zoom_out(0.2)
-
-	elif event is InputEventMouseMotion and is_dragging:
-		var delta = event.position - last_mouse_pos
-		last_mouse_pos = event.position
-		target_yaw += -delta.x * MOUSE_SENSITIVITY * 0.01
-		target_pitch += -delta.y * MOUSE_SENSITIVITY
-		target_pitch = clamp(target_pitch, MIN_PITCH_DEG, MAX_PITCH_DEG)
+	if event.is_action_pressed("select_resource"):
+		handle_resource_selection()
 
 
 func _notification(what):

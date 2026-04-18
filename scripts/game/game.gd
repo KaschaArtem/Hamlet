@@ -111,16 +111,11 @@ func on_builded(building_index) -> void:
 func calculate_wood_production() -> void:
 	if people_on_wood <= 0:
 		return
-	
-	dist = ground.get_nearest_forest_distance(true)
-	is_distance_checked = true
-	if dist == -1:
+	if ground.current_to_cut_tree == null:
 		return
-
-	var distance_mod = clamp(1 - (dist - 1) * 0.125, 0.5, 1)
+	ground.remove_to_cut_tree()
 
 	var production = base_wood_income * people_on_wood
-	production *= distance_mod
 	production *= wood_season_mod
 
 	wood_resource += round(production * 10) / 10.0
