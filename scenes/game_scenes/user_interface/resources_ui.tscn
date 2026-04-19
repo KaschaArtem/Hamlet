@@ -14,37 +14,37 @@ corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w4bi3"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 bg_color = Color(0, 0, 0, 0.49803922)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ja2f6"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 bg_color = Color(0, 0, 0, 0.49803922)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7tm1m"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 bg_color = Color(0, 0, 0, 0.49803922)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [node name="ResourcesUI" type="Control" unique_id=988245277 node_paths=PackedStringArray("actual_people", "max_people", "actual_wood", "max_wood", "actual_plant_food", "actual_animal_food", "max_food", "people_info", "wood_info", "food_info", "people_info_label", "wood_info_label", "food_info_label")]
 texture_filter = 1
@@ -87,10 +87,10 @@ alignment = 1
 
 [node name="PeopleContainer" type="VBoxContainer" parent="Resources" unique_id=304794934]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 8
 
 [node name="People" type="HBoxContainer" parent="Resources/PeopleContainer" unique_id=2045737727]
-custom_minimum_size = Vector2(125, 30)
+custom_minimum_size = Vector2(130, 30)
 layout_mode = 2
 alignment = 1
 
@@ -137,29 +137,29 @@ text = "-1"
 vertical_alignment = 2
 
 [node name="PeopleInfo" type="PanelContainer" parent="Resources/PeopleContainer" unique_id=189129249]
-custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_w4bi3")
 
 [node name="Label" type="Label" parent="Resources/PeopleContainer/PeopleInfo" unique_id=1089330367]
-custom_minimum_size = Vector2(125, 0)
+custom_minimum_size = Vector2(114, 0)
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("4_w4bi3")
 theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="Gap1" type="Control" parent="Resources" unique_id=1766645098]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 
 [node name="WoodContainer" type="VBoxContainer" parent="Resources" unique_id=1792394543]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 8
 
 [node name="Wood" type="HBoxContainer" parent="Resources/WoodContainer" unique_id=54526621]
-custom_minimum_size = Vector2(125, 30)
+custom_minimum_size = Vector2(120, 30)
 layout_mode = 2
 alignment = 1
 
@@ -204,30 +204,30 @@ text = "-1"
 vertical_alignment = 2
 
 [node name="WoodInfo" type="PanelContainer" parent="Resources/WoodContainer" unique_id=619193838]
-custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ja2f6")
 
 [node name="Label" type="Label" parent="Resources/WoodContainer/WoodInfo" unique_id=1419883420]
-custom_minimum_size = Vector2(125, 0)
+custom_minimum_size = Vector2(104, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("4_w4bi3")
 theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="Gap2" type="Control" parent="Resources" unique_id=52092019]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
 [node name="FoodContainer" type="VBoxContainer" parent="Resources" unique_id=300543793]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 8
 
 [node name="Food" type="HBoxContainer" parent="Resources/FoodContainer" unique_id=1401960069]
-custom_minimum_size = Vector2(186, 30)
+custom_minimum_size = Vector2(171, 30)
 layout_mode = 2
 alignment = 1
 
@@ -295,13 +295,14 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7tm1m")
 
 [node name="Label" type="Label" parent="Resources/FoodContainer/FoodInfo" unique_id=1766398839]
-custom_minimum_size = Vector2(186, 0)
+custom_minimum_size = Vector2(155, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("4_w4bi3")
 theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
 autowrap_mode = 2
 
 [connection signal="mouse_entered" from="Resources/PeopleContainer/People" to="." method="_on_people_mouse_entered"]

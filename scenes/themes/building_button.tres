@@ -1,0 +1,45 @@
+[gd_resource type="Theme" format=3 uid="uid://tcamjpx7p3o6"]
+
+[ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="1_jqarc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t8vys"]
+bg_color = Color(0, 0, 0, 0.24705882)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jqarc"]
+bg_color = Color(0.12156863, 0.12156863, 0.12156863, 0.49803922)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uxggg"]
+bg_color = Color(0, 0, 0, 0.49803922)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1w0jh"]
+bg_color = Color(0.24705882, 0.24705882, 0.24705882, 0.49803922)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ld3dm"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[resource]
+Button/styles/disabled = SubResource("StyleBoxFlat_t8vys")
+Button/styles/hover = SubResource("StyleBoxFlat_jqarc")
+Button/styles/normal = SubResource("StyleBoxFlat_uxggg")
+Button/styles/pressed = SubResource("StyleBoxFlat_1w0jh")
+Label/font_sizes/font_size = 12
+Label/fonts/font = ExtResource("1_jqarc")
+Panel/styles/panel = SubResource("StyleBoxFlat_ld3dm")

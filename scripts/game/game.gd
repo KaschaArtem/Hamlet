@@ -6,11 +6,6 @@ extends Node3D
 @onready var time_ui = $UserInterface/TimeUI
 @onready var timer = $Timer
 
-signal resources_changed
-signal player_action_started
-signal player_action_ended
-signal turn_ended
-
 @export_group("Capacity")
 @export var main_tile_human_capacity: int = 10
 @export var main_tile_wood_capacity: int = 100
@@ -41,6 +36,19 @@ signal turn_ended
 @export var start_plant_food_resource = 10
 @export var start_animal_food_resource = 8
 
+signal resources_changed
+signal player_action_started
+signal player_action_ended
+signal turn_ended
+
+var TILES_INFO = {
+	"house": ["House", "Increase max amount of PEOPLE, WOOD, FOOD. Increase resource income, when stands near resource tile."],
+	"field": ["Field", "Produce plant food. Doesn't work on winter."],
+	"pasture": ["Pasture", "Produce animal food. Works less efficient on winter."],
+	"tree": ["Tree", "Cut to get WOOD. Press F on this tile to choose this tree for cutting during next month. Tree tile will desappeared after this."],
+	"water": ["Water", "Used for fishing. Press F on water cluster to choose it for fishing during next month. This will take some fish from this water cluster."]
+}
+
 var human_resource : int = start_human_resource
 var wood_resource : float = start_wood_resource
 var plant_food_resource : float = start_plant_food_resource
@@ -64,9 +72,6 @@ var animal_season_mod := 1.0
 var fish_season_mod := 1.0
 var hunt_season_mod := 1.0
 var wood_season_mod := 1.0
-
-var is_distance_checked: bool = false
-var dist := -1
 
 
 func update_max_values() -> void:
@@ -143,18 +148,10 @@ func calculate_fish_production() -> void:
 
 
 func calculate_hunt_production() -> void:
-
 	if people_on_hunt <= 0:
 		return
-	if is_distance_checked == false: 
-		dist = ground.get_nearest_forest_distance(false)
-	if dist == -1:
-		return
-
-	var distance_mod = clamp(1 - (dist - 1) * 0.125, 0.5, 1)
 
 	var production = base_hunt_food_income * people_on_hunt
-	production *= distance_mod
 	production *= hunt_season_mod
 
 	animal_food_resource += round(production * 10) / 10.0 
@@ -323,7 +320,6 @@ func on_end_month() -> void:
 
 	clamp_resources()
 	resources_changed.emit()
-	is_distance_checked = false
 	if human_resource <= 0:
 		game_over()
 

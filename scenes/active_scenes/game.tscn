@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://m10xkivh4hxe" path="res://scripts/game/timer.gd" id="11_qektj"]
 [ext_resource type="PackedScene" uid="uid://dx75bnqqvdm21" path="res://scenes/game_scenes/user_interface/buildings_ui.tscn" id="12_7f75v"]
 [ext_resource type="PackedScene" uid="uid://duhr3mswrolme" path="res://scenes/game_scenes/user_interface/time_ui.tscn" id="13_0eppp"]
+[ext_resource type="Script" uid="uid://bjbc4dq4jipxv" path="res://scripts/game/day_night_cycle.gd" id="13_3mr2u"]
 [ext_resource type="PackedScene" uid="uid://cedvrgudrsxyh" path="res://scenes/game_scenes/user_interface/resources_ui.tscn" id="13_g6mbv"]
 [ext_resource type="PackedScene" uid="uid://da2k5a37xrgsc" path="res://scenes/game_scenes/user_interface/people_control_ui.tscn" id="14_0eppp"]
 [ext_resource type="Script" uid="uid://cwvgawu1subej" path="res://scripts/menu/game_menu.gd" id="16_ks4eg"]
@@ -50,70 +51,6 @@ script = ExtResource("1_6djtn")
 ground = NodePath("Ground")
 MenuUI = NodePath("MenuUI")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=414650152]
-environment = SubResource("Environment_5jyxj")
-
-[node name="Sun" type="DirectionalLight3D" parent="." unique_id=509755312]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
-light_color = Color(1, 0.9607843, 0.9411765, 1)
-light_specular = 0.5
-shadow_enabled = true
-shadow_bias = 0.01
-shadow_normal_bias = 1.0
-shadow_opacity = 0.95
-shadow_blur = 1.6
-directional_shadow_blend_splits = true
-directional_shadow_max_distance = 20.0
-
-[node name="Moon" type="DirectionalLight3D" parent="." unique_id=157708246]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
-light_color = Color(0.7019608, 0.81960785, 1, 1)
-light_energy = 0.2
-light_indirect_energy = 0.2
-light_specular = 0.2
-shadow_enabled = true
-shadow_bias = 0.01
-shadow_normal_bias = 1.0
-shadow_opacity = 0.95
-shadow_blur = 1.6
-directional_shadow_blend_splits = true
-directional_shadow_max_distance = 20.0
-
-[node name="Ground" type="Node3D" parent="." unique_id=1711545239 node_paths=PackedStringArray("game")]
-script = ExtResource("1_r0i7r")
-game = NodePath("..")
-fish_icon_texture = ExtResource("3_hih2d")
-main_tile_scene = ExtResource("4_g754w")
-tile_scene = ExtResource("2_amqpi")
-house_scene = ExtResource("4_5uvhb")
-field_scene = ExtResource("3_6djtn")
-pasture_scene = ExtResource("5_g754w")
-tree_one_scene = ExtResource("8_inwm1")
-water_scene = ExtResource("9_cq3oe")
-
-[node name="Pivot" type="Node3D" parent="." unique_id=1567863974 node_paths=PackedStringArray("ground", "camera")]
-script = ExtResource("1_amqpi")
-ground = NodePath("../Ground")
-camera = NodePath("Camera3D")
-
-[node name="Camera3D" type="Camera3D" parent="Pivot" unique_id=171625142]
-projection = 2
-fov = 60.0
-size = 0.06
-
-[node name="Timer" type="Node3D" parent="." unique_id=1136563278 node_paths=PackedStringArray("game", "world_env", "sun_light", "moon_light")]
-script = ExtResource("11_qektj")
-game = NodePath("..")
-world_env = NodePath("../WorldEnvironment")
-sun_light = NodePath("../Sun")
-moon_light = NodePath("../Moon")
-month_time = 2.0
-day_ground_bottom_color = Color(0.42745098, 0.5294118, 0.5803922, 1)
-day_ground_horizon_color = Color(0.72156864, 0.8, 0.81960785, 1)
-sunset_ground_bottom_color = Color(0.558443, 0.28909466, 0.031398866, 1)
-sunset_ground_horizon_color = Color(0.9019608, 0.49411765, 0.13333334, 1)
-night_ground_horizon_color = Color(0.015686275, 0.019607844, 0.03137255, 1)
-
 [node name="UserInterface" type="CanvasLayer" parent="." unique_id=902251080]
 
 [node name="ResourcesUI" parent="UserInterface" unique_id=988245277 node_paths=PackedStringArray("game") instance=ExtResource("13_g6mbv")]
@@ -128,11 +65,9 @@ game = NodePath("../..")
 [node name="PeopleControlUI" parent="UserInterface" unique_id=521716 node_paths=PackedStringArray("game") instance=ExtResource("14_0eppp")]
 game = NodePath("../..")
 
-[node name="ObjectInfoUI" parent="UserInterface" unique_id=1749104847 node_paths=PackedStringArray("game", "ground", "camera", "buildings_ui") instance=ExtResource("16_n4bim")]
-game = NodePath("../..")
+[node name="ObjectInfoUI" parent="UserInterface" unique_id=1749104847 node_paths=PackedStringArray("ground", "camera") instance=ExtResource("16_n4bim")]
 ground = NodePath("../../Ground")
-camera = NodePath("../../Pivot")
-buildings_ui = NodePath("../BuildingsUI")
+camera = NodePath("../../Camera")
 
 [node name="MenuUI" type="CanvasLayer" parent="." unique_id=1374243532 node_paths=PackedStringArray("main", "settings", "back_to_main_menu_confirm")]
 process_mode = 2
@@ -162,3 +97,70 @@ main = NodePath("../GameMain")
 [node name="BackToMainMenuConfirm" parent="MenuUI" unique_id=529475325 node_paths=PackedStringArray("menu", "main") instance=ExtResource("19_n4bim")]
 menu = NodePath("..")
 main = NodePath("../GameMain")
+
+[node name="Ground" type="Node3D" parent="." unique_id=1711545239 node_paths=PackedStringArray("game")]
+script = ExtResource("1_r0i7r")
+game = NodePath("..")
+main_tile_scene = ExtResource("4_g754w")
+tile_scene = ExtResource("2_amqpi")
+house_scene = ExtResource("4_5uvhb")
+field_scene = ExtResource("3_6djtn")
+pasture_scene = ExtResource("5_g754w")
+tree_one_scene = ExtResource("8_inwm1")
+water_scene = ExtResource("9_cq3oe")
+fish_icon_texture = ExtResource("3_hih2d")
+
+[node name="Camera" type="Node3D" parent="." unique_id=1567863974 node_paths=PackedStringArray("ground", "camera")]
+script = ExtResource("1_amqpi")
+ground = NodePath("../Ground")
+camera = NodePath("Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="Camera" unique_id=171625142]
+projection = 2
+fov = 60.0
+size = 0.06
+
+[node name="Timer" type="Node3D" parent="." unique_id=1136563278 node_paths=PackedStringArray("game", "day_night_cycle")]
+script = ExtResource("11_qektj")
+game = NodePath("..")
+day_night_cycle = NodePath("DayNightCycle")
+month_time = 2.0
+
+[node name="DayNightCycle" type="Node3D" parent="Timer" unique_id=402077858 node_paths=PackedStringArray("world_env", "sun_light", "moon_light")]
+script = ExtResource("13_3mr2u")
+world_env = NodePath("WorldEnvironment")
+sun_light = NodePath("Sun")
+moon_light = NodePath("Moon")
+day_ground_bottom_color = Color(0.42745098, 0.5294118, 0.5803922, 1)
+day_ground_horizon_color = Color(0.72156864, 0.8, 0.81960785, 1)
+sunset_ground_bottom_color = Color(0.5568628, 0.2901961, 0.03137255, 1)
+sunset_ground_horizon_color = Color(0.9019608, 0.49411765, 0.13333334, 1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Timer/DayNightCycle" unique_id=414650152]
+environment = SubResource("Environment_5jyxj")
+
+[node name="Sun" type="DirectionalLight3D" parent="Timer/DayNightCycle" unique_id=509755312]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(1, 0.9607843, 0.9411765, 1)
+light_specular = 0.5
+shadow_enabled = true
+shadow_bias = 0.01
+shadow_normal_bias = 1.0
+shadow_opacity = 0.95
+shadow_blur = 1.6
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 20.0
+
+[node name="Moon" type="DirectionalLight3D" parent="Timer/DayNightCycle" unique_id=157708246]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(0.7019608, 0.81960785, 1, 1)
+light_energy = 0.2
+light_indirect_energy = 0.2
+light_specular = 0.2
+shadow_enabled = true
+shadow_bias = 0.01
+shadow_normal_bias = 1.0
+shadow_opacity = 0.95
+shadow_blur = 1.6
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 20.0

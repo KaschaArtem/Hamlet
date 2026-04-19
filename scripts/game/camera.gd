@@ -1,6 +1,6 @@
 extends Node3D
 
-
+@export_group("Links")
 @export var ground: Node3D
 @export var camera: Camera3D
 
@@ -8,6 +8,7 @@ extends Node3D
 signal selected_tile_changed(new_tile)
 
 
+@export_group("Settings")
 @export var MOUSE_SENSITIVITY := 0.3
 
 @export_range(1.0, 5.0) var ROTATION_SPEED: float = 1.2
@@ -191,7 +192,7 @@ func _process(delta):
 	update_camera_position()
 
 
-func handle_mouse_selection() -> void:
+func handle_build_selection() -> void:
 	var result = get_tile_under_mouse()
 	if !result:
 		return
@@ -226,7 +227,7 @@ func _input(event: InputEvent) -> void:
 			
 			MOUSE_BUTTON_LEFT:
 				if event.pressed:
-					handle_mouse_selection()
+					handle_build_selection()
 			
 			MOUSE_BUTTON_WHEEL_UP:
 				if event.pressed: zoom_in(0.2)

@@ -3,26 +3,6 @@ extends Node3D
 
 @export var game: Node3D
 
-
-signal builded(building_index: int)
-
-
-const TILE_TYPES = {
-	"res://scenes/game_scenes/objects/field.tscn": "field",
-	"res://scenes/game_scenes/objects/house.tscn": "house",
-	"res://scenes/game_scenes/objects/main_tile.tscn": "main_tile",
-	"res://scenes/game_scenes/objects/pasture.tscn": "pasture",
-	"res://scenes/game_scenes/objects/tile.tscn": "tile",
-	"res://scenes/game_scenes/objects/tree_one.tscn": "tree",
-	"res://scenes/game_scenes/objects/water.tscn": "water"
-}
-
-const GRID_SIZE = 51
-const TILE_SIZE = 1
-const GRID_CENTER = GRID_SIZE / 2
-
-@export var fish_icon_texture: Texture2D
-
 @export_group("Object Scenes")
 @export var main_tile_scene: PackedScene   # index 999
 @export var tile_scene: PackedScene        # index 0
@@ -40,8 +20,25 @@ const GRID_CENTER = GRID_SIZE / 2
 @export_range(-1.0, 1.0) var WOOD_SPAWN: float = 0.15
 @export_range(-1.0, 1.0) var WATER_SPAWN: float = -0.67
 
-var noise := FastNoiseLite.new()
+signal builded(building_index: int)
 
+const TILE_TYPES = {
+	"res://scenes/game_scenes/objects/field.tscn": "field",
+	"res://scenes/game_scenes/objects/house.tscn": "house",
+	"res://scenes/game_scenes/objects/main_tile.tscn": "main_tile",
+	"res://scenes/game_scenes/objects/pasture.tscn": "pasture",
+	"res://scenes/game_scenes/objects/tile.tscn": "tile",
+	"res://scenes/game_scenes/objects/tree_one.tscn": "tree",
+	"res://scenes/game_scenes/objects/water.tscn": "water"
+}
+
+const GRID_SIZE = 51
+const TILE_SIZE = 1.0
+const GRID_CENTER = GRID_SIZE / 2
+
+@export var fish_icon_texture: Texture2D
+
+var noise := FastNoiseLite.new()
 
 var house_amount = 0
 var field_amount = 0
@@ -64,6 +61,20 @@ func get_tile_type_name(tile: Node) -> String:
 	if TILE_TYPES.has(path):
 		return TILE_TYPES[path]
 	return "null"
+
+func get_city_bounds():
+	var top = GRID_SIZE
+	var bottom = 0
+	var left = GRID_SIZE
+	var right = 0
+	for i in range(GRID_SIZE):
+		for j in range(GRID_SIZE):
+			if ground_grid[i][j]["type"] > 0:
+				top = min(top, i)
+				bottom = max(bottom, i)
+				left = min(left, j)
+				right = max(right, j)
+	return {"top": top, "bottom": bottom, "left": left, "right": right}
 
 func decrease_tile_amount(building_index) -> void:
 	match building_index:
@@ -91,54 +102,6 @@ func increase_tile_amount(building_index) -> void:
 		-2:
 			water_amount += 1
 
-func get_nearest_tile_distance(target_type: int) -> int:
-
-	var visited = []
-	for z in range(GRID_SIZE):
-		visited.append([])
-		for x in range(GRID_SIZE):
-			visited[z].append(false)
-
-	var queue = []
-
-	for z in range(GRID_SIZE):
-		for x in range(GRID_SIZE):
-			if ground_grid[z][x]["type"] == 1 or ground_grid[z][x]["type"] == 999:
-				queue.append({"pos": Vector2i(x, z), "dist": 0})
-				visited[z][x] = true
-
-	var directions = [
-		Vector2i(1, 0),
-		Vector2i(-1, 0),
-		Vector2i(0, 1),
-		Vector2i(0, -1)
-	]
-
-	while queue.size() > 0:
-
-		var current = queue.pop_front()
-		var x = current.pos.x
-		var z = current.pos.y
-		var dist = current.dist
-
-		if ground_grid[z][x]["type"] == target_type:
-			return dist
-
-		for dir in directions:
-
-			var nx = x + dir.x
-			var nz = z + dir.y
-
-			if nx >= 0 and nx < GRID_SIZE and nz >= 0 and nz < GRID_SIZE:
-				if !visited[nz][nx]:
-					visited[nz][nx] = true
-					queue.append({
-						"pos": Vector2i(nx, nz),
-						"dist": dist + 1
-					})
-
-	return -1
-
 
 func remove_tile_at(x: int, z: int, tile_type: int) -> void:
 
@@ -154,11 +117,11 @@ func remove_tile_at(x: int, z: int, tile_type: int) -> void:
 
 	add_empty_tile(x, z)
 
-
 func remove_to_cut_tree() -> void:
 	var pos = current_to_cut_tree.global_position
 	remove_tile_at(int(pos.x), int(pos.z), -1)
 	current_to_cut_tree = null
+
 
 func count_fish_decreasement(possible_income: float) -> float:
 	var actual_income: float = 0.0
@@ -172,21 +135,6 @@ func count_fish_decreasement(possible_income: float) -> float:
 	current_water_cluster.current_fish -= actual_income
 	return actual_income
 	
-
-func get_city_bounds():
-	var top = GRID_SIZE
-	var bottom = 0
-	var left = GRID_SIZE
-	var right = 0
-	for i in range(GRID_SIZE):
-		for j in range(GRID_SIZE):
-			if ground_grid[i][j]["type"] > 0:
-				top = min(top, i)
-				bottom = max(bottom, i)
-				left = min(left, j)
-				right = max(right, j)
-	return {"top": top, "bottom": bottom, "left": left, "right": right}
-
 
 func setup_noise():
 	noise.seed = randi()
@@ -391,14 +339,37 @@ func _ready() -> void:
 	identify_water_clusters()
 	generate_grid()
 
+func select_to_cut_tree(to_cut_tree) -> void:
+	if current_to_cut_tree != null:
+		current_to_cut_tree.hide_axe_icon()
+	if current_to_cut_tree == to_cut_tree:
+		current_to_cut_tree = null
+	else:
+		current_to_cut_tree = to_cut_tree
+		current_to_cut_tree.show_axe_icon()
 
-func on_player_action_started() -> void:
+func select_water_cluster(water_tile: Node3D) -> void:
+	var x = int(round(water_tile.position.x / TILE_SIZE))
+	var z = int(round(water_tile.position.z / TILE_SIZE))
+	var cluster_idx = water_map[z][x]
+	if current_water_cluster != null:
+		current_water_cluster.icon_node.visible = false
+	if current_water_cluster == water_clusters[cluster_idx]:
+		current_water_cluster = null
+	else:
+		current_water_cluster = water_clusters[cluster_idx]
+		current_water_cluster.icon_node.visible = true
+
+func handle_fish_growth() -> void:
 	for cluster in water_clusters:
 		if cluster.current_fish < 0.5:
 			cluster.current_fish = 0.5
 		var growth = cluster.current_fish * 0.1
 		cluster.current_fish += growth
 		cluster.current_fish = min(cluster.current_fish, cluster.max_fish)
+
+func on_player_action_started() -> void:
+	handle_fish_growth()
 
 
 func can_build_empty_tile(x, z) -> bool:
@@ -514,19 +485,3 @@ func build_grid_tile(tile_object, building_index) -> void:
 				return
 			build_pasture_tile(tile_object, x, z)
 	builded.emit(building_index)
-
-
-func select_to_cut_tree(to_cut_tree) -> void:
-	if current_to_cut_tree != null:
-		current_to_cut_tree.hide_axe_icon()
-	current_to_cut_tree = to_cut_tree
-	current_to_cut_tree.show_axe_icon()
-
-func select_water_cluster(water_tile: Node3D) -> void:
-	var x = int(round(water_tile.position.x / TILE_SIZE))
-	var z = int(round(water_tile.position.z / TILE_SIZE))
-	var cluster_idx = water_map[z][x]
-	if current_water_cluster != null:
-		current_water_cluster.icon_node.visible = false
-	current_water_cluster = water_clusters[cluster_idx]
-	current_water_cluster.icon_node.visible = true

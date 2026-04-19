@@ -1,10 +1,8 @@
 extends Node
 
 
-@export var game: Node3D
 @export var ground: Node3D
 @export var camera: Node3D
-@export var buildings_ui: Control
 
 
 var TILES_INFO = {
@@ -25,8 +23,6 @@ var tween: Tween
 
 func _ready() -> void:
 	camera.selected_tile_changed.connect(update_info_on_selected)
-	buildings_ui.building_action_clear.connect(update_info_on_clear)
-	buildings_ui.building_action_set.connect(update_info_on_set)
 	hide_instantly()
 
 func hide_instantly() -> void:
@@ -64,20 +60,8 @@ func show_info(type: String) -> void:
 	fade_in()
 
 func update_info_on_selected(selected_tile) -> void:
-	if GameManager.building_action != -999 or GameManager.is_input_allowed == false:
+	if GameManager.is_input_allowed == false:
 		return
 	
 	var type = ground.get_tile_type_name(selected_tile)
 	show_info(type)
-
-func update_info_on_clear() -> void:
-	hide_instantly()
-	camera.force_handle_select()
-
-func update_info_on_set() -> void:
-	match GameManager.building_action:
-		1: show_info("house")
-		2: show_info("field")
-		3: show_info("pasture")
-		_: 
-			hide_instantly()

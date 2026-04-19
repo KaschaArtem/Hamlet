@@ -1,57 +1,136 @@
 [gd_scene format=3 uid="uid://dx75bnqqvdm21"]
 
 [ext_resource type="Script" uid="uid://b151epxpiwkrq" path="res://scripts/game/user_interface/buildings_ui.gd" id="1_duh1h"]
+[ext_resource type="Theme" uid="uid://tcamjpx7p3o6" path="res://scenes/themes/building_button.tres" id="2_v7fxr"]
 
-[node name="BuildingsUI" type="Control" unique_id=139825313 node_paths=PackedStringArray("house_button", "field_button", "pasture_button", "delete_button", "r_to_cancel_label")]
+[node name="BuildingsUI" type="Control" unique_id=139825313 node_paths=PackedStringArray("house_button", "field_button", "pasture_button", "delete_button")]
 layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 grow_vertical = 0
 script = ExtResource("1_duh1h")
-house_button = NodePath("Buildings/HouseButton")
-field_button = NodePath("Buildings/FieldButton")
-pasture_button = NodePath("Buildings/PastureButton")
-delete_button = NodePath("Buildings/DeleteButton")
-r_to_cancel_label = NodePath("Buildings/RToCancelLabel")
+house_button = NodePath("HouseButton")
+field_button = NodePath("FieldButton")
+pasture_button = NodePath("PastureButton")
+delete_button = NodePath("DeleteButton")
 
-[node name="Buildings" type="HBoxContainer" parent="." unique_id=655690654]
+[node name="HouseButton" type="Button" parent="." unique_id=1718671655]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_left = 8.0
+offset_top = -72.0
+offset_right = 72.0
+offset_bottom = -8.0
+theme = ExtResource("2_v7fxr")
+
+[node name="Panel" type="Panel" parent="HouseButton" unique_id=1019936499]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 12
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -40.0
-offset_right = 40.0
+grow_horizontal = 2
 grow_vertical = 0
+size_flags_vertical = 8
+theme = ExtResource("2_v7fxr")
 
-[node name="HouseButton" type="Button" parent="Buildings" unique_id=1718671655]
-layout_mode = 2
-text = "House
-(1)"
+[node name="Label" type="Label" parent="HouseButton/Panel" unique_id=617265869]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.5
+offset_top = -3.75
+offset_right = 3.5
+offset_bottom = 3.75
+grow_horizontal = 2
+grow_vertical = 2
+text = "40"
 
-[node name="FieldButton" type="Button" parent="Buildings" unique_id=1108479608]
-layout_mode = 2
-text = "Field
-(2)
-"
+[node name="FieldButton" type="Button" parent="." unique_id=1108479608]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_left = 80.0
+offset_top = -72.0
+offset_right = 144.0
+offset_bottom = -8.0
+theme = ExtResource("2_v7fxr")
 
-[node name="PastureButton" type="Button" parent="Buildings" unique_id=782249182]
-layout_mode = 2
-text = "Pasture
-(3)"
+[node name="Panel" type="Panel" parent="FieldButton" unique_id=1564941571]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_v7fxr")
 
-[node name="DeleteButton" type="Button" parent="Buildings" unique_id=1515832089]
-layout_mode = 2
-text = "Delete
-(0)"
+[node name="Label" type="Label" parent="FieldButton/Panel" unique_id=1921151067]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.5
+offset_top = -3.75
+offset_right = 3.5
+offset_bottom = 3.75
+grow_horizontal = 2
+grow_vertical = 2
+text = "24"
 
-[node name="RToCancelLabel" type="Label" parent="Buildings" unique_id=1349738078]
-layout_mode = 2
-text = "R to
-Cancel"
-horizontal_alignment = 1
+[node name="PastureButton" type="Button" parent="." unique_id=782249182]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_left = 152.0
+offset_top = -72.0
+offset_right = 216.0
+offset_bottom = -8.0
+theme = ExtResource("2_v7fxr")
 
-[connection signal="pressed" from="Buildings/HouseButton" to="." method="_on_house_button_pressed"]
-[connection signal="pressed" from="Buildings/FieldButton" to="." method="_on_field_button_pressed"]
-[connection signal="pressed" from="Buildings/PastureButton" to="." method="_on_pasture_button_pressed"]
-[connection signal="pressed" from="Buildings/DeleteButton" to="." method="_on_delete_button_pressed"]
+[node name="Panel" type="Panel" parent="PastureButton" unique_id=1247405640]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_v7fxr")
+
+[node name="Label" type="Label" parent="PastureButton/Panel" unique_id=1165023908]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.5
+offset_top = -3.75
+offset_right = 3.5
+offset_bottom = 3.75
+grow_horizontal = 2
+grow_vertical = 2
+text = "32"
+
+[node name="DeleteButton" type="Button" parent="." unique_id=1515832089]
+custom_minimum_size = Vector2(64, 58)
+layout_mode = 0
+offset_left = 224.0
+offset_top = -72.0
+offset_right = 288.0
+offset_bottom = -8.0
+theme = ExtResource("2_v7fxr")
+
+[connection signal="pressed" from="HouseButton" to="." method="_on_house_button_pressed"]
+[connection signal="pressed" from="FieldButton" to="." method="_on_field_button_pressed"]
+[connection signal="pressed" from="PastureButton" to="." method="_on_pasture_button_pressed"]
+[connection signal="pressed" from="DeleteButton" to="." method="_on_delete_button_pressed"]
