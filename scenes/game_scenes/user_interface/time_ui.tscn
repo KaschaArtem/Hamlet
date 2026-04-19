@@ -2,13 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dslr84cf6luye" path="res://scripts/game/user_interface/time_ui.gd" id="1_s8yga"]
 [ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="2_f4lni"]
-[ext_resource type="Texture2D" uid="uid://cty75yqnq6ki" path="res://assets/icons/game_ui/date_frame.png" id="2_yvbtm"]
+[ext_resource type="Texture2D" uid="uid://be882f487lbrx" path="res://assets/icons/game_ui/date_parchment.png" id="3_yvbtm"]
 [ext_resource type="FontFile" uid="uid://cs2akq6maaggs" path="res://assets/fonts/Canterbury.ttf" id="4_yvbtm"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yvbtm"]
-bg_color = Color(0, 0, 0, 0.49803922)
-corner_radius_top_right = 40
-corner_radius_bottom_left = 40
 
 [node name="TimeUI" type="Control" unique_id=1607769773 node_paths=PackedStringArray("end_month_button", "year_count", "month_count")]
 layout_mode = 3
@@ -24,21 +19,6 @@ end_month_button = NodePath("StartMonthButton")
 year_count = NodePath("MonthCount/Year")
 month_count = NodePath("MonthCount/Month")
 
-[node name="Panel" type="Panel" parent="." unique_id=1099414240]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -188.0
-offset_top = -97.0
-offset_right = -11.75
-offset_bottom = -10.950012
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_yvbtm")
-
 [node name="StartMonthButton" type="Button" parent="." unique_id=781305301]
 layout_mode = 1
 anchors_preset = 3
@@ -46,82 +26,66 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -176.0
-offset_top = -136.0
-offset_right = -20.999756
-offset_bottom = -107.0
+offset_left = -168.0
+offset_top = -152.0
+offset_right = -12.999756
+offset_bottom = -123.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0
 theme_override_fonts/font = ExtResource("2_f4lni")
 text = "Start Month"
 
-[node name="MonthCount" type="HBoxContainer" parent="." unique_id=1075787740]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2028476293]
+texture_filter = 2
+layout_mode = 0
+offset_left = -184.0
+offset_top = -118.0
+offset_right = 864.0
+offset_bottom = 596.0
+scale = Vector2(0.17, 0.16)
+texture = ExtResource("3_yvbtm")
+
+[node name="MonthCount" type="VBoxContainer" parent="." unique_id=916113367]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -172.56
-offset_top = -75.33002
-offset_right = -26.559448
-offset_bottom = -35.330017
+offset_left = -131.0
+offset_top = -95.0
+offset_right = -52.0
+offset_bottom = -32.0
 grow_horizontal = 0
 grow_vertical = 0
+theme_override_constants/separation = -2
+alignment = 1
 
 [node name="Year" type="Label" parent="MonthCount" unique_id=353908956]
 layout_mode = 2
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.9907935, 0.9610972, 0.9163659, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8627451)
+theme_override_colors/font_outline_color = Color(0.34901962, 0.19607843, 0.047058824, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("4_yvbtm")
 theme_override_font_sizes/font_size = 40
 text = "1207"
 
 [node name="Month" type="Label" parent="MonthCount" unique_id=1397682785]
-custom_minimum_size = Vector2(0, 25.55)
 layout_mode = 2
-size_flags_vertical = 8
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.99215686, 0.9607843, 0.91764706, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8627451)
+theme_override_colors/font_outline_color = Color(0.34901962, 0.19607843, 0.047058824, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("4_yvbtm")
 theme_override_font_sizes/font_size = 26
-text = ".03.xx"
-
-[node name="DateFrame1" type="TextureRect" parent="." unique_id=487055437]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 30.0
-offset_bottom = 30.0
-grow_horizontal = 0
-grow_vertical = 0
-rotation = 3.1415927
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("2_yvbtm")
-expand_mode = 1
-
-[node name="DateFrame2" type="TextureRect" parent="." unique_id=1444346765]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -190.0
-offset_top = -98.0
-offset_right = -150.0
-offset_bottom = -58.0
-grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("2_yvbtm")
-expand_mode = 1
+text = "03.xx"
 
 [connection signal="pressed" from="StartMonthButton" to="." method="_on_end_month_button_pressed"]

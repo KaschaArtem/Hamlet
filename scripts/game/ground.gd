@@ -170,7 +170,6 @@ func count_fish_decreasement(possible_income: float) -> float:
 		actual_income = current_fish
 	
 	current_water_cluster.current_fish -= actual_income
-	print("left ", current_water_cluster.current_fish)
 	return actual_income
 	
 

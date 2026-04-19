@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cty75yqnq6ki"
-path="res://.godot/imported/date_frame.png-a8508f1439201ac433af4adf315c3a95.ctex"
+uid="uid://be882f487lbrx"
+path="res://.godot/imported/date_parchment.png-888ffdd92cadfda7f1372779fce3f03c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/game_ui/date_frame.png"
-dest_files=["res://.godot/imported/date_frame.png-a8508f1439201ac433af4adf315c3a95.ctex"]
+source_file="res://assets/icons/game_ui/date_parchment.png"
+dest_files=["res://.godot/imported/date_parchment.png-888ffdd92cadfda7f1372779fce3f03c.ctex"]
 
 [params]
 

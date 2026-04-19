@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://cedvrgudrsxyh"]
 
 [ext_resource type="Script" uid="uid://cl3qbvvbbnpxg" path="res://scripts/game/user_interface/resources_ui.gd" id="1_a6usm"]
-[ext_resource type="Texture2D" uid="uid://cv0nmbphmy0jw" path="res://assets/icons/game_ui/people.png" id="2_fa87v"]
-[ext_resource type="Texture2D" uid="uid://rhdsmlrlixgl" path="res://assets/icons/game_ui/logs.png" id="3_smf15"]
+[ext_resource type="Texture2D" uid="uid://crwh8f711y7vm" path="res://assets/icons/game_ui/people.png" id="2_w4bi3"]
 [ext_resource type="FontFile" uid="uid://cs2akq6maaggs" path="res://assets/fonts/Canterbury.ttf" id="3_w4bi3"]
-[ext_resource type="Texture2D" uid="uid://kmc3ta7bd3co" path="res://assets/icons/game_ui/plant_food.png" id="4_g5x1v"]
 [ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="4_w4bi3"]
-[ext_resource type="Texture2D" uid="uid://18fjarycseyc" path="res://assets/icons/game_ui/animal_food.png" id="5_o35ey"]
+[ext_resource type="Texture2D" uid="uid://6gon7af5ooit" path="res://assets/icons/game_ui/wood.png" id="5_w4bi3"]
+[ext_resource type="Texture2D" uid="uid://dwyx1ptcbnar6" path="res://assets/icons/game_ui/plant_food.png" id="6_7tm1m"]
+[ext_resource type="Texture2D" uid="uid://cfph566754fu5" path="res://assets/icons/game_ui/animal_food.png" id="7_87c74"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kjv14"]
 bg_color = Color(0, 0, 0, 0.49803922)
@@ -96,14 +96,15 @@ alignment = 1
 
 [node name="PeopleImage" type="TextureRect" parent="Resources/PeopleContainer/People" unique_id=620601726]
 texture_filter = 2
-custom_minimum_size = Vector2(28, 28)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("2_fa87v")
+texture = ExtResource("2_w4bi3")
 expand_mode = 5
 
 [node name="Actual" type="Label" parent="Resources/PeopleContainer/People" unique_id=998056677]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -111,18 +112,21 @@ theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_w4bi3")
 theme_override_font_sizes/font_size = 24
 text = "-1"
-horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="Slash" type="Label" parent="Resources/PeopleContainer/People" unique_id=743380895]
+custom_minimum_size = Vector2(0, 18.895)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_w4bi3")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 10
 text = "/"
+vertical_alignment = 2
 
 [node name="Max" type="Label" parent="Resources/PeopleContainer/People" unique_id=927937722]
+custom_minimum_size = Vector2(0, 23.935)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -130,7 +134,7 @@ theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_w4bi3")
 theme_override_font_sizes/font_size = 14
 text = "-1"
-horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="PeopleInfo" type="PanelContainer" parent="Resources/PeopleContainer" unique_id=189129249]
 custom_minimum_size = Vector2(100, 0)
@@ -160,32 +164,36 @@ layout_mode = 2
 alignment = 1
 
 [node name="WoodImage" type="TextureRect" parent="Resources/WoodContainer/Wood" unique_id=2018252265]
-texture_filter = 4
-custom_minimum_size = Vector2(30, 30)
+texture_filter = 2
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
-texture = ExtResource("3_smf15")
+texture = ExtResource("5_w4bi3")
 expand_mode = 5
 
 [node name="Actual" type="Label" parent="Resources/WoodContainer/Wood" unique_id=1060881592]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_w4bi3")
 theme_override_font_sizes/font_size = 24
 text = "-1"
-horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="Slash" type="Label" parent="Resources/WoodContainer/Wood" unique_id=1272143537]
+custom_minimum_size = Vector2(0, 18.895)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_w4bi3")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 10
 text = "/"
+vertical_alignment = 2
 
 [node name="Max" type="Label" parent="Resources/WoodContainer/Wood" unique_id=310275433]
+custom_minimum_size = Vector2(0, 23.935)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -193,7 +201,7 @@ theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_w4bi3")
 theme_override_font_sizes/font_size = 14
 text = "-1"
-horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="WoodInfo" type="PanelContainer" parent="Resources/WoodContainer" unique_id=619193838]
 custom_minimum_size = Vector2(100, 0)
@@ -224,49 +232,54 @@ layout_mode = 2
 alignment = 1
 
 [node name="PlantImage" type="TextureRect" parent="Resources/FoodContainer/Food" unique_id=2015937356]
-texture_filter = 3
-custom_minimum_size = Vector2(26, 26)
+texture_filter = 2
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
-texture = ExtResource("4_g5x1v")
+texture = ExtResource("6_7tm1m")
 expand_mode = 1
 
 [node name="ActualPlant" type="Label" parent="Resources/FoodContainer/Food" unique_id=219311854]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_w4bi3")
 theme_override_font_sizes/font_size = 24
 text = "-1"
-horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="AnimalImage" type="TextureRect" parent="Resources/FoodContainer/Food" unique_id=488372238]
-texture_filter = 3
-custom_minimum_size = Vector2(20, 20)
+texture_filter = 2
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
-texture = ExtResource("5_o35ey")
+texture = ExtResource("7_87c74")
 expand_mode = 1
 
 [node name="ActualAnimal" type="Label" parent="Resources/FoodContainer/Food" unique_id=104728778]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_w4bi3")
 theme_override_font_sizes/font_size = 24
 text = "-1"
-horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="Slash" type="Label" parent="Resources/FoodContainer/Food" unique_id=993549387]
+custom_minimum_size = Vector2(0, 18.895)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_w4bi3")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 10
 text = "/"
+vertical_alignment = 2
 
 [node name="Max" type="Label" parent="Resources/FoodContainer/Food" unique_id=1841917571]
+custom_minimum_size = Vector2(0, 23.935)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -274,7 +287,7 @@ theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_w4bi3")
 theme_override_font_sizes/font_size = 14
 text = "-1"
-horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="FoodInfo" type="PanelContainer" parent="Resources/FoodContainer" unique_id=1630945763]
 custom_minimum_size = Vector2(100, 0)

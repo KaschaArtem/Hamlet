@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy378356dv36m"
-path="res://.godot/imported/fishing-hook.png-a75e7df0c98231dafba6606f23772489.ctex"
+uid="uid://6gon7af5ooit"
+path="res://.godot/imported/wood.png-2cbf3b89d10598d603dd705a4d61ec8f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/game_ui/fishing-hook.png"
-dest_files=["res://.godot/imported/fishing-hook.png-a75e7df0c98231dafba6606f23772489.ctex"]
+source_file="res://assets/icons/game_ui/wood.png"
+dest_files=["res://.godot/imported/wood.png-2cbf3b89d10598d603dd705a4d61ec8f.ctex"]
 
 [params]
 

@@ -138,7 +138,6 @@ func calculate_fish_production() -> void:
 		return
 	
 	var production = ground.count_fish_decreasement(base_fish_food_income * people_on_fish * fish_season_mod)
-	print(production)
 
 	animal_food_resource += round(production * 10) / 10.0
 

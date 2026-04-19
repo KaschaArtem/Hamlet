@@ -40,7 +40,7 @@ extends Control
 @export var more_5_hunt: Button
 
 @export_group("Control UI")
-@export var panel: Panel
+@export var panel: PanelContainer
 @export var open_close_button: Button
 
 
