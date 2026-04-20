@@ -24,6 +24,10 @@
 [ext_resource type="PackedScene" uid="uid://c83waugl8ljos" path="res://scenes/menu_scenes/settings.tscn" id="17_cjglu"]
 [ext_resource type="PackedScene" uid="uid://brg34vd042q85" path="res://scenes/menu_scenes/game_main.tscn" id="17_wtb1e"]
 [ext_resource type="PackedScene" uid="uid://b6xioqnm5sgfo" path="res://scenes/menu_scenes/back_to_main_menu_confirm.tscn" id="19_n4bim"]
+[ext_resource type="Script" uid="uid://c3w05qcpb55cr" path="res://scripts/game/water_manager.gd" id="21_ijsuf"]
+[ext_resource type="Texture2D" uid="uid://chewv7cpiftx5" path="res://assets/icons/game_ui/3_step_loading_1.png" id="22_6g2ct"]
+[ext_resource type="Texture2D" uid="uid://bjbn4fjrec81o" path="res://assets/icons/game_ui/3_step_loading_2.png" id="23_615p7"]
+[ext_resource type="Texture2D" uid="uid://yv3ms638c5g2" path="res://assets/icons/game_ui/3_step_loading_3.png" id="24_uy67k"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ggqa2"]
 sky_top_color = Color(0.050760232, 0.07049177, 0.096773066, 1)
@@ -76,8 +80,9 @@ game = NodePath("../..")
 [node name="TimeUI" parent="UserInterface" unique_id=1607769773 node_paths=PackedStringArray("game") instance=ExtResource("13_0eppp")]
 game = NodePath("../..")
 
-[node name="PeopleControlUI" parent="UserInterface" unique_id=521716 node_paths=PackedStringArray("game") instance=ExtResource("14_0eppp")]
+[node name="PeopleControlUI" parent="UserInterface" unique_id=521716 node_paths=PackedStringArray("game", "ground") instance=ExtResource("14_0eppp")]
 game = NodePath("../..")
+ground = NodePath("../../Ground")
 
 [node name="ObjectInfoUI" parent="UserInterface" unique_id=1749104847 node_paths=PackedStringArray("game", "ground", "camera") instance=ExtResource("16_n4bim")]
 game = NodePath("../..")
@@ -113,9 +118,8 @@ main = NodePath("../GameMain")
 menu = NodePath("..")
 main = NodePath("../GameMain")
 
-[node name="Ground" type="Node3D" parent="." unique_id=1711545239 node_paths=PackedStringArray("game")]
+[node name="Ground" type="Node3D" parent="." unique_id=1711545239]
 script = ExtResource("1_r0i7r")
-game = NodePath("..")
 main_tile_scene = ExtResource("4_g754w")
 tile_scene = ExtResource("2_amqpi")
 house_scene = ExtResource("4_5uvhb")
@@ -123,6 +127,12 @@ field_scene = ExtResource("3_6djtn")
 pasture_scene = ExtResource("5_g754w")
 tree_one_scene = ExtResource("8_inwm1")
 water_scene = ExtResource("9_cq3oe")
+
+[node name="WaterManager" type="Node3D" parent="Ground" unique_id=1115785555]
+script = ExtResource("21_ijsuf")
+three_step_loading_1 = ExtResource("22_6g2ct")
+three_step_loading_2 = ExtResource("23_615p7")
+three_step_loading_3 = ExtResource("24_uy67k")
 fish_icon_texture = ExtResource("3_hih2d")
 
 [node name="Camera" type="Node3D" parent="." unique_id=1567863974 node_paths=PackedStringArray("ground", "camera")]
@@ -135,9 +145,8 @@ projection = 2
 fov = 60.0
 size = 0.06
 
-[node name="Timer" type="Node3D" parent="." unique_id=1136563278 node_paths=PackedStringArray("game", "day_night_cycle")]
+[node name="Timer" type="Node3D" parent="." unique_id=1136563278 node_paths=PackedStringArray("day_night_cycle")]
 script = ExtResource("11_qektj")
-game = NodePath("..")
 day_night_cycle = NodePath("DayNightCycle")
 month_time = 2.0
 

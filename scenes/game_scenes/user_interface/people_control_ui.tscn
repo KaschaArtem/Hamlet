@@ -25,14 +25,14 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5b7o"]
-content_margin_left = 15.0
-content_margin_top = 15.0
-content_margin_right = 15.0
-content_margin_bottom = 15.0
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
 bg_color = Color(0, 0, 0, 0.49803922)
 corner_radius_bottom_right = 24
 
-[node name="PeopleControlUI" type="Control" unique_id=521716 node_paths=PackedStringArray("less_5_wood", "less_wood", "current_wood", "more_wood", "more_5_wood", "less_5_plant", "less_plant", "current_plant", "more_plant", "more_5_plant", "less_5_animal", "less_animal", "current_animal", "more_animal", "more_5_animal", "less_5_fish", "less_fish", "current_fish", "more_fish", "more_5_fish", "panel", "open_close_button")]
+[node name="PeopleControlUI" type="Control" unique_id=521716 node_paths=PackedStringArray("less_5_wood", "less_wood", "current_wood", "more_wood", "more_5_wood", "wood_base", "wood_people", "wood_season", "wood_total", "less_5_plant", "less_plant", "current_plant", "more_plant", "more_5_plant", "plant_base", "plant_people", "plant_fields", "plant_season", "plant_total", "less_5_animal", "less_animal", "current_animal", "more_animal", "more_5_animal", "animal_base", "animal_people", "animal_pastures", "animal_season", "animal_total", "less_5_fish", "less_fish", "current_fish", "more_fish", "more_5_fish", "fish_base", "fish_people", "fish_water_bonus", "fish_season", "fish_total", "panel", "open_close_button")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_d5b7o")
@@ -41,21 +41,40 @@ less_wood = NodePath("PanelContainer/VBoxContainer/WoodContainer/Wood/LessWood")
 current_wood = NodePath("PanelContainer/VBoxContainer/WoodContainer/Wood/CurrentWood")
 more_wood = NodePath("PanelContainer/VBoxContainer/WoodContainer/Wood/MoreWood")
 more_5_wood = NodePath("PanelContainer/VBoxContainer/WoodContainer/Wood/More5Wood")
+wood_base = NodePath("PanelContainer/VBoxContainer/WoodContainer/Formula/Base")
+wood_people = NodePath("PanelContainer/VBoxContainer/WoodContainer/Formula/People")
+wood_season = NodePath("PanelContainer/VBoxContainer/WoodContainer/Formula/Season")
+wood_total = NodePath("PanelContainer/VBoxContainer/WoodContainer/Formula/Total")
 less_5_plant = NodePath("PanelContainer/VBoxContainer/PlantContainer/Plant/Less5Plant")
 less_plant = NodePath("PanelContainer/VBoxContainer/PlantContainer/Plant/LessPlant")
 current_plant = NodePath("PanelContainer/VBoxContainer/PlantContainer/Plant/CurrentPlant")
 more_plant = NodePath("PanelContainer/VBoxContainer/PlantContainer/Plant/MorePlant")
 more_5_plant = NodePath("PanelContainer/VBoxContainer/PlantContainer/Plant/More5Plant")
+plant_base = NodePath("PanelContainer/VBoxContainer/PlantContainer/Formula/Base")
+plant_people = NodePath("PanelContainer/VBoxContainer/PlantContainer/Formula/People")
+plant_fields = NodePath("PanelContainer/VBoxContainer/PlantContainer/Formula/Fields")
+plant_season = NodePath("PanelContainer/VBoxContainer/PlantContainer/Formula/Season")
+plant_total = NodePath("PanelContainer/VBoxContainer/PlantContainer/Formula/Total")
 less_5_animal = NodePath("PanelContainer/VBoxContainer/AnimalContainer/Animal/Less5Animal")
 less_animal = NodePath("PanelContainer/VBoxContainer/AnimalContainer/Animal/LessAnimal")
 current_animal = NodePath("PanelContainer/VBoxContainer/AnimalContainer/Animal/CurrentAnimal")
 more_animal = NodePath("PanelContainer/VBoxContainer/AnimalContainer/Animal/MoreAnimal")
 more_5_animal = NodePath("PanelContainer/VBoxContainer/AnimalContainer/Animal/More5Animal")
+animal_base = NodePath("PanelContainer/VBoxContainer/AnimalContainer/Formula/Base")
+animal_people = NodePath("PanelContainer/VBoxContainer/AnimalContainer/Formula/People")
+animal_pastures = NodePath("PanelContainer/VBoxContainer/AnimalContainer/Formula/Pastures")
+animal_season = NodePath("PanelContainer/VBoxContainer/AnimalContainer/Formula/Season")
+animal_total = NodePath("PanelContainer/VBoxContainer/AnimalContainer/Formula/Total")
 less_5_fish = NodePath("PanelContainer/VBoxContainer/FishContainer/Fish/Less5Fish")
 less_fish = NodePath("PanelContainer/VBoxContainer/FishContainer/Fish/LessFish")
 current_fish = NodePath("PanelContainer/VBoxContainer/FishContainer/Fish/CurrentFish")
 more_fish = NodePath("PanelContainer/VBoxContainer/FishContainer/Fish/MoreFish")
 more_5_fish = NodePath("PanelContainer/VBoxContainer/FishContainer/Fish/More5Fish")
+fish_base = NodePath("PanelContainer/VBoxContainer/FishContainer/Formula/Base")
+fish_people = NodePath("PanelContainer/VBoxContainer/FishContainer/Formula/People")
+fish_water_bonus = NodePath("PanelContainer/VBoxContainer/FishContainer/Formula/WaterBonus")
+fish_season = NodePath("PanelContainer/VBoxContainer/FishContainer/Formula/Season")
+fish_total = NodePath("PanelContainer/VBoxContainer/FishContainer/Formula/Total")
 panel = NodePath("PanelContainer")
 open_close_button = NodePath("Open_Close")
 
@@ -76,7 +95,7 @@ custom_minimum_size = Vector2(316, 0)
 layout_mode = 0
 offset_left = -316.0
 offset_top = 40.0
-offset_bottom = 270.0
+offset_bottom = 238.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_d5b7o")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1528243772]
@@ -98,7 +117,7 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "Logging"
 
 [node name="Less5Wood" type="Button" parent="PanelContainer/VBoxContainer/WoodContainer/Wood" unique_id=1891445219]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -107,7 +126,7 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-5"
 
 [node name="LessWood" type="Button" parent="PanelContainer/VBoxContainer/WoodContainer/Wood" unique_id=2077236582]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -116,12 +135,14 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-1"
 
 [node name="CurrentWood" type="Label" parent="PanelContainer/VBoxContainer/WoodContainer/Wood" unique_id=1338211324]
+custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
+horizontal_alignment = 1
 
 [node name="MoreWood" type="Button" parent="PanelContainer/VBoxContainer/WoodContainer/Wood" unique_id=1527486126]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -130,7 +151,7 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+1"
 
 [node name="More5Wood" type="Button" parent="PanelContainer/VBoxContainer/WoodContainer/Wood" unique_id=1607530176]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -138,8 +159,31 @@ theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+5"
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/WoodContainer" unique_id=1098473758]
+[node name="Formula" type="HBoxContainer" parent="PanelContainer/VBoxContainer/WoodContainer" unique_id=186979269]
 layout_mode = 2
+
+[node name="Base" type="Label" parent="PanelContainer/VBoxContainer/WoodContainer/Formula" unique_id=1098473758]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6955032, 0.6955031, 0.6955031, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="People" type="Label" parent="PanelContainer/VBoxContainer/WoodContainer/Formula" unique_id=851863385]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="Season" type="Label" parent="PanelContainer/VBoxContainer/WoodContainer/Formula" unique_id=1221271417]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="Total" type="Label" parent="PanelContainer/VBoxContainer/WoodContainer/Formula" unique_id=504527666]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
 
 [node name="PlantContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1552373159]
 layout_mode = 2
@@ -155,7 +199,7 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "Cultivating"
 
 [node name="Less5Plant" type="Button" parent="PanelContainer/VBoxContainer/PlantContainer/Plant" unique_id=618943560]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -164,7 +208,7 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-5"
 
 [node name="LessPlant" type="Button" parent="PanelContainer/VBoxContainer/PlantContainer/Plant" unique_id=1166616987]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -173,12 +217,14 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-1"
 
 [node name="CurrentPlant" type="Label" parent="PanelContainer/VBoxContainer/PlantContainer/Plant" unique_id=1352551383]
+custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
+horizontal_alignment = 1
 
 [node name="MorePlant" type="Button" parent="PanelContainer/VBoxContainer/PlantContainer/Plant" unique_id=514363554]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -187,7 +233,7 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+1"
 
 [node name="More5Plant" type="Button" parent="PanelContainer/VBoxContainer/PlantContainer/Plant" unique_id=138702915]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -195,8 +241,37 @@ theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+5"
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/PlantContainer" unique_id=1363483613]
+[node name="Formula" type="HBoxContainer" parent="PanelContainer/VBoxContainer/PlantContainer" unique_id=1926018424]
 layout_mode = 2
+
+[node name="Base" type="Label" parent="PanelContainer/VBoxContainer/PlantContainer/Formula" unique_id=905614388]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6955032, 0.6955031, 0.6955031, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="People" type="Label" parent="PanelContainer/VBoxContainer/PlantContainer/Formula" unique_id=1115777160]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="Fields" type="Label" parent="PanelContainer/VBoxContainer/PlantContainer/Formula" unique_id=316289238]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4167771, 1, 0.44375944, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="Season" type="Label" parent="PanelContainer/VBoxContainer/PlantContainer/Formula" unique_id=1037031377]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="Total" type="Label" parent="PanelContainer/VBoxContainer/PlantContainer/Formula" unique_id=1363294879]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
 
 [node name="AnimalContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=2043007403]
 layout_mode = 2
@@ -212,7 +287,7 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "Ranching"
 
 [node name="Less5Animal" type="Button" parent="PanelContainer/VBoxContainer/AnimalContainer/Animal" unique_id=1347371367]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -221,7 +296,7 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-5"
 
 [node name="LessAnimal" type="Button" parent="PanelContainer/VBoxContainer/AnimalContainer/Animal" unique_id=987098490]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -230,12 +305,14 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-1"
 
 [node name="CurrentAnimal" type="Label" parent="PanelContainer/VBoxContainer/AnimalContainer/Animal" unique_id=246902823]
+custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
+horizontal_alignment = 1
 
 [node name="MoreAnimal" type="Button" parent="PanelContainer/VBoxContainer/AnimalContainer/Animal" unique_id=1273428324]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -244,7 +321,7 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+1"
 
 [node name="More5Animal" type="Button" parent="PanelContainer/VBoxContainer/AnimalContainer/Animal" unique_id=1520738776]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -252,8 +329,37 @@ theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+5"
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/AnimalContainer" unique_id=1449036215]
+[node name="Formula" type="HBoxContainer" parent="PanelContainer/VBoxContainer/AnimalContainer" unique_id=778841766]
 layout_mode = 2
+
+[node name="Base" type="Label" parent="PanelContainer/VBoxContainer/AnimalContainer/Formula" unique_id=1246571721]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6955032, 0.6955031, 0.6955031, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="People" type="Label" parent="PanelContainer/VBoxContainer/AnimalContainer/Formula" unique_id=435296455]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="Pastures" type="Label" parent="PanelContainer/VBoxContainer/AnimalContainer/Formula" unique_id=1072051615]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.99999994, 0.1943762, 0.14415294, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="Season" type="Label" parent="PanelContainer/VBoxContainer/AnimalContainer/Formula" unique_id=476288574]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="Total" type="Label" parent="PanelContainer/VBoxContainer/AnimalContainer/Formula" unique_id=578407930]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
 
 [node name="FishContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=703958843]
 layout_mode = 2
@@ -269,7 +375,7 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "Fishing"
 
 [node name="Less5Fish" type="Button" parent="PanelContainer/VBoxContainer/FishContainer/Fish" unique_id=1419551121]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -278,7 +384,7 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-5"
 
 [node name="LessFish" type="Button" parent="PanelContainer/VBoxContainer/FishContainer/Fish" unique_id=1708373847]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -287,12 +393,14 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "-1"
 
 [node name="CurrentFish" type="Label" parent="PanelContainer/VBoxContainer/FishContainer/Fish" unique_id=1898886837]
+custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "0"
+horizontal_alignment = 1
 
 [node name="MoreFish" type="Button" parent="PanelContainer/VBoxContainer/FishContainer/Fish" unique_id=2000156667]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -301,7 +409,7 @@ theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+1"
 
 [node name="More5Fish" type="Button" parent="PanelContainer/VBoxContainer/FishContainer/Fish" unique_id=754313612]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 1
@@ -309,8 +417,37 @@ theme = ExtResource("3_js1kg")
 theme_override_fonts/font = ExtResource("2_lfn7j")
 text = "+5"
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/FishContainer" unique_id=1917921820]
+[node name="Formula" type="HBoxContainer" parent="PanelContainer/VBoxContainer/FishContainer" unique_id=1968253683]
 layout_mode = 2
+
+[node name="Base" type="Label" parent="PanelContainer/VBoxContainer/FishContainer/Formula" unique_id=1441980047]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6955032, 0.6955031, 0.6955031, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="People" type="Label" parent="PanelContainer/VBoxContainer/FishContainer/Formula" unique_id=1578069263]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="WaterBonus" type="Label" parent="PanelContainer/VBoxContainer/FishContainer/Formula" unique_id=1545725126]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.6784314, 1, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="Season" type="Label" parent="PanelContainer/VBoxContainer/FishContainer/Formula" unique_id=246289181]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
+
+[node name="Total" type="Label" parent="PanelContainer/VBoxContainer/FishContainer/Formula" unique_id=1934907360]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lfn7j")
+theme_override_font_sizes/font_size = 12
 
 [connection signal="pressed" from="Open_Close" to="." method="_on_open_close_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/WoodContainer/Wood/Less5Wood" to="." method="_on_less_5_wood_pressed"]

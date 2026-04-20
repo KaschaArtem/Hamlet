@@ -1,7 +1,7 @@
 extends Node3D
 
 
-@export var game: Node3D
+@onready var game = get_parent()
 @export var day_night_cycle: Node3D
 
 signal end_month

@@ -115,13 +115,13 @@ func check_assign_logging() -> void:
 	animate_warning(assign_logging, game.people_on_wood == 0 and ground.current_to_cut_tree != null)
 
 func check_assign_fishing() -> void:
-	animate_warning(assign_fishing, game.people_on_fish == 0 and ground.current_water_cluster != null)
+	animate_warning(assign_fishing, game.people_on_fish == 0 and ground.get_current_water_cluster() != null)
 
 func check_choose_tree() -> void:
 	animate_warning(choose_tree, game.people_on_wood > 0 and ground.current_to_cut_tree == null)
 
 func check_choose_water() -> void:
-	animate_warning(choose_water, game.people_on_fish > 0 and ground.current_water_cluster == null)
+	animate_warning(choose_water, game.people_on_fish > 0 and ground.get_current_water_cluster() == null)
 
 func on_people_assignment_changed() -> void:
 	check_assign_logging()

@@ -21,8 +21,8 @@ extends Node3D
 
 @export_group("Base Income")
 @export var base_wood_income: float = 15.0
-@export var base_plant_food_income: float = 3.0
-@export var base_animal_food_income: float = 3.0
+@export var base_plant_food_income: float = 1.0
+@export var base_animal_food_income: float = 1.0
 @export var base_fish_food_income: float = 1.0
 
 @export_group("Base Consumption")
@@ -49,8 +49,8 @@ var TILES_INFO = {
 	"house": ["House", "Increase max amount of PEOPLE, WOOD, FOOD. Increase resource income, when stands near resource tile."],
 	"field": ["Field", "Produce plant food. Doesn't work on winter."],
 	"pasture": ["Pasture", "Produce animal food. Works less efficient on winter."],
-	"tree": ["Tree", "Cut to get WOOD. Press F on this tile to choose this tree for cutting during next month. Tree tile will desappeared after this."],
-	"water": ["Water", "Used for fishing. Press F on water cluster to choose it for fishing during next month. This will take some fish from this water cluster."]
+	"tree": ["Tree", "Being cutted to get WOOD. Press F on this tile to choose this tree for cutting during next month. Tree tile will desappeared after this."],
+	"water": ["Water", "Being used to get FISH. Press F on water cluster to choose it for fishing during next month. After fishing this water cluster will not be available for 3 months."]
 }
 
 var human_resource : int = start_human_resource
@@ -62,10 +62,11 @@ var max_human_resource
 var max_wood_resource
 var max_food_resource
 
-var plant_season_mod := 1.0
-var animal_season_mod := 1.0
-var fish_season_mod := 1.0
-var wood_season_mod := 1.0
+
+var wood_season_mod = 1.0
+var plant_season_mod = 1.0
+var animal_season_mod = 1.0
+var fish_season_mod = 1.0
 
 var people_on_wood: int = 0:
 	set(v):
@@ -138,45 +139,44 @@ func on_builded(building_index) -> void:
 	resources_changed.emit()
 
 
-func calculate_wood_production() -> void:
-	if people_on_wood <= 0:
-		return
+func get_people_coeff(people_on) -> float:
+	var people_coeff = 0.0
+	for i in range(people_on):
+		people_coeff += pow(0.9, i)
+	return snapped(people_coeff, 0.1)
+
+func get_wood_production() -> float:
+	return snapped(base_wood_income * get_people_coeff(people_on_wood) * wood_season_mod, 0.1)
+
+func handle_wood_production() -> void:
 	if ground.current_to_cut_tree == null:
 		return
 	ground.remove_to_cut_tree()
 
-	var production = base_wood_income * people_on_wood * wood_season_mod
-
-	wood_resource += round(production * 10) / 10.0
+	wood_resource += get_wood_production()
 
 
-func calculate_food_production() -> void:
-	
-	var plant_prod = base_plant_food_income * people_on_plant * ground.field_amount * plant_season_mod
-	var animal_prod = base_animal_food_income * people_on_animal * ground.pasture_amount * animal_season_mod
-	
-	plant_food_resource += round(plant_prod * 10) / 10.0
-	animal_food_resource += round(animal_prod * 10) / 10.0
+func get_plant_food_production() -> float:
+	return snapped(base_plant_food_income * get_people_coeff(people_on_plant) * ground.field_amount * plant_season_mod, 0.1)
+
+func get_animal_food_production() -> float:
+	return snapped(base_animal_food_income * get_people_coeff(people_on_animal) * ground.pasture_amount * animal_season_mod, 0.1)
+
+func handle_food_production() -> void:
+	plant_food_resource += get_plant_food_production()
+	animal_food_resource += get_animal_food_production()
 
 
-func calculate_fish_production() -> void:
-	if people_on_fish <= 0:
+func get_fish_production() -> float:
+	return snapped(base_fish_food_income * get_people_coeff(people_on_fish) * ground.get_water_bonus() * fish_season_mod, 0.1)
+
+func handle_fish_production() -> void:
+	if ground.get_current_water_cluster() == null:
 		return
-	if ground.current_water_cluster == null:
-		return
 	
-	var production = ground.count_fish_decreasement(base_fish_food_income * people_on_fish * fish_season_mod)
+	var production = ground.count_fish_income()
 
 	animal_food_resource += round(production * 10) / 10.0
-
-func get_effective_workers(workers: int, capacity: int, k: float = 2.0) -> float:
-	if capacity <= 0:
-		return 0.0
-	
-	var w = float(workers)
-	var c = float(capacity)
-
-	return (w * c) / (c + k * w) * 2
 
 func is_enough_wood_consumption() -> bool:
 	if wood_resource >= snapped(human_resource * base_wood_consumption, 0.1):
@@ -236,9 +236,9 @@ func process_spring():
 	fish_season_mod = 1.0
 	wood_season_mod = 1.0
 
-	calculate_wood_production()
-	calculate_food_production()
-	calculate_fish_production()
+	handle_wood_production()
+	handle_food_production()
+	handle_fish_production()
 
 	calculate_food_consumption()
 
@@ -249,9 +249,9 @@ func process_summer():
 	fish_season_mod = 1.2
 	wood_season_mod = 1.0
 
-	calculate_wood_production()
-	calculate_food_production()
-	calculate_fish_production()
+	handle_wood_production()
+	handle_food_production()
+	handle_fish_production()
 
 	calculate_food_consumption()
 
@@ -262,9 +262,9 @@ func process_autumn():
 	fish_season_mod = 1.0
 	wood_season_mod = 1.0
 
-	calculate_wood_production()
-	calculate_food_production()
-	calculate_fish_production()
+	handle_wood_production()
+	handle_food_production()
+	handle_fish_production()
 
 	calculate_food_consumption()
 
@@ -275,9 +275,9 @@ func process_winter():
 	fish_season_mod = 0.6
 	wood_season_mod = 0.6
 
-	calculate_wood_production()
-	calculate_food_production()
-	calculate_fish_production()
+	handle_wood_production()
+	handle_food_production()
+	handle_fish_production()
 
 	calculate_wood_consumption()
 	calculate_food_consumption()

@@ -5,8 +5,8 @@ extends Control
 
 const RESOURCES_INFO = {
 	"people": "You can allocate PEOPLE to do certain work. The more PEOPLE you allocate at one work, the more efficient this work will be.",
-	"wood": "Resource for build. On winter will be used to warm up PEOPLE.",
-	"food": "Resource for PEOPLE's sustenance. If not enough, PEOPLE will die."
+	"wood": "Resource for build. On winter will be used to warm up PEOPLE. Consumption counts AFTER production.",
+	"food": "Resource for PEOPLE's sustenance. If not enough, PEOPLE will die. Consumption counts AFTER production."
 }
 
 @export var actual_people: Label
