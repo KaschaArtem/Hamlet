@@ -1,5 +1,6 @@
 extends Node
 
+var is_ui_input_allowed: bool = false
 
 var is_input_allowed: bool = true
 

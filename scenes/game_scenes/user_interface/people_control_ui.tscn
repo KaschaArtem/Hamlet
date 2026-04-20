@@ -6,29 +6,29 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lfn7j"]
 bg_color = Color(0, 0, 0, 0.49803922)
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_js1kg"]
 bg_color = Color(0.24840015, 0.24840018, 0.24840015, 0.49803922)
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w6re6"]
 bg_color = Color(0.12225223, 0.12225223, 0.12225223, 0.49803922)
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y4x8e"]
 bg_color = Color(0, 0, 0, 0)
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5b7o"]
-content_margin_left = 12.0
-content_margin_top = 12.0
-content_margin_right = 12.0
-content_margin_bottom = 12.0
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
 bg_color = Color(0, 0, 0, 0.49803922)
 corner_radius_bottom_right = 24
 
@@ -65,7 +65,7 @@ panel = NodePath("PanelContainer")
 open_close_button = NodePath("Open_Close")
 
 [node name="Open_Close" type="Button" parent="." unique_id=506363216]
-custom_minimum_size = Vector2(42, 42)
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 0
 offset_top = 40.0
 offset_right = 40.0

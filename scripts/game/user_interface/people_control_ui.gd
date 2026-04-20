@@ -3,7 +3,6 @@ extends Control
 
 @export var game: Node3D
 
-
 @export_group("Wood UI")
 @export var less_5_wood: Button
 @export var less_wood: Button

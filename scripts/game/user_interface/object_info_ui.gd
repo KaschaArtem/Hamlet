@@ -1,18 +1,12 @@
 extends Node
 
 
+@export_group("Links")
+@export var game: Node3D
 @export var ground: Node3D
 @export var camera: Node3D
 
-
-var TILES_INFO = {
-	"house": ["House", "Increase max amount of PEOPLE, WOOD, FOOD. Increase resource income, when stands near resource tile."],
-	"field": ["Field", "Produce plant food. Doesn't work on winter."],
-	"pasture": ["Pasture", "Produce animal food. Works less efficient on winter."],
-	"tree": ["Tree", "Cut to get WOOD. Press F on this tile to choose this tree for cutting during next month. Tree tile will desappeared after this."],
-	"water": ["Water", "Used for fishing. Press F on water cluster to choose it for fishing during next month. This will take some fish from this water cluster."]
-}
-
+@export_group("Scene Objects")
 @export var panel: Panel
 @export var container: VBoxContainer
 @export var object_name: Label
@@ -20,6 +14,7 @@ var TILES_INFO = {
 
 var current_type: String = ""
 var tween: Tween
+
 
 func _ready() -> void:
 	camera.selected_tile_changed.connect(update_info_on_selected)
@@ -49,13 +44,13 @@ func show_info(type: String) -> void:
 	if type == current_type and self.visible:
 		return
 		
-	if not TILES_INFO.has(type):
+	if not game.TILES_INFO.has(type):
 		hide_instantly()
 		return
 	
 	current_type = type
-	object_name.text = TILES_INFO[type][0]
-	object_info.text = TILES_INFO[type][1]
+	object_name.text = game.TILES_INFO[type][0]
+	object_info.text = game.TILES_INFO[type][1]
 
 	fade_in()
 

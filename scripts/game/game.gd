@@ -175,30 +175,34 @@ func calculate_wood_consumption(multiplier: float) -> void:
 
 
 func calculate_food_consumption() -> void:
-	var total_food = plant_food_resource + animal_food_resource
+	var total_food = snapped(plant_food_resource + animal_food_resource, 0.1)
 	
 	if total_food >= human_resource:
 		if total_food > 0:
-			var ratio = float(plant_food_resource) / total_food
-			var plant_consumed = int(round(human_resource * ratio))
-			var animal_consumed = human_resource - plant_consumed
+			var consumption_coeff = human_resource / total_food
 			
-			plant_food_resource = max(0, plant_food_resource - plant_consumed)
-			animal_food_resource = max(0, animal_food_resource - animal_consumed)
-	
-	else:
-		var deficit = human_resource - total_food
+			var plant_to_take = snapped(plant_food_resource * consumption_coeff, 0.1)
+			var animal_to_take = snapped(human_resource - plant_to_take, 0.1)
 
-		var loss = round((float(deficit) / food_penalty) * 10.0) / 10.0
+			if animal_to_take > animal_food_resource:
+				animal_to_take = animal_food_resource
+				plant_to_take = snapped(human_resource - animal_to_take, 0.1)
+
+			plant_food_resource = max(0.0, snapped(plant_food_resource - plant_to_take, 0.1))
+			animal_food_resource = max(0.0, snapped(animal_food_resource - animal_to_take, 0.1))
+			
+	else:
+		var deficit = snapped(human_resource - total_food, 0.1)
+		var loss = snapped(deficit / food_penalty, 0.1)
 		
-		human_resource -= int(loss)
+		human_resource = max(0.0, snapped(human_resource - loss, 0.1))
 		
-		plant_food_resource = 0
-		animal_food_resource = 0
+		plant_food_resource = 0.0
+		animal_food_resource = 0.0
+
 
 
 func process_spring():
-
 	plant_season_mod = 1.0
 	animal_season_mod = 1.0
 	fish_season_mod = 1.0
@@ -214,7 +218,6 @@ func process_spring():
 
 
 func process_summer():
-
 	plant_season_mod = 1.5
 	animal_season_mod = 1.0
 	fish_season_mod = 1.2
@@ -230,7 +233,6 @@ func process_summer():
 
 
 func process_autumn():
-
 	plant_season_mod = 0.8
 	animal_season_mod = 1.2
 	fish_season_mod = 1.0
@@ -246,7 +248,6 @@ func process_autumn():
 
 
 func process_winter():
-
 	plant_season_mod = 0.0
 	animal_season_mod = 0.8
 	fish_season_mod = 0.6
@@ -263,7 +264,6 @@ func process_winter():
 
 
 func clamp_resources():
-
 	human_resource = min(human_resource, max_human_resource)
 	wood_resource = min(wood_resource, max_wood_resource)
 
@@ -306,7 +306,6 @@ func start_first_month() -> void:
 
 
 func on_end_month() -> void:
-
 	var month = month_count % 12 + 1
 
 	if month >= 1 and month <= 3:

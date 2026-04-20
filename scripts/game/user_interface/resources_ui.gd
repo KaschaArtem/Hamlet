@@ -3,7 +3,6 @@ extends Control
 
 @export var game: Node3D
 
-
 const RESOURCES_INFO = {
 	"people": "You can allocate PEOPLE to do certain work. The more PEOPLE you allocate at one work, the more efficient this work will be.",
 	"wood": "Resource for build. On winter will be used to warm up PEOPLE.",

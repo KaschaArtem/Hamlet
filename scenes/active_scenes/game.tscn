@@ -65,7 +65,8 @@ game = NodePath("../..")
 [node name="PeopleControlUI" parent="UserInterface" unique_id=521716 node_paths=PackedStringArray("game") instance=ExtResource("14_0eppp")]
 game = NodePath("../..")
 
-[node name="ObjectInfoUI" parent="UserInterface" unique_id=1749104847 node_paths=PackedStringArray("ground", "camera") instance=ExtResource("16_n4bim")]
+[node name="ObjectInfoUI" parent="UserInterface" unique_id=1749104847 node_paths=PackedStringArray("game", "ground", "camera") instance=ExtResource("16_n4bim")]
+game = NodePath("../..")
 ground = NodePath("../../Ground")
 camera = NodePath("../../Camera")
 

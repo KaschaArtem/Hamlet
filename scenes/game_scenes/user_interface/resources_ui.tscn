@@ -9,9 +9,13 @@
 [ext_resource type="Texture2D" uid="uid://cfph566754fu5" path="res://assets/icons/game_ui/animal_food.png" id="7_87c74"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kjv14"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
 bg_color = Color(0, 0, 0, 0.49803922)
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
+corner_radius_top_left = 24
+corner_radius_bottom_left = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w4bi3"]
 content_margin_left = 8.0
@@ -49,61 +53,47 @@ corner_radius_bottom_left = 16
 [node name="ResourcesUI" type="Control" unique_id=988245277 node_paths=PackedStringArray("actual_people", "max_people", "actual_wood", "max_wood", "actual_plant_food", "actual_animal_food", "max_food", "people_info", "wood_info", "food_info", "people_info_label", "wood_info_label", "food_info_label")]
 texture_filter = 1
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
 script = ExtResource("1_a6usm")
-actual_people = NodePath("Resources/PeopleContainer/People/Actual")
-max_people = NodePath("Resources/PeopleContainer/People/Max")
-actual_wood = NodePath("Resources/WoodContainer/Wood/Actual")
-max_wood = NodePath("Resources/WoodContainer/Wood/Max")
-actual_plant_food = NodePath("Resources/FoodContainer/Food/ActualPlant")
-actual_animal_food = NodePath("Resources/FoodContainer/Food/ActualAnimal")
-max_food = NodePath("Resources/FoodContainer/Food/Max")
-people_info = NodePath("Resources/PeopleContainer/PeopleInfo")
-wood_info = NodePath("Resources/WoodContainer/WoodInfo")
-food_info = NodePath("Resources/FoodContainer/FoodInfo")
-people_info_label = NodePath("Resources/PeopleContainer/PeopleInfo/Label")
-wood_info_label = NodePath("Resources/WoodContainer/WoodInfo/Label")
-food_info_label = NodePath("Resources/FoodContainer/FoodInfo/Label")
+actual_people = NodePath("Resources/VBoxContainer/People/Actual")
+max_people = NodePath("Resources/VBoxContainer/People/Max")
+actual_wood = NodePath("Resources/VBoxContainer/Wood/Actual")
+max_wood = NodePath("Resources/VBoxContainer/Wood/Max")
+actual_plant_food = NodePath("Resources/VBoxContainer/Food/Actual/Plant/ActualPlant")
+actual_animal_food = NodePath("Resources/VBoxContainer/Food/Actual/Animal/ActualAnimal")
+max_food = NodePath("Resources/VBoxContainer/Food/Max/Max")
+people_info = NodePath("PeopleInfo")
+wood_info = NodePath("WoodInfo")
+food_info = NodePath("FoodInfo")
+people_info_label = NodePath("PeopleInfo/Label")
+wood_info_label = NodePath("WoodInfo/Label")
+food_info_label = NodePath("FoodInfo/Label")
 
-[node name="Panel" type="Panel" parent="." unique_id=1076655828]
-custom_minimum_size = Vector2(752, 30)
+[node name="Resources" type="PanelContainer" parent="." unique_id=199831875]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 200.0
-offset_right = 952.0
-offset_bottom = 30.0
-grow_horizontal = 2
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -150.0
+offset_top = 40.0
+offset_bottom = 168.0
+grow_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_kjv14")
 
-[node name="Resources" type="HBoxContainer" parent="." unique_id=421341636]
-custom_minimum_size = Vector2(1152, 0)
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 132.0
-size_flags_vertical = 0
-alignment = 1
-
-[node name="PeopleContainer" type="VBoxContainer" parent="Resources" unique_id=304794934]
+[node name="VBoxContainer" type="VBoxContainer" parent="Resources" unique_id=662122843]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 0
 
-[node name="People" type="HBoxContainer" parent="Resources/PeopleContainer" unique_id=2045737727]
-custom_minimum_size = Vector2(130, 30)
+[node name="People" type="HBoxContainer" parent="Resources/VBoxContainer" unique_id=2045737727]
+custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
-alignment = 1
+alignment = 2
 
-[node name="PeopleImage" type="TextureRect" parent="Resources/PeopleContainer/People" unique_id=620601726]
-texture_filter = 2
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("2_w4bi3")
-expand_mode = 5
-
-[node name="Actual" type="Label" parent="Resources/PeopleContainer/People" unique_id=998056677]
+[node name="Actual" type="Label" parent="Resources/VBoxContainer/People" unique_id=998056677]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -114,7 +104,7 @@ theme_override_font_sizes/font_size = 24
 text = "-1"
 vertical_alignment = 2
 
-[node name="Slash" type="Label" parent="Resources/PeopleContainer/People" unique_id=743380895]
+[node name="Slash" type="Label" parent="Resources/VBoxContainer/People" unique_id=743380895]
 custom_minimum_size = Vector2(0, 18.895)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
@@ -125,7 +115,7 @@ theme_override_font_sizes/font_size = 10
 text = "/"
 vertical_alignment = 2
 
-[node name="Max" type="Label" parent="Resources/PeopleContainer/People" unique_id=927937722]
+[node name="Max" type="Label" parent="Resources/VBoxContainer/People" unique_id=927937722]
 custom_minimum_size = Vector2(0, 23.935)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
@@ -136,11 +126,168 @@ theme_override_font_sizes/font_size = 14
 text = "-1"
 vertical_alignment = 2
 
-[node name="PeopleInfo" type="PanelContainer" parent="Resources/PeopleContainer" unique_id=189129249]
+[node name="PeopleImage" type="TextureRect" parent="Resources/VBoxContainer/People" unique_id=620601726]
+texture_filter = 2
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_w4bi3")
+expand_mode = 5
+
+[node name="Wood" type="HBoxContainer" parent="Resources/VBoxContainer" unique_id=54526621]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 2
+
+[node name="Actual" type="Label" parent="Resources/VBoxContainer/Wood" unique_id=1060881592]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_w4bi3")
+theme_override_font_sizes/font_size = 24
+text = "-1"
+vertical_alignment = 2
+
+[node name="Slash" type="Label" parent="Resources/VBoxContainer/Wood" unique_id=1272143537]
+custom_minimum_size = Vector2(0, 18.895)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_w4bi3")
+theme_override_font_sizes/font_size = 10
+text = "/"
+vertical_alignment = 2
+
+[node name="Max" type="Label" parent="Resources/VBoxContainer/Wood" unique_id=310275433]
+custom_minimum_size = Vector2(0, 23.935)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_w4bi3")
+theme_override_font_sizes/font_size = 14
+text = "-1"
+vertical_alignment = 2
+
+[node name="WoodImage" type="TextureRect" parent="Resources/VBoxContainer/Wood" unique_id=2018252265]
+texture_filter = 2
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("5_w4bi3")
+expand_mode = 5
+
+[node name="Food" type="HBoxContainer" parent="Resources/VBoxContainer" unique_id=1401960069]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 2
+
+[node name="Actual" type="VBoxContainer" parent="Resources/VBoxContainer/Food" unique_id=1506466153]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Plant" type="HBoxContainer" parent="Resources/VBoxContainer/Food/Actual" unique_id=1142975424]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 2
+
+[node name="ActualPlant" type="Label" parent="Resources/VBoxContainer/Food/Actual/Plant" unique_id=219311854]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_w4bi3")
+theme_override_font_sizes/font_size = 24
+text = "-1"
+vertical_alignment = 2
+
+[node name="Animal" type="HBoxContainer" parent="Resources/VBoxContainer/Food/Actual" unique_id=1864633108]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+alignment = 2
+
+[node name="ActualAnimal" type="Label" parent="Resources/VBoxContainer/Food/Actual/Animal" unique_id=104728778]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_w4bi3")
+theme_override_font_sizes/font_size = 24
+text = "-1"
+vertical_alignment = 2
+
+[node name="Max" type="HBoxContainer" parent="Resources/VBoxContainer/Food" unique_id=1117393394]
+layout_mode = 2
+
+[node name="Slash" type="Label" parent="Resources/VBoxContainer/Food/Max" unique_id=993549387]
+custom_minimum_size = Vector2(0, 18.895)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_w4bi3")
+theme_override_font_sizes/font_size = 10
+text = "/"
+vertical_alignment = 2
+
+[node name="Max" type="Label" parent="Resources/VBoxContainer/Food/Max" unique_id=1841917571]
+custom_minimum_size = Vector2(0, 23.935)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_w4bi3")
+theme_override_font_sizes/font_size = 14
+text = "-1"
+vertical_alignment = 2
+
+[node name="Icons" type="VBoxContainer" parent="Resources/VBoxContainer/Food" unique_id=345142698]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Plant" type="HBoxContainer" parent="Resources/VBoxContainer/Food/Icons" unique_id=2125539618]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 2
+
+[node name="PlantImage" type="TextureRect" parent="Resources/VBoxContainer/Food/Icons/Plant" unique_id=1978198872]
+texture_filter = 2
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_7tm1m")
+expand_mode = 1
+
+[node name="Animal" type="HBoxContainer" parent="Resources/VBoxContainer/Food/Icons" unique_id=738402565]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+alignment = 2
+
+[node name="AnimalImage" type="TextureRect" parent="Resources/VBoxContainer/Food/Icons/Animal" unique_id=1106042251]
+texture_filter = 2
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("7_87c74")
+expand_mode = 1
+
+[node name="PeopleInfo" type="PanelContainer" parent="." unique_id=286891013]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 0
+offset_left = -288.0
+offset_top = 40.0
+offset_right = -158.0
+offset_bottom = 69.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_w4bi3")
 
-[node name="Label" type="Label" parent="Resources/PeopleContainer/PeopleInfo" unique_id=1089330367]
+[node name="Label" type="Label" parent="PeopleInfo" unique_id=991731274]
 custom_minimum_size = Vector2(114, 0)
 layout_mode = 2
 size_flags_vertical = 0
@@ -150,65 +297,16 @@ theme_override_font_sizes/font_size = 10
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Gap1" type="Control" parent="Resources" unique_id=1766645098]
-custom_minimum_size = Vector2(140, 0)
-layout_mode = 2
-
-[node name="WoodContainer" type="VBoxContainer" parent="Resources" unique_id=1792394543]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Wood" type="HBoxContainer" parent="Resources/WoodContainer" unique_id=54526621]
-custom_minimum_size = Vector2(120, 30)
-layout_mode = 2
-alignment = 1
-
-[node name="WoodImage" type="TextureRect" parent="Resources/WoodContainer/Wood" unique_id=2018252265]
-texture_filter = 2
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("5_w4bi3")
-expand_mode = 5
-
-[node name="Actual" type="Label" parent="Resources/WoodContainer/Wood" unique_id=1060881592]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("3_w4bi3")
-theme_override_font_sizes/font_size = 24
-text = "-1"
-vertical_alignment = 2
-
-[node name="Slash" type="Label" parent="Resources/WoodContainer/Wood" unique_id=1272143537]
-custom_minimum_size = Vector2(0, 18.895)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("3_w4bi3")
-theme_override_font_sizes/font_size = 10
-text = "/"
-vertical_alignment = 2
-
-[node name="Max" type="Label" parent="Resources/WoodContainer/Wood" unique_id=310275433]
-custom_minimum_size = Vector2(0, 23.935)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("3_w4bi3")
-theme_override_font_sizes/font_size = 14
-text = "-1"
-vertical_alignment = 2
-
-[node name="WoodInfo" type="PanelContainer" parent="Resources/WoodContainer" unique_id=619193838]
-layout_mode = 2
+[node name="WoodInfo" type="PanelContainer" parent="." unique_id=619193838]
+layout_mode = 0
+offset_left = -288.0
+offset_top = 70.0
+offset_right = -158.0
+offset_bottom = 99.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ja2f6")
 
-[node name="Label" type="Label" parent="Resources/WoodContainer/WoodInfo" unique_id=1419883420]
-custom_minimum_size = Vector2(104, 0)
+[node name="Label" type="Label" parent="WoodInfo" unique_id=1419883420]
+custom_minimum_size = Vector2(114, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -218,84 +316,16 @@ theme_override_font_sizes/font_size = 10
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Gap2" type="Control" parent="Resources" unique_id=52092019]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="FoodContainer" type="VBoxContainer" parent="Resources" unique_id=300543793]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Food" type="HBoxContainer" parent="Resources/FoodContainer" unique_id=1401960069]
-custom_minimum_size = Vector2(171, 30)
-layout_mode = 2
-alignment = 1
-
-[node name="PlantImage" type="TextureRect" parent="Resources/FoodContainer/Food" unique_id=2015937356]
-texture_filter = 2
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("6_7tm1m")
-expand_mode = 1
-
-[node name="ActualPlant" type="Label" parent="Resources/FoodContainer/Food" unique_id=219311854]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("3_w4bi3")
-theme_override_font_sizes/font_size = 24
-text = "-1"
-vertical_alignment = 2
-
-[node name="AnimalImage" type="TextureRect" parent="Resources/FoodContainer/Food" unique_id=488372238]
-texture_filter = 2
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("7_87c74")
-expand_mode = 1
-
-[node name="ActualAnimal" type="Label" parent="Resources/FoodContainer/Food" unique_id=104728778]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("3_w4bi3")
-theme_override_font_sizes/font_size = 24
-text = "-1"
-vertical_alignment = 2
-
-[node name="Slash" type="Label" parent="Resources/FoodContainer/Food" unique_id=993549387]
-custom_minimum_size = Vector2(0, 18.895)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("3_w4bi3")
-theme_override_font_sizes/font_size = 10
-text = "/"
-vertical_alignment = 2
-
-[node name="Max" type="Label" parent="Resources/FoodContainer/Food" unique_id=1841917571]
-custom_minimum_size = Vector2(0, 23.935)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.6901961, 0.6901961, 0.6901961, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("3_w4bi3")
-theme_override_font_sizes/font_size = 14
-text = "-1"
-vertical_alignment = 2
-
-[node name="FoodInfo" type="PanelContainer" parent="Resources/FoodContainer" unique_id=1630945763]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
+[node name="FoodInfo" type="PanelContainer" parent="." unique_id=1630945763]
+layout_mode = 0
+offset_left = -288.0
+offset_top = 100.0
+offset_right = -158.0
+offset_bottom = 129.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_7tm1m")
 
-[node name="Label" type="Label" parent="Resources/FoodContainer/FoodInfo" unique_id=1766398839]
-custom_minimum_size = Vector2(155, 0)
+[node name="Label" type="Label" parent="FoodInfo" unique_id=1766398839]
+custom_minimum_size = Vector2(114, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -305,9 +335,9 @@ theme_override_font_sizes/font_size = 10
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[connection signal="mouse_entered" from="Resources/PeopleContainer/People" to="." method="_on_people_mouse_entered"]
-[connection signal="mouse_exited" from="Resources/PeopleContainer/People" to="." method="_on_people_mouse_exited"]
-[connection signal="mouse_entered" from="Resources/WoodContainer/Wood" to="." method="_on_wood_mouse_entered"]
-[connection signal="mouse_exited" from="Resources/WoodContainer/Wood" to="." method="_on_wood_mouse_exited"]
-[connection signal="mouse_entered" from="Resources/FoodContainer/Food" to="." method="_on_food_mouse_entered"]
-[connection signal="mouse_exited" from="Resources/FoodContainer/Food" to="." method="_on_food_mouse_exited"]
+[connection signal="mouse_entered" from="Resources/VBoxContainer/People" to="." method="_on_people_mouse_entered"]
+[connection signal="mouse_exited" from="Resources/VBoxContainer/People" to="." method="_on_people_mouse_exited"]
+[connection signal="mouse_entered" from="Resources/VBoxContainer/Wood" to="." method="_on_wood_mouse_entered"]
+[connection signal="mouse_exited" from="Resources/VBoxContainer/Wood" to="." method="_on_wood_mouse_exited"]
+[connection signal="mouse_entered" from="Resources/VBoxContainer/Food" to="." method="_on_food_mouse_entered"]
+[connection signal="mouse_exited" from="Resources/VBoxContainer/Food" to="." method="_on_food_mouse_exited"]
