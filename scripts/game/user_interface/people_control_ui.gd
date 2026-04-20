@@ -53,12 +53,7 @@ func _ready() -> void:
 func change_resource(resource_name: String, amount: int) -> void:
 	var prop_name = "people_on_" + resource_name
 	var current_val: int = game.get(prop_name)
-	var total_assigned = game.people_on_wood + game.people_on_plant + game.people_on_animal + game.people_on_fish
-	var available_people = game.human_resource - total_assigned
-	
-	var final_change = clamp(amount, -current_val, available_people)
-	game.set(prop_name, current_val + final_change)
-	
+	game.set(prop_name, current_val + amount)
 	update_all_ui()
 
 func update_all_ui() -> void:

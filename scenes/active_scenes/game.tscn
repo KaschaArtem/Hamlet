@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://drlbtnri8tis4" path="res://scenes/game_scenes/user_interface/show_hud_button.tscn" id="2_nyxo7"]
 [ext_resource type="PackedScene" uid="uid://w5ckrpu1yclv" path="res://scenes/game_scenes/objects/field.tscn" id="3_6djtn"]
 [ext_resource type="Texture2D" uid="uid://cy378356dv36m" path="res://assets/icons/game_ui/fishing_hook.png" id="3_hih2d"]
-[ext_resource type="Script" uid="uid://c55072hxm2fhq" path="res://scripts/game/user_interface/show_hud_button.gd" id="3_ijsuf"]
+[ext_resource type="PackedScene" uid="uid://il068vechql" path="res://scenes/game_scenes/user_interface/warnings_ui.tscn" id="3_nyxo7"]
 [ext_resource type="PackedScene" uid="uid://dncobx6fil0al" path="res://scenes/game_scenes/objects/house.tscn" id="4_5uvhb"]
 [ext_resource type="PackedScene" uid="uid://cjxhndyn3jg3" path="res://scenes/game_scenes/objects/main_tile.tscn" id="4_g754w"]
 [ext_resource type="PackedScene" uid="uid://d1p02ukg7kcfy" path="res://scenes/game_scenes/objects/pasture.tscn" id="5_g754w"]
@@ -55,13 +55,17 @@ MenuUI = NodePath("MenuUI")
 
 [node name="UserInterface" type="CanvasLayer" parent="." unique_id=902251080]
 
-[node name="ShowHUDButton" parent="UserInterface" unique_id=661305752 node_paths=PackedStringArray("resources_ui", "buildings_ui", "time_ui", "people_control_ui", "object_info_ui") instance=ExtResource("2_nyxo7")]
-script = ExtResource("3_ijsuf")
+[node name="ShowHUDButton" parent="UserInterface" unique_id=661305752 node_paths=PackedStringArray("warnings_ui", "resources_ui", "buildings_ui", "time_ui", "people_control_ui", "object_info_ui") instance=ExtResource("2_nyxo7")]
+warnings_ui = NodePath("../WarningsUI")
 resources_ui = NodePath("../ResourcesUI")
 buildings_ui = NodePath("../BuildingsUI")
 time_ui = NodePath("../TimeUI")
 people_control_ui = NodePath("../PeopleControlUI")
 object_info_ui = NodePath("../ObjectInfoUI")
+
+[node name="WarningsUI" parent="UserInterface" unique_id=111395901 node_paths=PackedStringArray("game", "ground") instance=ExtResource("3_nyxo7")]
+game = NodePath("../..")
+ground = NodePath("../../Ground")
 
 [node name="ResourcesUI" parent="UserInterface" unique_id=988245277 node_paths=PackedStringArray("game") instance=ExtResource("13_g6mbv")]
 game = NodePath("../..")

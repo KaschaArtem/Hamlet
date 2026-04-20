@@ -25,6 +25,10 @@ extends Node3D
 @export var base_animal_food_income: float = 3.0
 @export var base_fish_food_income: float = 1.0
 
+@export_group("Base Consumption")
+@export var base_wood_consumption: float = 2.0
+@export var base_food_consumption: float = 1.0
+
 @export_group("Death Penalty")
 @export var wood_penalty: float = 5.0
 @export var food_penalty: float = 1.0
@@ -36,6 +40,7 @@ extends Node3D
 @export var start_animal_food_resource = 8
 
 signal resources_changed
+signal people_assignment_changed
 signal player_action_started
 signal player_action_ended
 signal turn_ended
@@ -57,20 +62,42 @@ var max_human_resource
 var max_wood_resource
 var max_food_resource
 
-var people_on_wood: int = 0
-var people_on_plant: int = 0
-var people_on_animal: int = 0
-var people_on_fish: int = 0
+var plant_season_mod := 1.0
+var animal_season_mod := 1.0
+var fish_season_mod := 1.0
+var wood_season_mod := 1.0
+
+var people_on_wood: int = 0:
+	set(v):
+		people_on_wood = _clamp_resource_value(people_on_wood, v)
+		people_assignment_changed.emit()
+
+var people_on_plant: int = 0:
+	set(v):
+		people_on_plant = _clamp_resource_value(people_on_plant, v)
+		people_assignment_changed.emit()
+
+var people_on_animal: int = 0:
+	set(v):
+		people_on_animal = _clamp_resource_value(people_on_animal, v)
+		people_assignment_changed.emit()
+
+var people_on_fish: int = 0:
+	set(v):
+		people_on_fish = _clamp_resource_value(people_on_fish, v)
+		people_assignment_changed.emit()
+
 
 var month_count = 0
 var start_next_month: bool = false
 
-var plant_season_mod := 1.0
-var animal_season_mod := 1.0
-var fish_season_mod := 1.0
-var hunt_season_mod := 1.0
-var wood_season_mod := 1.0
 
+func get_total_assigned() -> int:
+	return people_on_wood + people_on_plant + people_on_animal + people_on_fish
+
+func _clamp_resource_value(current: int, new_val: int) -> int:
+	var available = human_resource - get_total_assigned() + current
+	return int(clamp(new_val, 0, available))
 
 func update_max_values() -> void:
 	max_human_resource = ground.house_amount * house_human_capacity + main_tile_human_capacity
@@ -151,28 +178,43 @@ func get_effective_workers(workers: int, capacity: int, k: float = 2.0) -> float
 
 	return (w * c) / (c + k * w) * 2
 
-func calculate_wood_consumption(multiplier: float) -> void:
+func is_enough_wood_consumption() -> bool:
+	if wood_resource >= snapped(human_resource * base_wood_consumption, 0.1):
+		return true
+	else:
+		return false
 
-	wood_resource -= round(human_resource * 0.5 * multiplier * 10) / 10.0
+func calculate_wood_consumption() -> void:
+
+	wood_resource -= snapped(human_resource * base_wood_consumption, 0.1)
 
 	if wood_resource < 0:
 		human_resource -= int(round(wood_resource / wood_penalty))
 		wood_resource = 0
 
+func is_enough_food_consumption() -> bool:
+	var total_food = snapped(plant_food_resource + animal_food_resource, 0.1)
+	var food_consumption = snapped(human_resource * base_food_consumption, 0.1)
+
+	if total_food >= food_consumption:
+		return true
+	else:
+		return false
 
 func calculate_food_consumption() -> void:
 	var total_food = snapped(plant_food_resource + animal_food_resource, 0.1)
-	
-	if total_food >= human_resource:
+	var food_consumption = snapped(human_resource * base_food_consumption, 0.1)
+
+	if total_food >= food_consumption:
 		if total_food > 0:
-			var consumption_coeff = human_resource / total_food
+			var consumption_coeff = food_consumption / total_food
 			
 			var plant_to_take = snapped(plant_food_resource * consumption_coeff, 0.1)
-			var animal_to_take = snapped(human_resource - plant_to_take, 0.1)
+			var animal_to_take = snapped(food_consumption - plant_to_take, 0.1)
 
 			if animal_to_take > animal_food_resource:
 				animal_to_take = animal_food_resource
-				plant_to_take = snapped(human_resource - animal_to_take, 0.1)
+				plant_to_take = snapped(food_consumption - animal_to_take, 0.1)
 
 			plant_food_resource = max(0.0, snapped(plant_food_resource - plant_to_take, 0.1))
 			animal_food_resource = max(0.0, snapped(animal_food_resource - animal_to_take, 0.1))
@@ -237,7 +279,7 @@ func process_winter():
 	calculate_food_production()
 	calculate_fish_production()
 
-	calculate_wood_consumption(2.4)
+	calculate_wood_consumption()
 	calculate_food_consumption()
 
 

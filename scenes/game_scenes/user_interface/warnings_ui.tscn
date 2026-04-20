@@ -1,0 +1,271 @@
+[gd_scene format=3 uid="uid://il068vechql"]
+
+[ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="1_4euyl"]
+[ext_resource type="Script" uid="uid://cy0d0cs5eorwn" path="res://scripts/game/user_interface/warnings_ui.gd" id="1_wghdu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wghdu"]
+content_margin_left = 6.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.49803922)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4euyl"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.49803922)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="WarningsUI" type="Control" unique_id=111395901 node_paths=PackedStringArray("people_starving", "people_freezing", "assign_logging", "assign_fishing", "choose_tree", "choose_water", "people_starving_info", "people_freezing_info", "assign_logging_info", "assign_fishing_info", "choose_tree_info", "choose_water_info")]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+script = ExtResource("1_wghdu")
+people_starving = NodePath("VBoxContainer/Danger/PeopleStarving")
+people_freezing = NodePath("VBoxContainer/Danger/PeopleFreezing")
+assign_logging = NodePath("VBoxContainer/Warning/VBoxContainer/AssignLogging")
+assign_fishing = NodePath("VBoxContainer/Warning/VBoxContainer/AssignFishing")
+choose_tree = NodePath("VBoxContainer/Warning/VBoxContainer/ChooseTree")
+choose_water = NodePath("VBoxContainer/Warning/VBoxContainer/ChooseWater")
+people_starving_info = NodePath("VBoxContainer/Danger/PeopleStarving/Label/PeopleStarvingInfo")
+people_freezing_info = NodePath("VBoxContainer/Danger/PeopleFreezing/Label/PeopleFreezingInfo")
+assign_logging_info = NodePath("VBoxContainer/Warning/VBoxContainer/AssignLogging/Label/AssignLoggingInfo")
+assign_fishing_info = NodePath("VBoxContainer/Warning/VBoxContainer/AssignFishing/Label/AssignFishingInfo")
+choose_tree_info = NodePath("VBoxContainer/Warning/VBoxContainer/ChooseTree/Label/ChooseTreeInfo")
+choose_water_info = NodePath("VBoxContainer/Warning/VBoxContainer/ChooseWater/Label/ChooseWaterInfo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1455703411]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -118.0
+offset_top = 184.0
+offset_right = -8.0
+offset_bottom = 188.0
+grow_horizontal = 0
+alignment = 1
+
+[node name="Danger" type="VBoxContainer" parent="VBoxContainer" unique_id=1166071777]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+alignment = 2
+
+[node name="PeopleStarving" type="PanelContainer" parent="VBoxContainer/Danger" unique_id=113592611]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wghdu")
+
+[node name="Label" type="Label" parent="VBoxContainer/Danger/PeopleStarving" unique_id=1822685372]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_4euyl")
+theme_override_font_sizes/font_size = 14
+text = "People Starving"
+
+[node name="PeopleStarvingInfo" type="PanelContainer" parent="VBoxContainer/Danger/PeopleStarving/Label" unique_id=764935294]
+visible = false
+layout_mode = 0
+offset_left = -132.0
+offset_top = -4.0
+offset_right = -10.0
+offset_bottom = 66.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_4euyl")
+
+[node name="Label" type="Label" parent="VBoxContainer/Danger/PeopleStarving/Label/PeopleStarvingInfo" unique_id=613477920]
+custom_minimum_size = Vector2(114, 0)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("1_4euyl")
+theme_override_font_sizes/font_size = 10
+text = "There is not enough food for people. People can die next month if you will not produce enough food."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="PeopleFreezing" type="PanelContainer" parent="VBoxContainer/Danger" unique_id=375710543]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wghdu")
+
+[node name="Label" type="Label" parent="VBoxContainer/Danger/PeopleFreezing" unique_id=2059915299]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_4euyl")
+theme_override_font_sizes/font_size = 14
+text = "People Freezing"
+
+[node name="PeopleFreezingInfo" type="PanelContainer" parent="VBoxContainer/Danger/PeopleFreezing/Label" unique_id=2068847206]
+visible = false
+layout_mode = 0
+offset_left = -132.0
+offset_top = -4.0
+offset_right = -10.0
+offset_bottom = 79.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4euyl")
+
+[node name="Label" type="Label" parent="VBoxContainer/Danger/PeopleFreezing/Label/PeopleFreezingInfo" unique_id=198973778]
+custom_minimum_size = Vector2(114, 0)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("1_4euyl")
+theme_override_font_sizes/font_size = 10
+text = "There is not enough wood for keeping people warm. People can die next month if you will not produce enough wood."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Warning" type="HBoxContainer" parent="VBoxContainer" unique_id=799993568]
+layout_mode = 2
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Warning" unique_id=1718526521]
+custom_minimum_size = Vector2(94, 0)
+layout_mode = 2
+
+[node name="AssignLogging" type="PanelContainer" parent="VBoxContainer/Warning/VBoxContainer" unique_id=38416926]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wghdu")
+
+[node name="Label" type="Label" parent="VBoxContainer/Warning/VBoxContainer/AssignLogging" unique_id=1759410625]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("1_4euyl")
+theme_override_font_sizes/font_size = 12
+text = "Assign Logging"
+
+[node name="AssignLoggingInfo" type="PanelContainer" parent="VBoxContainer/Warning/VBoxContainer/AssignLogging/Label" unique_id=232476142]
+visible = false
+layout_mode = 0
+offset_left = -132.0
+offset_top = -4.0
+offset_right = -10.0
+offset_bottom = 41.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_4euyl")
+
+[node name="Label" type="Label" parent="VBoxContainer/Warning/VBoxContainer/AssignLogging/Label/AssignLoggingInfo" unique_id=363540829]
+custom_minimum_size = Vector2(114, 0)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("1_4euyl")
+theme_override_font_sizes/font_size = 10
+text = "You choosed tree to cut, but no people are assighed for logging."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="AssignFishing" type="PanelContainer" parent="VBoxContainer/Warning/VBoxContainer" unique_id=702986340]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wghdu")
+
+[node name="Label" type="Label" parent="VBoxContainer/Warning/VBoxContainer/AssignFishing" unique_id=1091038063]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("1_4euyl")
+theme_override_font_sizes/font_size = 12
+text = "Assign Fishing"
+
+[node name="AssignFishingInfo" type="PanelContainer" parent="VBoxContainer/Warning/VBoxContainer/AssignFishing/Label" unique_id=1380037844]
+visible = false
+layout_mode = 0
+offset_left = -132.0
+offset_top = -4.0
+offset_right = -10.0
+offset_bottom = 41.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_4euyl")
+
+[node name="Label" type="Label" parent="VBoxContainer/Warning/VBoxContainer/AssignFishing/Label/AssignFishingInfo" unique_id=1168541145]
+custom_minimum_size = Vector2(114, 0)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("1_4euyl")
+theme_override_font_sizes/font_size = 10
+text = "You choosed water for fishing, but no people are assighed for fishing."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ChooseTree" type="PanelContainer" parent="VBoxContainer/Warning/VBoxContainer" unique_id=134270653]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wghdu")
+
+[node name="Label" type="Label" parent="VBoxContainer/Warning/VBoxContainer/ChooseTree" unique_id=1154549102]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("1_4euyl")
+theme_override_font_sizes/font_size = 12
+text = "Choose Tree"
+
+[node name="ChooseTreeInfo" type="PanelContainer" parent="VBoxContainer/Warning/VBoxContainer/ChooseTree/Label" unique_id=189305873]
+visible = false
+layout_mode = 0
+offset_left = -132.0
+offset_top = -4.0
+offset_right = -10.0
+offset_bottom = 41.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_4euyl")
+
+[node name="Label" type="Label" parent="VBoxContainer/Warning/VBoxContainer/ChooseTree/Label/ChooseTreeInfo" unique_id=2039117886]
+custom_minimum_size = Vector2(114, 0)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("1_4euyl")
+theme_override_font_sizes/font_size = 10
+text = "You assigned people for logging, but didn't choose tree to cut."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ChooseWater" type="PanelContainer" parent="VBoxContainer/Warning/VBoxContainer" unique_id=149438534]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wghdu")
+
+[node name="Label" type="Label" parent="VBoxContainer/Warning/VBoxContainer/ChooseWater" unique_id=756283802]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("1_4euyl")
+theme_override_font_sizes/font_size = 12
+text = "Choose Water"
+
+[node name="ChooseWaterInfo" type="PanelContainer" parent="VBoxContainer/Warning/VBoxContainer/ChooseWater/Label" unique_id=1586642711]
+visible = false
+layout_mode = 0
+offset_left = -132.0
+offset_top = -4.0
+offset_right = -10.0
+offset_bottom = 54.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4euyl")
+
+[node name="Label" type="Label" parent="VBoxContainer/Warning/VBoxContainer/ChooseWater/Label/ChooseWaterInfo" unique_id=1464656134]
+custom_minimum_size = Vector2(114, 0)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("1_4euyl")
+theme_override_font_sizes/font_size = 10
+text = "You assigned people for fishing, but didn't choose water to fish from."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[connection signal="mouse_entered" from="VBoxContainer/Danger/PeopleStarving" to="." method="_on_people_starving_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/Danger/PeopleStarving" to="." method="_on_people_starving_mouse_exited"]
+[connection signal="mouse_entered" from="VBoxContainer/Danger/PeopleFreezing" to="." method="_on_people_freezing_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/Danger/PeopleFreezing" to="." method="_on_people_freezing_mouse_exited"]
+[connection signal="mouse_entered" from="VBoxContainer/Warning/VBoxContainer/AssignLogging" to="." method="_on_assign_logging_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/Warning/VBoxContainer/AssignLogging" to="." method="_on_assign_logging_mouse_exited"]
+[connection signal="mouse_entered" from="VBoxContainer/Warning/VBoxContainer/AssignFishing" to="." method="_on_assign_fishing_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/Warning/VBoxContainer/AssignFishing" to="." method="_on_assign_fishing_mouse_exited"]
+[connection signal="mouse_entered" from="VBoxContainer/Warning/VBoxContainer/ChooseTree" to="." method="_on_choose_tree_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/Warning/VBoxContainer/ChooseTree" to="." method="_on_choose_tree_mouse_exited"]
+[connection signal="mouse_entered" from="VBoxContainer/Warning/VBoxContainer/ChooseWater" to="." method="_on_choose_water_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/Warning/VBoxContainer/ChooseWater" to="." method="_on_choose_water_mouse_exited"]

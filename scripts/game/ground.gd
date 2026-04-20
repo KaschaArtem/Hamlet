@@ -21,6 +21,10 @@ extends Node3D
 @export_range(-1.0, 1.0) var WATER_SPAWN: float = -0.67
 
 signal builded(building_index: int)
+signal active_tree_changed
+signal active_water_changed
+
+@export var fish_icon_texture: Texture2D
 
 const TILE_TYPES = {
 	"res://scenes/game_scenes/objects/field.tscn": "field",
@@ -35,8 +39,6 @@ const TILE_TYPES = {
 const GRID_SIZE = 51
 const TILE_SIZE = 1.0
 const GRID_CENTER = GRID_SIZE / 2
-
-@export var fish_icon_texture: Texture2D
 
 var noise := FastNoiseLite.new()
 
@@ -121,6 +123,7 @@ func remove_to_cut_tree() -> void:
 	var pos = current_to_cut_tree.global_position
 	remove_tile_at(int(pos.x), int(pos.z), -1)
 	current_to_cut_tree = null
+	active_tree_changed.emit()
 
 
 func count_fish_decreasement(possible_income: float) -> float:
@@ -347,6 +350,7 @@ func select_to_cut_tree(to_cut_tree) -> void:
 	else:
 		current_to_cut_tree = to_cut_tree
 		current_to_cut_tree.show_axe_icon()
+	active_tree_changed.emit()
 
 func select_water_cluster(water_tile: Node3D) -> void:
 	var x = int(round(water_tile.position.x / TILE_SIZE))
@@ -359,6 +363,7 @@ func select_water_cluster(water_tile: Node3D) -> void:
 	else:
 		current_water_cluster = water_clusters[cluster_idx]
 		current_water_cluster.icon_node.visible = true
+	active_water_changed.emit()
 
 func handle_fish_growth() -> void:
 	for cluster in water_clusters:
