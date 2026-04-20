@@ -14,7 +14,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="ObjectInfoUI" type="Control" unique_id=1749104847 node_paths=PackedStringArray("container", "object_name", "object_info")]
+[node name="ObjectInfoUI" type="Control" unique_id=1749104847 node_paths=PackedStringArray("panel", "container", "object_name", "object_info")]
 layout_mode = 3
 anchors_preset = 3
 anchor_left = 1.0
@@ -24,6 +24,7 @@ anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 0
 script = ExtResource("1_4gh7u")
+panel = NodePath("PanelContainer")
 container = NodePath("PanelContainer/VBoxContainer")
 object_name = NodePath("PanelContainer/VBoxContainer/ObjectName")
 object_info = NodePath("PanelContainer/VBoxContainer/ObjectInfo")

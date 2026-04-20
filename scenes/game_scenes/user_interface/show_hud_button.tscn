@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://drlbtnri8tis4"]
+
+[ext_resource type="Script" uid="uid://c55072hxm2fhq" path="res://scripts/game/user_interface/show_hud_button.gd" id="1_wn0bx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ucalq"]
+bg_color = Color(0, 0, 0, 0.49803922)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wn0bx"]
+bg_color = Color(0.24705882, 0.24705882, 0.24705882, 0.49803922)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0j8iv"]
+bg_color = Color(0.24705882, 0.24705882, 0.24705882, 0.49803922)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bjd5i"]
+bg_color = Color(0, 0, 0, 0.24705882)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="ShowHUDButton" type="Control" unique_id=661305752]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wn0bx")
+
+[node name="Button" type="Button" parent="." unique_id=483510251]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -48.0
+offset_right = 48.0
+offset_bottom = -8.0
+grow_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_ucalq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wn0bx")
+theme_override_styles/hover = SubResource("StyleBoxFlat_0j8iv")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_bjd5i")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
