@@ -196,12 +196,16 @@ func handle_build_selection() -> void:
 	var result = get_tile_under_mouse()
 	if !result:
 		return
+	if !GameManager.is_build_allowed:
+		return
 	if GameManager.building_action != -999 and GameManager.is_build_allowed != false:
 		ground.build_grid_tile(result, GameManager.building_action)
 
 func handle_resource_selection() -> void:
 	var result = get_tile_under_mouse()
 	if !result:
+		return
+	if !GameManager.is_build_allowed:
 		return
 	if GameManager.building_action == -999 and ground.get_tile_type_name(result) == "tree":
 		ground.select_to_cut_tree(result)

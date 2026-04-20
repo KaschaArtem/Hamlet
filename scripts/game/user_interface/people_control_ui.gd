@@ -31,13 +31,6 @@ extends Control
 @export var more_fish: Button
 @export var more_5_fish: Button
 
-@export_group("Hunt UI")
-@export var less_5_hunt: Button
-@export var less_hunt: Button
-@export var current_hunt: Label
-@export var more_hunt: Button
-@export var more_5_hunt: Button
-
 @export_group("Control UI")
 @export var panel: PanelContainer
 @export var open_close_button: Button
@@ -60,7 +53,7 @@ func _ready() -> void:
 func change_resource(resource_name: String, amount: int) -> void:
 	var prop_name = "people_on_" + resource_name
 	var current_val: int = game.get(prop_name)
-	var total_assigned = game.people_on_wood + game.people_on_plant + game.people_on_animal + game.people_on_fish + game.people_on_hunt
+	var total_assigned = game.people_on_wood + game.people_on_plant + game.people_on_animal + game.people_on_fish
 	var available_people = game.human_resource - total_assigned
 	
 	var final_change = clamp(amount, -current_val, available_people)
@@ -73,12 +66,11 @@ func update_all_ui() -> void:
 	current_plant.text = str(game.people_on_plant)
 	current_animal.text = str(game.people_on_animal)
 	current_fish.text = str(game.people_on_fish)
-	current_hunt.text = str(game.people_on_hunt)
 	
 	check_all_buttons()
 
 func check_all_buttons() -> void:
-	var total = game.people_on_wood + game.people_on_plant + game.people_on_animal + game.people_on_fish + game.people_on_hunt
+	var total = game.people_on_wood + game.people_on_plant + game.people_on_animal + game.people_on_fish
 	var full = total >= game.human_resource
 	
 	less_wood.disabled = game.people_on_wood <= 0
@@ -100,11 +92,6 @@ func check_all_buttons() -> void:
 	less_5_fish.disabled = game.people_on_fish <= 0
 	more_fish.disabled = full
 	more_5_fish.disabled = full
-	
-	less_hunt.disabled = game.people_on_hunt <= 0
-	less_5_hunt.disabled = game.people_on_hunt <= 0
-	more_hunt.disabled = full
-	more_5_hunt.disabled = full
 
 
 func on_player_action_started() -> void:
@@ -139,11 +126,6 @@ func _on_less_5_fish_pressed() -> void: change_resource("fish", -5)
 func _on_less_fish_pressed() -> void: change_resource("fish", -1)
 func _on_more_fish_pressed() -> void: change_resource("fish", 1)
 func _on_more_5_fish_pressed() -> void: change_resource("fish", 5)
-
-func _on_less_5_hunt_pressed() -> void: change_resource("hunt", -5)
-func _on_less_hunt_pressed() -> void: change_resource("hunt", -1)
-func _on_more_hunt_pressed() -> void: change_resource("hunt", 1)
-func _on_more_5_hunt_pressed() -> void: change_resource("hunt", 5)
 
 func move_panel(target_x: float) -> void:
 	if tween:

@@ -46,6 +46,7 @@ offset_left = 56.0
 offset_top = -72.0
 offset_right = 120.0
 offset_bottom = -8.0
+focus_mode = 0
 theme = ExtResource("2_v7fxr")
 
 [node name="PanelContainer" type="PanelContainer" parent="HouseButton" unique_id=2022617018]
@@ -120,6 +121,7 @@ offset_left = 128.0
 offset_top = -72.0
 offset_right = 192.0
 offset_bottom = -8.0
+focus_mode = 0
 theme = ExtResource("2_v7fxr")
 
 [node name="PanelContainer" type="PanelContainer" parent="FieldButton" unique_id=1636010278]
@@ -193,6 +195,7 @@ offset_left = 200.0
 offset_top = -72.0
 offset_right = 264.0
 offset_bottom = -8.0
+focus_mode = 0
 theme = ExtResource("2_v7fxr")
 
 [node name="PanelContainer" type="PanelContainer" parent="PastureButton" unique_id=1990904544]
@@ -266,6 +269,7 @@ offset_left = 272.0
 offset_top = -72.0
 offset_right = 336.0
 offset_bottom = -8.0
+focus_mode = 0
 theme = ExtResource("2_v7fxr")
 
 [node name="PanelContainer" type="PanelContainer" parent="DeleteButton" unique_id=408854310]
