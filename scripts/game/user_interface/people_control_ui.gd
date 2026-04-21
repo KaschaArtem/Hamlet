@@ -77,6 +77,9 @@ func _ready() -> void:
 	
 	game.player_action_started.connect(on_player_action_started)
 	game.player_action_ended.connect(on_player_action_ended)
+	ground.builded.connect(on_builded)
+	ground.active_tree_changed.connect(on_active_tree_changed)
+	ground.active_water_changed.connect(on_active_water_changed)
 	open_close_button.disabled = true
 
 	update_all_formulas()
@@ -162,7 +165,18 @@ func on_player_action_ended() -> void:
 	if is_open:
 		is_open = !is_open
 		move_panel(initial_pos_x)
-		
+
+
+func on_builded(_build_index) -> void:
+	update_plant_formula()
+	update_animal_formula()
+
+func on_active_tree_changed() -> void:
+	update_wood_formula()
+
+func on_active_water_changed() -> void:
+	update_fish_formula() 
+
 
 func _on_less_5_wood_pressed() -> void: 
 	change_resource("wood", -5)

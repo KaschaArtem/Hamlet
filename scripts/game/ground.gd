@@ -54,11 +54,10 @@ var current_to_cut_tree = null
 
 func _ready() -> void:
 	game.player_action_started.connect(on_player_action_started)
+	water_manager.water_changed.connect(on_active_water_changed)
 	init_ground_grid()
 	
-	if water_manager:
-		water_manager.initialize(GRID_SIZE, ground_grid)
-	
+	water_manager.initialize(GRID_SIZE, ground_grid)
 	generate_grid()
 
 func setup_noise() -> void:
@@ -183,12 +182,14 @@ func remove_to_cut_tree() -> void:
 		current_to_cut_tree = null
 		active_tree_changed.emit()
 
+func on_active_water_changed() -> void:
+	active_water_changed.emit()
+
 func select_water_cluster(water_tile: Node3D) -> void:
 	if water_manager:
 		var x = int(round(water_tile.position.x / TILE_SIZE))
 		var z = int(round(water_tile.position.z / TILE_SIZE))
 		water_manager.select_cluster(x, z)
-		active_water_changed.emit()
 
 func get_water_bonus() -> float:
 	if water_manager:
@@ -199,7 +200,7 @@ func on_player_action_started() -> void:
 	if water_manager:
 		water_manager.process_turn()
 
-func on_player_action_ended() -> void:
+func lock_water() -> void:
 	if water_manager:
 		water_manager.lock_water()
 

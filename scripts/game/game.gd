@@ -88,10 +88,9 @@ var people_on_fish: int = 0:
 		people_on_fish = _clamp_resource_value(people_on_fish, v)
 		people_assignment_changed.emit()
 
-
-var month_count = 0
-var start_next_month: bool = false
-
+enum Season { SPRING, SUMMER, AUTUMN, WINTER }
+var month_count: int = 0
+var current_season: Season = Season.SPRING
 
 func get_total_assigned() -> int:
 	return people_on_wood + people_on_plant + people_on_animal + people_on_fish
@@ -151,10 +150,10 @@ func get_wood_production() -> float:
 func handle_wood_production() -> void:
 	if ground.current_to_cut_tree == null:
 		return
-	ground.remove_to_cut_tree()
 
 	wood_resource += get_wood_production()
-
+	ground.remove_to_cut_tree()
+	
 
 func get_plant_food_production() -> float:
 	return snapped(base_plant_food_income * get_people_coeff(people_on_plant) * ground.field_amount * plant_season_mod, 0.1)
@@ -173,12 +172,14 @@ func get_fish_production() -> float:
 func handle_fish_production() -> void:
 	if ground.get_current_water_cluster() == null:
 		return
-	
-	var production = ground.count_fish_income()
 
-	animal_food_resource += round(production * 10) / 10.0
+	animal_food_resource += get_fish_production()
+	ground.lock_water()
+
 
 func is_enough_wood_consumption() -> bool:
+	if current_season != Season.WINTER:
+		return true
 	if wood_resource >= snapped(human_resource * base_wood_consumption, 0.1):
 		return true
 	else:
@@ -228,7 +229,16 @@ func calculate_food_consumption() -> void:
 		plant_food_resource = 0.0
 		animal_food_resource = 0.0
 
-
+func process_season() -> void:
+	match current_season:
+		Season.SPRING:
+			process_spring()
+		Season.SUMMER:
+			process_summer()
+		Season.AUTUMN: 
+			process_autumn()
+		Season.WINTER: 
+			process_winter()
 
 func process_spring():
 	plant_season_mod = 1.0
@@ -321,21 +331,24 @@ func get_player_action() -> void:
 
 func start_first_month() -> void:
 	resources_changed.emit()
+	update_current_season()
 	await get_player_action()
 	turn_ended.emit()
 
+func update_current_season() -> void:
+	var month = month_count % 12
+	if month >= 0 and month <= 2:
+		current_season = Season.SPRING
+	elif month >= 3 and month <= 5:
+		current_season = Season.SUMMER
+	elif month >= 6 and month <= 8:
+		current_season = Season.AUTUMN
+	elif month >= 9 and month <= 11:
+		current_season = Season.WINTER
 
 func on_end_month() -> void:
-	var month = month_count % 12 + 1
-
-	if month >= 1 and month <= 3:
-		process_spring()
-	elif month >= 4 and month <= 6:
-		process_summer()
-	elif month >= 7 and month <= 9:
-		process_autumn()
-	elif month >= 10 and month <= 12:
-		process_winter()
+	update_current_season()
+	process_season()
 
 	clamp_resources()
 	resources_changed.emit()
@@ -343,6 +356,7 @@ func on_end_month() -> void:
 		game_over()
 
 	month_count += 1
+	update_current_season()
 
 	await get_player_action()
 	turn_ended.emit()

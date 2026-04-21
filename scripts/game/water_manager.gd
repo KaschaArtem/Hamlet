@@ -1,5 +1,6 @@
 extends Node3D
 
+
 class_name WaterManager
 
 @onready var grid_manager = get_parent()
@@ -10,11 +11,13 @@ class_name WaterManager
 @export var three_step_loading_3: Texture2D
 @export var fish_icon_texture: Texture2D
 
-signal active_water_changed
+signal water_changed
+
 
 var water_clusters = []
 var water_map = []
 var current_water_cluster = null
+
 
 func initialize(grid_size: int, ground_grid: Array) -> void:
 	water_clusters.clear()
@@ -115,7 +118,7 @@ func select_cluster(x: int, z: int) -> void:
 	if prev_cluster: _update_cluster_visuals(prev_cluster)
 	_update_cluster_visuals(cluster)
 	
-	active_water_changed.emit()
+	water_changed.emit()
 
 func process_turn() -> void:
 	for cluster in water_clusters:
@@ -136,4 +139,4 @@ func lock_water() -> void:
 	current_water_cluster = null
 	cluster_to_lock.cooldown = 4
 	_update_cluster_visuals(cluster_to_lock)
-	active_water_changed.emit()
+	water_changed.emit()

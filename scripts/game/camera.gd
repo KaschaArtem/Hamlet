@@ -207,9 +207,9 @@ func handle_resource_selection() -> void:
 		return
 	if !GameManager.is_build_allowed:
 		return
-	if GameManager.building_action == -999 and ground.get_tile_type_name(result) == "tree":
+	if ground.get_tile_type_name(result) == "tree":
 		ground.select_to_cut_tree(result)
-	elif GameManager.building_action == -999 and ground.get_tile_type_name(result) == "water":
+	elif ground.get_tile_type_name(result) == "water":
 		ground.select_water_cluster(result)
 
 func _input(event: InputEvent) -> void:
