@@ -60,6 +60,11 @@ extends Control
 @export var fish_season: Label
 @export var fish_total: Label
 
+@export_group("Formulas Info")
+@export var wood_formula_info: PanelContainer
+@export var plant_formula_info: PanelContainer
+@export var animal_formula_info: PanelContainer
+@export var fish_formula_info: PanelContainer
 
 @export_group("Control UI")
 @export var panel: PanelContainer
@@ -67,6 +72,7 @@ extends Control
 
 
 var tween: Tween
+var active_tweens: Dictionary = {}
 var initial_pos_x: float
 var target_offset: float = 316.0
 var is_open: bool = false
@@ -82,7 +88,35 @@ func _ready() -> void:
 	ground.active_water_changed.connect(on_active_water_changed)
 	open_close_button.disabled = true
 
+	init_formulas_info()
 	update_all_formulas()
+
+func init_formulas_info() -> void:
+	var info_panels = [wood_formula_info, plant_formula_info, animal_formula_info, fish_formula_info]
+	for p in info_panels:
+		p.visible = false
+		p.modulate.a = 0
+
+func animate_info_panel(info_panel: Control, should_show: bool) -> void:
+	if info_panel.visible == should_show and not active_tweens.has(info_panel):
+		return
+	
+	if active_tweens.has(info_panel):
+		active_tweens[info_panel].kill()
+		active_tweens.erase(info_panel)
+
+	var tw = create_tween().set_parallel(true)
+	active_tweens[info_panel] = tw
+	
+	if should_show:
+		info_panel.visible = true
+		tw.tween_property(info_panel, "modulate:a", 1.0, 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	else:
+		tw.tween_property(info_panel, "modulate:a", 0.0, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		tw.chain().step_finished.connect(func(_idx): 
+			info_panel.visible = false
+			active_tweens.erase(info_panel)
+		)
 
 func update_all_formulas() -> void:
 	update_wood_formula()
@@ -245,3 +279,16 @@ func _on_open_close_pressed() -> void:
 		move_panel(initial_pos_x + target_offset)
 	else:
 		move_panel(initial_pos_x)
+
+
+func _on_wood_formula_mouse_entered() -> void: animate_info_panel(wood_formula_info, true)
+func _on_wood_formula_mouse_exited() -> void: animate_info_panel(wood_formula_info, false)
+
+func _on_plant_formula_mouse_entered() -> void: animate_info_panel(plant_formula_info, true)
+func _on_plant_formula_mouse_exited() -> void: animate_info_panel(plant_formula_info, false)
+
+func _on_animal_formula_mouse_entered() -> void: animate_info_panel(animal_formula_info, true)
+func _on_animal_formula_mouse_exited() -> void: animate_info_panel(animal_formula_info, false)
+
+func _on_fish_formula_mouse_entered() -> void: animate_info_panel(fish_formula_info, true)
+func _on_fish_formula_mouse_exited() -> void: animate_info_panel(fish_formula_info, false)
