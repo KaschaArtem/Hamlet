@@ -33,7 +33,7 @@ func initialize(grid_size: int, ground_grid: Array) -> void:
 			
 	for z in range(grid_size):
 		for x in range(grid_size):
-			if ground_grid[z][x]["type"] == -2 and not visited[z][x]:
+			if ground_grid[z][x]["type"] == "water" and not visited[z][x]:
 				var cluster_index = water_clusters.size()
 				var cells = _flood_fill(x, z, visited, cluster_index, grid_size, ground_grid)
 				var world_center = _calculate_world_center(cells)
@@ -61,7 +61,7 @@ func _flood_fill(start_x, start_z, visited, cluster_idx, grid_size, ground_grid)
 			var nx = curr.x + dir.x
 			var nz = curr.y + dir.y
 			if nx >= 0 and nx < grid_size and nz >= 0 and nz < grid_size:
-				if not visited[nz][nx] and ground_grid[nz][nx]["type"] == -2:
+				if not visited[nz][nx] and ground_grid[nz][nx]["type"] == "water":
 					visited[nz][nx] = true
 					queue.append(Vector2i(nx, nz))
 	return cluster_cells
@@ -69,7 +69,7 @@ func _flood_fill(start_x, start_z, visited, cluster_idx, grid_size, ground_grid)
 func _calculate_diminishing_value(size: int) -> float:
 	var total = 0.0
 	for i in range(size):
-		total += pow(0.9, i)
+		total += pow(0.8, i)
 	return total
 
 func _create_cluster_icon(pos: Vector3) -> Sprite3D:

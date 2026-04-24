@@ -16,8 +16,21 @@ extends Node3D
 
 @export_group("Cost")
 @export var house_cost: float = 40.0
+@export var road_cost: float = 6.0
 @export var field_cost: float = 24.0
 @export var pasture_cost: float = 32.0
+@export var sawmill_cost: float = 20.0
+@export var fishing_station_cost: float = 48.0
+
+@export_group("Stations Radius")
+@export var sawmill_radius: int = 3
+@export var fishing_station_radius: int = 5
+
+@export_group("Pow Value")
+@export var people_on_wood_eff: float = 0.5
+@export var people_on_plant_eff: float = 0.9
+@export var people_on_animal_eff: float = 0.8
+@export var people_on_fish_eff: float = 0.5
 
 @export_group("Base Income")
 @export var base_wood_income: float = 15.0
@@ -46,11 +59,14 @@ signal player_action_ended
 signal turn_ended
 
 var TILES_INFO = {
-	"house": ["House", "Increase max amount of PEOPLE, WOOD, FOOD. Increase resource income, when stands near resource tile."],
+	"tree": ["Tree", "Being cutted to get WOOD. Press F on this tile to choose this tree for cutting during next month. Tree tile will desappeared after this."],
+	"water": ["Water", "Being used to get FISH. Press F on water cluster to choose it for fishing during next month. After fishing this water cluster will not be available for 3 months."],
+	"house": ["House", "Increasing max amount of PEOPLE, WOOD, FOOD. Allowing to build for its neighboor tiles."],
+	"road": ["Road", "Allowing to build for its neighboor tiles."],
 	"field": ["Field", "Produce plant food. Doesn't work on winter."],
 	"pasture": ["Pasture", "Produce animal food. Works less efficient on winter."],
-	"tree": ["Tree", "Being cutted to get WOOD. Press F on this tile to choose this tree for cutting during next month. Tree tile will desappeared after this."],
-	"water": ["Water", "Being used to get FISH. Press F on water cluster to choose it for fishing during next month. After fishing this water cluster will not be available for 3 months."]
+	"sawmill": ["Sawmill", "Allowing to select trees for cutting in some radius."],
+	"fishing_station": ["Fishing Station", "Allowing to select water for fishing in some radius."]
 }
 
 var human_resource : int = start_human_resource
@@ -117,38 +133,53 @@ func _ready() -> void:
 func is_house_build_allowed() -> bool:
 	return house_cost <= wood_resource
 
+func is_road_build_allowed() -> bool:
+	return road_cost <= wood_resource
 
 func is_field_build_allowed() -> bool:
 	return field_cost <= wood_resource
 
-
 func is_pasture_build_allowed() -> bool:
 	return pasture_cost <= wood_resource
 
+func is_sawmill_build_allowed() -> bool:
+	return sawmill_cost <= wood_resource
 
-func on_builded(building_index) -> void:
-	match building_index:
-		1:
+func is_fishing_station_build_allowed() -> bool:
+	return fishing_station_cost <= wood_resource
+
+
+func on_builded(building_action) -> void:
+	match building_action:
+		"house":
 			wood_resource -= house_cost
-		2:
+		"road":
+			wood_resource -= road_cost
+		"field":
 			wood_resource -= field_cost
-		3:
+		"pasture":
 			wood_resource -= pasture_cost
+		"sawmill":
+			wood_resource -= sawmill_cost
+		"fishing_station":
+			wood_resource -= fishing_station_cost
 	update_max_values()
 	resources_changed.emit()
 
 
-func get_people_coeff(people_on) -> float:
+func get_people_coeff(people_on, pow_value) -> float:
 	var people_coeff = 0.0
 	for i in range(people_on):
-		people_coeff += pow(0.9, i)
+		people_coeff += pow(pow_value, i)
 	return snapped(people_coeff, 0.1)
 
 func get_wood_production() -> float:
-	return snapped(base_wood_income * get_people_coeff(people_on_wood) * wood_season_mod, 0.1)
+	return snapped(base_wood_income * get_people_coeff(people_on_wood, people_on_wood_eff) * wood_season_mod, 0.1)
 
 func handle_wood_production() -> void:
 	if ground.current_to_cut_tree == null:
+		return
+	if people_on_wood == 0:
 		return
 
 	wood_resource += get_wood_production()
@@ -156,10 +187,10 @@ func handle_wood_production() -> void:
 	
 
 func get_plant_food_production() -> float:
-	return snapped(base_plant_food_income * get_people_coeff(people_on_plant) * ground.field_amount * plant_season_mod, 0.1)
+	return snapped(base_plant_food_income * get_people_coeff(people_on_plant, people_on_plant_eff) * ground.field_amount * plant_season_mod, 0.1)
 
 func get_animal_food_production() -> float:
-	return snapped(base_animal_food_income * get_people_coeff(people_on_animal) * ground.pasture_amount * animal_season_mod, 0.1)
+	return snapped(base_animal_food_income * get_people_coeff(people_on_animal, people_on_animal_eff) * ground.pasture_amount * animal_season_mod, 0.1)
 
 func handle_food_production() -> void:
 	plant_food_resource += get_plant_food_production()
@@ -167,10 +198,12 @@ func handle_food_production() -> void:
 
 
 func get_fish_production() -> float:
-	return snapped(base_fish_food_income * get_people_coeff(people_on_fish) * ground.get_water_bonus() * fish_season_mod, 0.1)
+	return snapped(base_fish_food_income * get_people_coeff(people_on_fish, people_on_fish_eff) * ground.get_water_bonus() * fish_season_mod, 0.1)
 
 func handle_fish_production() -> void:
 	if ground.get_current_water_cluster() == null:
+		return
+	if people_on_fish == 0:
 		return
 
 	animal_food_resource += get_fish_production()

@@ -1,7 +1,12 @@
 [gd_scene format=3 uid="uid://cjxhndyn3jg3"]
 
+[ext_resource type="PackedScene" uid="uid://p43dbf2uvcpf" path="res://assets/models/buildings/church.glb" id="1_4d2uk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4d2uk"]
+size = Vector3(0.82232666, 0.3852539, 0.44415283)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1cjge"]
-albedo_color = Color(0, 0, 0, 1)
+albedo_color = Color(0.7607843, 0.69803923, 0.5019608, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_m68id"]
 material = SubResource("StandardMaterial3D_1cjge")
@@ -11,11 +16,24 @@ size = Vector3(1, 0.001, 1)
 
 [node name="MainTile" type="Node3D" unique_id=1444517019]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=647985628]
+[node name="Object" type="Node3D" parent="." unique_id=1443631503]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="ChurchDefault" parent="Object" unique_id=299342118 instance=ExtResource("1_4d2uk")]
+transform = Transform3D(0.165, 0, 0, 0, 0.165, 0, 0, 0, 0.165, -0.06472257, 0.164, 2.8291134e-09)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Object" unique_id=280932179]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06472257, 0.164, 2.8291134e-09)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Object/StaticBody3D" unique_id=1871127530]
+shape = SubResource("BoxShape3D_4d2uk")
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=647985628]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = SubResource("BoxMesh_m68id")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1258394751]
+[node name="StaticBodyGround" type="StaticBody3D" parent="Ground" unique_id=1258394751]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1453228435]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBodyGround" unique_id=1453228435]
 shape = SubResource("BoxShape3D_qb5rh")

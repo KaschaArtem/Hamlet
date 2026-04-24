@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://mdqutsilr5gu"
-path.s3tc="res://.godot/imported/three_tree_tree.png-2208c83d653c506ffdf95fd5378ae652.s3tc.ctex"
+uid="uid://ky2npssami0i"
+path.s3tc="res://.godot/imported/church_church.png-bd7b6e2ccf9970daf3df7f337a650c35.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "c617a424560fb9b13733ba5fc43452a1"
+"md5": "e35581672acbfde36e8b506e268998c1"
 }
 
 [deps]
 
-source_file="res://assets/models/buildings/three_tree_tree.png"
-dest_files=["res://.godot/imported/three_tree_tree.png-2208c83d653c506ffdf95fd5378ae652.s3tc.ctex"]
+source_file="res://assets/models/buildings/church_church.png"
+dest_files=["res://.godot/imported/church_church.png-bd7b6e2ccf9970daf3df7f337a650c35.s3tc.ctex"]
 
 [params]
 

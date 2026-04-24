@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://c881dbea6vg24"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4sbq1"]
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_o4y1m"]
+material = SubResource("StandardMaterial3D_4sbq1")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ybni"]
+albedo_color = Color(0.7607843, 0.69803923, 0.5019608, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_58un3"]
+material = SubResource("StandardMaterial3D_2ybni")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j3qdc"]
+size = Vector3(1, 0.001, 1)
+
+[node name="FishingStation" type="Node3D" unique_id=188046561]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=326000173]
+mesh = SubResource("BoxMesh_o4y1m")
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=900156013]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_58un3")
+
+[node name="StaticBodyGround" type="StaticBody3D" parent="Ground" unique_id=182675765]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBodyGround" unique_id=961918367]
+shape = SubResource("BoxShape3D_j3qdc")

@@ -5,30 +5,45 @@ extends Control
 
 @export_group("Buttons")
 @export var house_button: Button
+@export var road_button: Button
 @export var field_button: Button
 @export var pasture_button: Button
+@export var sawmill_button: Button
+@export var fishing_station_button: Button
 @export var delete_button: Button
 
 @export_group("Info Nodes")
 @export var house_info: PanelContainer
+@export var road_info: PanelContainer
 @export var field_info: PanelContainer
 @export var pasture_info: PanelContainer
+@export var sawmill_info: PanelContainer
+@export var fishing_station_info: PanelContainer
 @export var delete_info: PanelContainer
 
 @export var house_name_label: Label
+@export var road_name_label: Label
 @export var field_name_label: Label
 @export var pasture_name_label: Label
+@export var sawmill_name_label: Label
+@export var fishing_station_name_label: Label
 @export var delete_name_label: Label
 
 @export var house_info_label: Label
+@export var road_info_label: Label
 @export var field_info_label: Label
 @export var pasture_info_label: Label
+@export var sawmill_info_label: Label
+@export var fishing_station_info_label: Label
 @export var delete_info_label: Label
 
 @onready var button_panels = {
 	house_button: house_info,
+	road_button: road_info,
 	field_button: field_info,
 	pasture_button: pasture_info,
+	sawmill_button: sawmill_info,
+	fishing_station_button: fishing_station_info,
 	delete_button: delete_info
 }
 
@@ -49,7 +64,7 @@ func _ready() -> void:
 	game.player_action_ended.connect(on_player_action_ended)
 	
 	setup_info_tabs()
-	for btn in [house_button, field_button, pasture_button, delete_button]:
+	for btn in [house_button, road_button, field_button, pasture_button, sawmill_button, fishing_station_button, delete_button]:
 		default_y_positions[btn] = btn.position.y
 		btn.position.y += hide_offset
 		btn.disabled = true
@@ -59,13 +74,19 @@ func _ready() -> void:
 
 func setup_info_tabs() -> void:
 	house_name_label.text = game.TILES_INFO["house"][0]
+	road_name_label.text = game.TILES_INFO["road"][0]
 	field_name_label.text = game.TILES_INFO["field"][0]
 	pasture_name_label.text = game.TILES_INFO["pasture"][0]
+	sawmill_name_label.text = game.TILES_INFO["sawmill"][0]
+	fishing_station_name_label.text = game.TILES_INFO["fishing_station"][0]
 	delete_name_label.text = "Destroy"
 
 	house_info_label.text = game.TILES_INFO["house"][1]
+	road_info_label.text = game.TILES_INFO["road"][1]
 	field_info_label.text = game.TILES_INFO["field"][1]
 	pasture_info_label.text = game.TILES_INFO["pasture"][1]
+	sawmill_info_label.text = game.TILES_INFO["sawmill"][1]
+	fishing_station_info_label.text = game.TILES_INFO["fishing_station"][1]
 	delete_info_label.text = "Used for destroying buildings. Resorces will NOT be returned."
 
 func create_clean_tween(node: Node) -> Tween:
@@ -78,7 +99,7 @@ func create_clean_tween(node: Node) -> Tween:
 
 func on_player_action_started() -> void:
 	var delay = 0.0
-	for btn in [house_button, field_button, pasture_button, delete_button]:
+	for btn in [house_button, road_button, field_button, pasture_button, sawmill_button, fishing_station_button, delete_button]:
 		btn.disabled = false
 		var tween = create_clean_tween(btn)
 		tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
@@ -88,13 +109,13 @@ func on_player_action_started() -> void:
 func on_player_action_ended() -> void:
 	clear_building_action()
 	
-	for btn in [house_button, field_button, pasture_button, delete_button]:
+	for btn in [house_button, road_button, field_button, pasture_button, sawmill_button, fishing_station_button, delete_button]:
 		btn.disabled = true
 		var tween = create_clean_tween(btn)
 		tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		tween.tween_property(btn, "position:y", default_y_positions[btn] + hide_offset, 0.3)
 
-func handle_building(action_index: int, button: Button) -> void:
+func handle_building(action: String, button: Button) -> void:
 	if GameManager.is_build_allowed == false:
 		return
 
@@ -117,13 +138,13 @@ func handle_building(action_index: int, button: Button) -> void:
 			if btn.get_global_rect().has_point(get_global_mouse_position()):
 				hide_info_forced(btn)
 
-	GameManager.building_action = action_index
+	GameManager.building_action = action
 	prev_button = button
 	animate_button_selection(button, true)
 	show_info(button)
 
 func clear_building_action() -> void:
-	GameManager.building_action = -999
+	GameManager.building_action = "none"
 	if prev_button:
 		var b = prev_button
 		prev_button = null
@@ -179,9 +200,11 @@ func hide_info_forced(button: Button) -> void:
 	if active_tweens.has(panel) and active_tweens[panel].is_valid():
 		active_tweens[panel].kill()
 
-# Сигналы
 func _on_house_button_mouse_entered() -> void: show_info(house_button)
 func _on_house_button_mouse_exited() -> void: hide_info(house_button)
+
+func _on_road_button_mouse_entered() -> void: show_info(road_button)
+func _on_road_button_mouse_exited() -> void: hide_info(road_button)
 
 func _on_field_button_mouse_entered() -> void: show_info(field_button)
 func _on_field_button_mouse_exited() -> void: hide_info(field_button)
@@ -189,19 +212,33 @@ func _on_field_button_mouse_exited() -> void: hide_info(field_button)
 func _on_pasture_button_mouse_entered() -> void: show_info(pasture_button)
 func _on_pasture_button_mouse_exited() -> void: hide_info(pasture_button)
 
+func _on_sawmill_button_mouse_entered() -> void: show_info(sawmill_button)
+func _on_sawmill_button_mouse_exited() -> void: hide_info(sawmill_button)
+
+func _on_fishing_station_button_mouse_entered() -> void: show_info(fishing_station_button)
+func _on_fishing_station_button_mouse_exited() -> void: hide_info(fishing_station_button)
+
 func _on_delete_button_mouse_entered() -> void: show_info(delete_button)
 func _on_delete_button_mouse_exited() -> void: hide_info(delete_button)
 
-func _on_house_button_pressed() -> void: handle_building(1, house_button)
-func _on_field_button_pressed() -> void: handle_building(2, field_button)
-func _on_pasture_button_pressed() -> void: handle_building(3, pasture_button)
-func _on_delete_button_pressed() -> void: handle_building(0, delete_button)
+
+func _on_house_button_pressed() -> void: handle_building("house", house_button)
+func _on_road_button_pressed() -> void: handle_building("road", road_button)
+func _on_field_button_pressed() -> void: handle_building("field", field_button)
+func _on_pasture_button_pressed() -> void: handle_building("pasture", pasture_button)
+func _on_sawmill_button_pressed() -> void: handle_building("sawmill", sawmill_button)
+func _on_fishing_button_pressed() -> void: handle_building("fishing_station", fishing_station_button)
+func _on_delete_button_pressed() -> void: handle_building("tile", delete_button)
+
 
 func _input(event):
 	if event.is_echo(): return
 	
-	if Input.is_action_just_pressed("set_build_to_house"): handle_building(1, house_button)
-	elif Input.is_action_just_pressed("set_build_to_field"): handle_building(2, field_button)
-	elif Input.is_action_just_pressed("set_build_to_pasture"): handle_building(3, pasture_button)
-	elif Input.is_action_just_pressed("set_build_to_tile"): handle_building(0, delete_button)
+	if Input.is_action_just_pressed("set_build_to_1"): handle_building("house", house_button)
+	elif Input.is_action_just_pressed("set_build_to_2"): handle_building("road", road_button)
+	elif Input.is_action_just_pressed("set_build_to_3"): handle_building("field", field_button)
+	elif Input.is_action_just_pressed("set_build_to_4"): handle_building("pasture", pasture_button)
+	elif Input.is_action_just_pressed("set_build_to_5"): handle_building("sawmill", sawmill_button)
+	elif Input.is_action_just_pressed("set_build_to_6"): handle_building("fishing_station", fishing_station_button)
+	elif Input.is_action_just_pressed("set_build_to_0"): handle_building("tile", delete_button)
 	elif Input.is_action_just_pressed("clear_building_action"): clear_building_action()

@@ -1,7 +1,13 @@
 [gd_scene format=3 uid="uid://w5ckrpu1yclv"]
 
+[ext_resource type="Script" uid="uid://yje0uobffd3a" path="res://scripts/game/objects/field.gd" id="1_4t4q4"]
+[ext_resource type="PackedScene" uid="uid://c1djpreyni4lp" path="res://assets/models/buildings/field.glb" id="1_qeuco"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4t4q4"]
+size = Vector3(0.75, 0.05, 0.75)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yi4hv"]
-albedo_color = Color(0, 0.39215687, 0, 1)
+albedo_color = Color(0.23921569, 0.16862746, 0.12156863, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_vxesu"]
 material = SubResource("StandardMaterial3D_yi4hv")
@@ -9,13 +15,28 @@ material = SubResource("StandardMaterial3D_yi4hv")
 [sub_resource type="BoxShape3D" id="BoxShape3D_uw3wk"]
 size = Vector3(1, 0.001, 1)
 
-[node name="Field" type="Node3D" unique_id=2120491092]
+[node name="Field" type="Node3D" unique_id=2120491092 node_paths=PackedStringArray("object", "default")]
+script = ExtResource("1_4t4q4")
+object = NodePath("Object")
+default = NodePath("Object/FieldDefault")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1766271900]
+[node name="Object" type="Node3D" parent="." unique_id=2124503757]
+
+[node name="FieldDefault" parent="Object" unique_id=904206283 instance=ExtResource("1_qeuco")]
+transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, -0.25, 0, 0.25)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Object" unique_id=1927599596]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Object/StaticBody3D" unique_id=1405087059]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+shape = SubResource("BoxShape3D_4t4q4")
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1766271900]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = SubResource("BoxMesh_vxesu")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=766814610]
+[node name="StaticBodyGround" type="StaticBody3D" parent="Ground" unique_id=766814610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=228233079]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBodyGround" unique_id=228233079]
 shape = SubResource("BoxShape3D_uw3wk")

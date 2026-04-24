@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://sddpiwvayydk"
-path="res://.godot/imported/three_tree.glb-0be91d5473ba1319f12b1c97ff0d47c0.scn"
+uid="uid://p43dbf2uvcpf"
+path="res://.godot/imported/church.glb-6be161e065a43bce7a9b073c55979e6a.scn"
 
 [deps]
 
-source_file="res://assets/models/buildings/three_tree.glb"
-dest_files=["res://.godot/imported/three_tree.glb-0be91d5473ba1319f12b1c97ff0d47c0.scn"]
+source_file="res://assets/models/buildings/church.glb"
+dest_files=["res://.godot/imported/church.glb-6be161e065a43bce7a9b073c55979e6a.scn"]
 
 [params]
 

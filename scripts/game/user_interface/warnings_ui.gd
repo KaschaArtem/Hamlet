@@ -85,7 +85,7 @@ func on_player_action_started() -> void:
 
 func on_player_action_ended() -> void:
 	var tween = create_tween()
-	tween.tween_property(self, "position:x", original_x_position + 150, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.tween_property(self, "position:x", original_x_position + 350, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 
 func _on_people_starving_mouse_entered() -> void: animate_warning(people_starving_info, true, false)
 func _on_people_starving_mouse_exited() -> void: animate_warning(people_starving_info, false, false)

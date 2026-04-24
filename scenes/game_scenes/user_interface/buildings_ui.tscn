@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b151epxpiwkrq" path="res://scripts/game/user_interface/buildings_ui.gd" id="1_duh1h"]
 [ext_resource type="Theme" uid="uid://tcamjpx7p3o6" path="res://scenes/themes/building_button.tres" id="2_v7fxr"]
 [ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="3_l5wep"]
+[ext_resource type="Texture2D" uid="uid://dgsvbocnuiffo" path="res://assets/icons/buildings/house.png" id="4_or2th"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_or2th"]
 content_margin_left = 4.0
@@ -15,41 +16,57 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="BuildingsUI" type="Control" unique_id=139825313 node_paths=PackedStringArray("house_button", "field_button", "pasture_button", "delete_button", "house_info", "field_info", "pasture_info", "delete_info", "house_name_label", "field_name_label", "pasture_name_label", "delete_name_label", "house_info_label", "field_info_label", "pasture_info_label", "delete_info_label")]
+[node name="BuildingsUI" type="Control" unique_id=139825313 node_paths=PackedStringArray("house_button", "road_button", "field_button", "pasture_button", "sawmill_button", "fishing_station_button", "delete_button", "house_info", "road_info", "field_info", "pasture_info", "sawmill_info", "fishing_station_info", "delete_info", "house_name_label", "road_name_label", "field_name_label", "pasture_name_label", "sawmill_name_label", "fishing_station_name_label", "delete_name_label", "house_info_label", "road_info_label", "field_info_label", "pasture_info_label", "sawmill_info_label", "fishing_station_info_label", "delete_info_label")]
 layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 grow_vertical = 0
 script = ExtResource("1_duh1h")
-house_button = NodePath("HouseButton")
-field_button = NodePath("FieldButton")
-pasture_button = NodePath("PastureButton")
-delete_button = NodePath("DeleteButton")
-house_info = NodePath("HouseButton/PanelContainer")
-field_info = NodePath("FieldButton/PanelContainer")
-pasture_info = NodePath("PastureButton/PanelContainer")
-delete_info = NodePath("DeleteButton/PanelContainer")
-house_name_label = NodePath("HouseButton/PanelContainer/VBoxContainer/ObjectName")
-field_name_label = NodePath("FieldButton/PanelContainer/VBoxContainer/ObjectName")
-pasture_name_label = NodePath("PastureButton/PanelContainer/VBoxContainer/ObjectName")
-delete_name_label = NodePath("DeleteButton/PanelContainer/VBoxContainer/ObjectName")
-house_info_label = NodePath("HouseButton/PanelContainer/VBoxContainer/ObjectInfo")
-field_info_label = NodePath("FieldButton/PanelContainer/VBoxContainer/ObjectInfo")
-pasture_info_label = NodePath("PastureButton/PanelContainer/VBoxContainer/ObjectInfo")
-delete_info_label = NodePath("DeleteButton/PanelContainer/VBoxContainer/ObjectInfo")
+house_button = NodePath("HBoxContainer/HouseButton")
+road_button = NodePath("HBoxContainer/RoadButton")
+field_button = NodePath("HBoxContainer/FieldButton")
+pasture_button = NodePath("HBoxContainer/PastureButton")
+sawmill_button = NodePath("HBoxContainer/SawmillButton")
+fishing_station_button = NodePath("HBoxContainer/FishingStationButton")
+delete_button = NodePath("HBoxContainer/DeleteButton")
+house_info = NodePath("HBoxContainer/HouseButton/PanelContainer")
+road_info = NodePath("HBoxContainer/RoadButton/PanelContainer")
+field_info = NodePath("HBoxContainer/FieldButton/PanelContainer")
+pasture_info = NodePath("HBoxContainer/PastureButton/PanelContainer")
+sawmill_info = NodePath("HBoxContainer/SawmillButton/PanelContainer")
+fishing_station_info = NodePath("HBoxContainer/FishingStationButton/PanelContainer")
+delete_info = NodePath("HBoxContainer/DeleteButton/PanelContainer")
+house_name_label = NodePath("HBoxContainer/HouseButton/PanelContainer/VBoxContainer/ObjectName")
+road_name_label = NodePath("HBoxContainer/RoadButton/PanelContainer/VBoxContainer/ObjectName")
+field_name_label = NodePath("HBoxContainer/FieldButton/PanelContainer/VBoxContainer/ObjectName")
+pasture_name_label = NodePath("HBoxContainer/PastureButton/PanelContainer/VBoxContainer/ObjectName")
+sawmill_name_label = NodePath("HBoxContainer/SawmillButton/PanelContainer/VBoxContainer/ObjectName")
+fishing_station_name_label = NodePath("HBoxContainer/FishingStationButton/PanelContainer/VBoxContainer/ObjectName")
+delete_name_label = NodePath("HBoxContainer/DeleteButton/PanelContainer/VBoxContainer/ObjectName")
+house_info_label = NodePath("HBoxContainer/HouseButton/PanelContainer/VBoxContainer/ObjectInfo")
+road_info_label = NodePath("HBoxContainer/RoadButton/PanelContainer/VBoxContainer/ObjectInfo")
+field_info_label = NodePath("HBoxContainer/FieldButton/PanelContainer/VBoxContainer/ObjectInfo")
+pasture_info_label = NodePath("HBoxContainer/PastureButton/PanelContainer/VBoxContainer/ObjectInfo")
+sawmill_info_label = NodePath("HBoxContainer/SawmillButton/PanelContainer/VBoxContainer/ObjectInfo")
+fishing_station_info_label = NodePath("HBoxContainer/FishingStationButton/PanelContainer/VBoxContainer/ObjectInfo")
+delete_info_label = NodePath("HBoxContainer/DeleteButton/PanelContainer/VBoxContainer/ObjectInfo")
 
-[node name="HouseButton" type="Button" parent="." unique_id=1718671655]
-custom_minimum_size = Vector2(64, 64)
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=38644257]
 layout_mode = 0
 offset_left = 56.0
 offset_top = -72.0
-offset_right = 120.0
+offset_right = 336.0
 offset_bottom = -8.0
+theme_override_constants/separation = 8
+
+[node name="HouseButton" type="Button" parent="HBoxContainer" unique_id=1718671655]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
 focus_mode = 0
 theme = ExtResource("2_v7fxr")
 
-[node name="PanelContainer" type="PanelContainer" parent="HouseButton" unique_id=2022617018]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/HouseButton" unique_id=2022617018]
 visible = false
 layout_mode = 1
 anchors_preset = 12
@@ -64,10 +81,10 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_or2th")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HouseButton/PanelContainer" unique_id=1371578629]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HouseButton/PanelContainer" unique_id=1371578629]
 layout_mode = 2
 
-[node name="ObjectName" type="Label" parent="HouseButton/PanelContainer/VBoxContainer" unique_id=1438214423]
+[node name="ObjectName" type="Label" parent="HBoxContainer/HouseButton/PanelContainer/VBoxContainer" unique_id=1438214423]
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("3_l5wep")
@@ -75,7 +92,7 @@ theme_override_font_sizes/font_size = 14
 text = "Name"
 horizontal_alignment = 1
 
-[node name="ObjectInfo" type="Label" parent="HouseButton/PanelContainer/VBoxContainer" unique_id=1411286424]
+[node name="ObjectInfo" type="Label" parent="HBoxContainer/HouseButton/PanelContainer/VBoxContainer" unique_id=1411286424]
 custom_minimum_size = Vector2(152, 0)
 layout_mode = 2
 size_flags_vertical = 1
@@ -86,7 +103,17 @@ text = "info"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Panel" type="Panel" parent="HouseButton" unique_id=1019936499]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/HouseButton" unique_id=1663976795]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_or2th")
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="HBoxContainer/HouseButton" unique_id=1019936499]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 1
 anchors_preset = 12
@@ -99,7 +126,7 @@ size_flags_vertical = 8
 mouse_filter = 1
 theme = ExtResource("2_v7fxr")
 
-[node name="Label" type="Label" parent="HouseButton/Panel" unique_id=617265869]
+[node name="Label" type="Label" parent="HBoxContainer/HouseButton/Panel" unique_id=617265869]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -114,17 +141,13 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "40"
 
-[node name="FieldButton" type="Button" parent="." unique_id=1108479608]
+[node name="RoadButton" type="Button" parent="HBoxContainer" unique_id=1877489945]
 custom_minimum_size = Vector2(64, 64)
-layout_mode = 0
-offset_left = 128.0
-offset_top = -72.0
-offset_right = 192.0
-offset_bottom = -8.0
+layout_mode = 2
 focus_mode = 0
 theme = ExtResource("2_v7fxr")
 
-[node name="PanelContainer" type="PanelContainer" parent="FieldButton" unique_id=1636010278]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/RoadButton" unique_id=338506981]
 visible = false
 layout_mode = 1
 anchors_preset = 12
@@ -139,10 +162,10 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_or2th")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="FieldButton/PanelContainer" unique_id=1964648666]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/RoadButton/PanelContainer" unique_id=995089785]
 layout_mode = 2
 
-[node name="ObjectName" type="Label" parent="FieldButton/PanelContainer/VBoxContainer" unique_id=1071099427]
+[node name="ObjectName" type="Label" parent="HBoxContainer/RoadButton/PanelContainer/VBoxContainer" unique_id=589132350]
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("3_l5wep")
@@ -150,7 +173,7 @@ theme_override_font_sizes/font_size = 14
 text = "Name"
 horizontal_alignment = 1
 
-[node name="ObjectInfo" type="Label" parent="FieldButton/PanelContainer/VBoxContainer" unique_id=405666321]
+[node name="ObjectInfo" type="Label" parent="HBoxContainer/RoadButton/PanelContainer/VBoxContainer" unique_id=1852999089]
 custom_minimum_size = Vector2(152, 0)
 layout_mode = 2
 size_flags_vertical = 1
@@ -161,7 +184,87 @@ text = "info"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Panel" type="Panel" parent="FieldButton" unique_id=1564941571]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/RoadButton" unique_id=996793528]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="HBoxContainer/RoadButton" unique_id=2098126723]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+mouse_filter = 1
+theme = ExtResource("2_v7fxr")
+
+[node name="Label" type="Label" parent="HBoxContainer/RoadButton/Panel" unique_id=1673776488]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.5
+offset_top = -3.75
+offset_right = 3.5
+offset_bottom = 3.75
+grow_horizontal = 2
+grow_vertical = 2
+text = "6"
+
+[node name="FieldButton" type="Button" parent="HBoxContainer" unique_id=1108479608]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("2_v7fxr")
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/FieldButton" unique_id=1636010278]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -113.0
+offset_right = 48.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_or2th")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/FieldButton/PanelContainer" unique_id=1964648666]
+layout_mode = 2
+
+[node name="ObjectName" type="Label" parent="HBoxContainer/FieldButton/PanelContainer/VBoxContainer" unique_id=1071099427]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("3_l5wep")
+theme_override_font_sizes/font_size = 14
+text = "Name"
+horizontal_alignment = 1
+
+[node name="ObjectInfo" type="Label" parent="HBoxContainer/FieldButton/PanelContainer/VBoxContainer" unique_id=405666321]
+custom_minimum_size = Vector2(152, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("3_l5wep")
+theme_override_font_sizes/font_size = 10
+text = "info"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Panel" type="Panel" parent="HBoxContainer/FieldButton" unique_id=1564941571]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 1
 anchors_preset = 12
@@ -173,7 +276,7 @@ grow_vertical = 0
 mouse_filter = 1
 theme = ExtResource("2_v7fxr")
 
-[node name="Label" type="Label" parent="FieldButton/Panel" unique_id=1921151067]
+[node name="Label" type="Label" parent="HBoxContainer/FieldButton/Panel" unique_id=1921151067]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -188,17 +291,13 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "24"
 
-[node name="PastureButton" type="Button" parent="." unique_id=782249182]
+[node name="PastureButton" type="Button" parent="HBoxContainer" unique_id=782249182]
 custom_minimum_size = Vector2(64, 64)
-layout_mode = 0
-offset_left = 200.0
-offset_top = -72.0
-offset_right = 264.0
-offset_bottom = -8.0
+layout_mode = 2
 focus_mode = 0
 theme = ExtResource("2_v7fxr")
 
-[node name="PanelContainer" type="PanelContainer" parent="PastureButton" unique_id=1990904544]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/PastureButton" unique_id=1990904544]
 visible = false
 layout_mode = 1
 anchors_preset = 12
@@ -213,10 +312,10 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_or2th")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PastureButton/PanelContainer" unique_id=647792877]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PastureButton/PanelContainer" unique_id=647792877]
 layout_mode = 2
 
-[node name="ObjectName" type="Label" parent="PastureButton/PanelContainer/VBoxContainer" unique_id=1038600766]
+[node name="ObjectName" type="Label" parent="HBoxContainer/PastureButton/PanelContainer/VBoxContainer" unique_id=1038600766]
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("3_l5wep")
@@ -224,7 +323,7 @@ theme_override_font_sizes/font_size = 14
 text = "Name"
 horizontal_alignment = 1
 
-[node name="ObjectInfo" type="Label" parent="PastureButton/PanelContainer/VBoxContainer" unique_id=38588318]
+[node name="ObjectInfo" type="Label" parent="HBoxContainer/PastureButton/PanelContainer/VBoxContainer" unique_id=38588318]
 custom_minimum_size = Vector2(152, 0)
 layout_mode = 2
 size_flags_vertical = 1
@@ -235,7 +334,7 @@ text = "info"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Panel" type="Panel" parent="PastureButton" unique_id=1247405640]
+[node name="Panel" type="Panel" parent="HBoxContainer/PastureButton" unique_id=1247405640]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 1
 anchors_preset = 12
@@ -247,7 +346,7 @@ grow_vertical = 0
 mouse_filter = 1
 theme = ExtResource("2_v7fxr")
 
-[node name="Label" type="Label" parent="PastureButton/Panel" unique_id=1165023908]
+[node name="Label" type="Label" parent="HBoxContainer/PastureButton/Panel" unique_id=1165023908]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -262,17 +361,13 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "32"
 
-[node name="DeleteButton" type="Button" parent="." unique_id=1515832089]
-custom_minimum_size = Vector2(64, 58)
-layout_mode = 0
-offset_left = 272.0
-offset_top = -72.0
-offset_right = 336.0
-offset_bottom = -8.0
+[node name="SawmillButton" type="Button" parent="HBoxContainer" unique_id=732045529]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
 focus_mode = 0
 theme = ExtResource("2_v7fxr")
 
-[node name="PanelContainer" type="PanelContainer" parent="DeleteButton" unique_id=408854310]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/SawmillButton" unique_id=158114153]
 visible = false
 layout_mode = 1
 anchors_preset = 12
@@ -287,10 +382,10 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_or2th")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DeleteButton/PanelContainer" unique_id=1876524491]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/SawmillButton/PanelContainer" unique_id=1927063127]
 layout_mode = 2
 
-[node name="ObjectName" type="Label" parent="DeleteButton/PanelContainer/VBoxContainer" unique_id=357652614]
+[node name="ObjectName" type="Label" parent="HBoxContainer/SawmillButton/PanelContainer/VBoxContainer" unique_id=378581739]
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("3_l5wep")
@@ -298,7 +393,7 @@ theme_override_font_sizes/font_size = 14
 text = "Name"
 horizontal_alignment = 1
 
-[node name="ObjectInfo" type="Label" parent="DeleteButton/PanelContainer/VBoxContainer" unique_id=982245392]
+[node name="ObjectInfo" type="Label" parent="HBoxContainer/SawmillButton/PanelContainer/VBoxContainer" unique_id=1299039166]
 custom_minimum_size = Vector2(152, 0)
 layout_mode = 2
 size_flags_vertical = 1
@@ -309,15 +404,184 @@ text = "info"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[connection signal="mouse_entered" from="HouseButton" to="." method="_on_house_button_mouse_entered"]
-[connection signal="mouse_exited" from="HouseButton" to="." method="_on_house_button_mouse_exited"]
-[connection signal="pressed" from="HouseButton" to="." method="_on_house_button_pressed"]
-[connection signal="mouse_entered" from="FieldButton" to="." method="_on_field_button_mouse_entered"]
-[connection signal="mouse_exited" from="FieldButton" to="." method="_on_field_button_mouse_exited"]
-[connection signal="pressed" from="FieldButton" to="." method="_on_field_button_pressed"]
-[connection signal="mouse_entered" from="PastureButton" to="." method="_on_pasture_button_mouse_entered"]
-[connection signal="mouse_exited" from="PastureButton" to="." method="_on_pasture_button_mouse_exited"]
-[connection signal="pressed" from="PastureButton" to="." method="_on_pasture_button_pressed"]
-[connection signal="mouse_entered" from="DeleteButton" to="." method="_on_delete_button_mouse_entered"]
-[connection signal="mouse_exited" from="DeleteButton" to="." method="_on_delete_button_mouse_exited"]
-[connection signal="pressed" from="DeleteButton" to="." method="_on_delete_button_pressed"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/SawmillButton" unique_id=991647542]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="HBoxContainer/SawmillButton" unique_id=1467115126]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+mouse_filter = 1
+theme = ExtResource("2_v7fxr")
+
+[node name="Label" type="Label" parent="HBoxContainer/SawmillButton/Panel" unique_id=1714363873]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.5
+offset_top = -3.75
+offset_right = 3.5
+offset_bottom = 3.75
+grow_horizontal = 2
+grow_vertical = 2
+text = "20"
+
+[node name="FishingStationButton" type="Button" parent="HBoxContainer" unique_id=796547895]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("2_v7fxr")
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/FishingStationButton" unique_id=2056274792]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -113.0
+offset_right = 48.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_or2th")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/FishingStationButton/PanelContainer" unique_id=144611387]
+layout_mode = 2
+
+[node name="ObjectName" type="Label" parent="HBoxContainer/FishingStationButton/PanelContainer/VBoxContainer" unique_id=1004395671]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("3_l5wep")
+theme_override_font_sizes/font_size = 14
+text = "Name"
+horizontal_alignment = 1
+
+[node name="ObjectInfo" type="Label" parent="HBoxContainer/FishingStationButton/PanelContainer/VBoxContainer" unique_id=1020917357]
+custom_minimum_size = Vector2(152, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("3_l5wep")
+theme_override_font_sizes/font_size = 10
+text = "info"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/FishingStationButton" unique_id=1120930296]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="HBoxContainer/FishingStationButton" unique_id=160838667]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+mouse_filter = 1
+theme = ExtResource("2_v7fxr")
+
+[node name="Label" type="Label" parent="HBoxContainer/FishingStationButton/Panel" unique_id=1534538808]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.5
+offset_top = -3.75
+offset_right = 3.5
+offset_bottom = 3.75
+grow_horizontal = 2
+grow_vertical = 2
+text = "48"
+
+[node name="DeleteButton" type="Button" parent="HBoxContainer" unique_id=1515832089]
+custom_minimum_size = Vector2(64, 58)
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("2_v7fxr")
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/DeleteButton" unique_id=408854310]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -113.0
+offset_right = 48.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_or2th")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/DeleteButton/PanelContainer" unique_id=1876524491]
+layout_mode = 2
+
+[node name="ObjectName" type="Label" parent="HBoxContainer/DeleteButton/PanelContainer/VBoxContainer" unique_id=357652614]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("3_l5wep")
+theme_override_font_sizes/font_size = 14
+text = "Name"
+horizontal_alignment = 1
+
+[node name="ObjectInfo" type="Label" parent="HBoxContainer/DeleteButton/PanelContainer/VBoxContainer" unique_id=982245392]
+custom_minimum_size = Vector2(152, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("3_l5wep")
+theme_override_font_sizes/font_size = 10
+text = "info"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[connection signal="mouse_entered" from="HBoxContainer/HouseButton" to="." method="_on_house_button_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/HouseButton" to="." method="_on_house_button_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer/HouseButton" to="." method="_on_house_button_pressed"]
+[connection signal="mouse_entered" from="HBoxContainer/RoadButton" to="." method="_on_road_button_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/RoadButton" to="." method="_on_road_button_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer/RoadButton" to="." method="_on_road_button_pressed"]
+[connection signal="mouse_entered" from="HBoxContainer/FieldButton" to="." method="_on_field_button_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/FieldButton" to="." method="_on_field_button_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer/FieldButton" to="." method="_on_field_button_pressed"]
+[connection signal="mouse_entered" from="HBoxContainer/PastureButton" to="." method="_on_pasture_button_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/PastureButton" to="." method="_on_pasture_button_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer/PastureButton" to="." method="_on_pasture_button_pressed"]
+[connection signal="mouse_entered" from="HBoxContainer/SawmillButton" to="." method="_on_sawmill_button_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/SawmillButton" to="." method="_on_sawmill_button_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer/SawmillButton" to="." method="_on_sawmill_button_pressed"]
+[connection signal="mouse_entered" from="HBoxContainer/FishingStationButton" to="." method="_on_fishing_station_button_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/FishingStationButton" to="." method="_on_fishing_station_button_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer/FishingStationButton" to="." method="_on_fishing_station_button_pressed"]
+[connection signal="mouse_entered" from="HBoxContainer/DeleteButton" to="." method="_on_delete_button_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/DeleteButton" to="." method="_on_delete_button_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]

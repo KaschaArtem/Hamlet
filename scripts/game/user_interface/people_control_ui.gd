@@ -126,27 +126,27 @@ func update_all_formulas() -> void:
 
 func update_wood_formula() -> void:
 	wood_base.text = str(game.base_wood_income)
-	wood_people.text = " * " + str(game.get_people_coeff(game.people_on_wood))
+	wood_people.text = " * " + str(game.get_people_coeff(game.people_on_wood, game.people_on_wood_eff))
 	wood_season.text = " * " + str(game.wood_season_mod)
 	wood_total.text = " = " + str(game.get_wood_production())
 
 func update_plant_formula() -> void:
 	plant_base.text = str(game.base_plant_food_income)
-	plant_people.text = " * " + str(game.get_people_coeff(game.people_on_plant))
+	plant_people.text = " * " + str(game.get_people_coeff(game.people_on_plant, game.people_on_plant_eff))
 	plant_fields.text = " * " + str(ground.field_amount)
 	plant_season.text = " * " + str(game.plant_season_mod)
 	plant_total.text = " = " + str(game.get_plant_food_production())
 
 func update_animal_formula() -> void:
 	animal_base.text = str(game.base_animal_food_income)
-	animal_people.text = " * " + str(game.get_people_coeff(game.people_on_animal))
+	animal_people.text = " * " + str(game.get_people_coeff(game.people_on_animal, game.people_on_animal_eff))
 	animal_pastures.text = " * " + str(ground.pasture_amount)
 	animal_season.text = " * " + str(game.animal_season_mod)
 	animal_total.text = " = " + str(game.get_animal_food_production())
 
 func update_fish_formula() -> void:
 	fish_base.text = str(game.base_fish_food_income)
-	fish_people.text = " * " + str(game.get_people_coeff(game.people_on_fish))
+	fish_people.text = " * " + str(game.get_people_coeff(game.people_on_fish, game.people_on_fish_eff))
 	fish_water_bonus.text = " * " + str(ground.get_water_bonus())
 	fish_season.text = " * " + str(game.fish_season_mod)
 	fish_total.text = " = " + str(game.get_fish_production())
