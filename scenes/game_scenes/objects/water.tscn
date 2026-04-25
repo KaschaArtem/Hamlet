@@ -1,28 +1,15 @@
 [gd_scene format=3 uid="uid://bktngcc427rq0"]
 
-[ext_resource type="Shader" uid="uid://b6ptn5mawil33" path="res://shaders/water.gdshader" id="1_t71f7"]
+[ext_resource type="Script" uid="uid://c5lbktfx1fa47" path="res://scripts/game/objects/water.gd" id="1_ns2vu"]
+[ext_resource type="Material" uid="uid://tc8id02sohwm" path="res://materials/water/allowed_highlight.tres" id="2_1cm46"]
+[ext_resource type="Material" uid="uid://csiww8d03rs4q" path="res://materials/water/water_default.tres" id="2_ns2vu"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_t71f7"]
-noise_type = 2
-frequency = 0.0014
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ns2vu"]
-noise = SubResource("FastNoiseLite_t71f7")
-seamless = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_t71f7"]
-render_priority = 0
-shader = ExtResource("1_t71f7")
-shader_parameter/water_color = Color(0, 0.43888584, 0.5887289, 1)
-shader_parameter/night_fill = 0.10000000475
-shader_parameter/wave_noise_tex = SubResource("NoiseTexture2D_ns2vu")
-shader_parameter/wave_amplitude = 0.10000000405148
-shader_parameter/wave_frequency = 1.0
-shader_parameter/wave_speed = 0.50000002049012
-shader_parameter/facet_variation = 0.050000002375
+[sub_resource type="PlaneMesh" id="PlaneMesh_qrnc3"]
+material = ExtResource("2_1cm46")
+size = Vector2(1, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1cm46"]
-material = SubResource("ShaderMaterial_t71f7")
+material = ExtResource("2_ns2vu")
 size = Vector2(1, 1)
 subdivide_width = 2
 subdivide_depth = 2
@@ -37,7 +24,13 @@ size = Vector3(1, 0.5, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_dnuet"]
 size = Vector3(1, 0.001, 1)
 
-[node name="Water" type="Node3D" unique_id=1654774871]
+[node name="Water" type="Node3D" unique_id=1654774871 node_paths=PackedStringArray("surface", "water")]
+script = ExtResource("1_ns2vu")
+surface = NodePath("MeshInstance3DSurface")
+water = NodePath("MeshInstance3DWater")
+
+[node name="MeshInstance3DSurface" type="MeshInstance3D" parent="." unique_id=370702141]
+mesh = SubResource("PlaneMesh_qrnc3")
 
 [node name="MeshInstance3DWater" type="MeshInstance3D" parent="." unique_id=655872958]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14741242, 0)

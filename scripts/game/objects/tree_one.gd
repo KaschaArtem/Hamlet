@@ -5,7 +5,7 @@ extends Node3D
 @export var default_ground: MeshInstance3D
 @export var axe_icon: Sprite3D
 
-var highlight_shader_material = preload("res://shaders/material/tree/allowed_tree.tres")
+var highlight_shader_material = preload("res://materials/tree/allowed_tree.tres")
 
 
 func _ready() -> void:

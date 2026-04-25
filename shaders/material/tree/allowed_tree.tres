@@ -1,9 +1,0 @@
-[gd_resource type="ShaderMaterial" format=3 uid="uid://bx4q8rtho3uco"]
-
-[ext_resource type="Shader" uid="uid://buf7vefewjcgk" path="res://shaders/material/tree/allowed_tree.gdshader" id="1_77y6p"]
-
-[resource]
-render_priority = 0
-shader = ExtResource("1_77y6p")
-shader_parameter/color = Color(0, 0.73137176, 0.21464917, 1)
-shader_parameter/size = 1.05

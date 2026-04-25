@@ -4,7 +4,7 @@ render_mode blend_mix, depth_draw_always, world_vertex_coords;
 uniform vec4 water_color : source_color = vec4(0.0, 0.2, 0.6, 1.0);
 uniform float night_fill : hint_range(0.0, 1.0) = 0.0;
 
-uniform sampler2D wave_noise_tex : hint_default_black, repeat_enable; // Добавлено repeat_enable
+uniform sampler2D wave_noise_tex : hint_default_black, repeat_enable;
 uniform float wave_amplitude : hint_range(0.01, 5.0) = 1.0;
 uniform float wave_frequency : hint_range(0.01, 1.0) = 0.1;
 uniform float wave_speed : hint_range(0.1, 5.0) = 0.5;

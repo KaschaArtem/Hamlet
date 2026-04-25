@@ -24,7 +24,7 @@ extends Node3D
 
 @export_group("Stations Radius")
 @export var sawmill_radius: int = 3
-@export var fishing_station_radius: int = 5
+@export var fishing_station_radius: int = 1
 
 @export_group("Pow Value")
 @export var people_on_wood_eff: float = 0.5
@@ -59,8 +59,8 @@ signal player_action_ended
 signal turn_ended
 
 var TILES_INFO = {
-	"tree": ["Tree", "Being cutted to get WOOD. Press F on this tile if in sawmill radius to choose this tree for cutting during next month. Tree tile will desappeared after this."],
-	"water": ["Water", "Being used to get FISH. Press F on water cluster to choose it for fishing during next month. After fishing this water cluster will not be available for 3 months."],
+	"tree": ["Tree", "Being cutted to get WOOD. Press F on this tile if in SAWMILL radius to choose this tree for cutting during next month. Tree tile will desappeared after this."],
+	"water": ["Water", "Being used to get FISH. Press F on water cluster if in FISHING STATION to choose it for fishing during next month. After fishing this water cluster will not be available for 3 months."],
 	"house": ["House", "Increasing max amount of PEOPLE, WOOD, FOOD. Allowing to build for its neighboor tiles."],
 	"road": ["Road", "Allowing to build for its neighboor tiles."],
 	"field": ["Field", "Produce plant food. Doesn't work on winter."],

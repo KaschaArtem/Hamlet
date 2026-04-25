@@ -135,8 +135,9 @@ pasture_scene = ExtResource("5_g754w")
 sawmill_scene = ExtResource("22_qg2av")
 fishing_station_scene = ExtResource("23_nqk4w")
 
-[node name="WaterManager" type="Node3D" parent="Ground" unique_id=1115785555]
+[node name="WaterManager" type="Node3D" parent="Ground" unique_id=1115785555 node_paths=PackedStringArray("game")]
 script = ExtResource("21_ijsuf")
+game = NodePath("../..")
 three_step_loading_1 = ExtResource("22_6g2ct")
 three_step_loading_2 = ExtResource("23_615p7")
 three_step_loading_3 = ExtResource("24_uy67k")

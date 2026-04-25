@@ -208,6 +208,9 @@ func on_active_water_changed() -> void:
 	active_water_changed.emit()
 
 func select_water_cluster(water_tile: Node3D) -> void:
+	if !allowed_water_tiles.has(water_tile):
+		return
+	
 	var x = int(round(water_tile.position.x / TILE_SIZE))
 	var z = int(round(water_tile.position.z / TILE_SIZE))
 	water_manager.select_cluster(x, z)
@@ -296,10 +299,7 @@ func _update_allowed_trees() -> Array:
 						queue.append({"pos": next_pos, "dist": dist + 1})
 
 	for tree in allowed_tree_tiles:
-		if !new_allowed_tree_tiles.has(tree):
-			tree.set_highlight(false)
-		else:
-			tree.set_highlight(true)
+		tree.set_highlight(false)
 
 	for tree in new_allowed_tree_tiles:
 		tree.set_highlight(true)
@@ -311,16 +311,9 @@ func _handle_sawmill_changed() -> void:
 	_validate_to_cut_tree()
 	sawmill_changed.emit()
 
-func _recount_allowed_water() -> Array:
-	var new_allowed_water_tiles = []
-	for tile in ground_grid:
-		if tile["type"] != "fishing_station":
-			continue
-	
-	return new_allowed_water_tiles
-
 func _handle_fishing_station_changed() -> void:
-	allowed_water_tiles = _recount_allowed_water()
+	allowed_water_tiles = water_manager._update_allowed_water()
+	water_manager._validate_current_water_cluster()
 	fishing_station_changed.emit()
 
 func _replace_tile(old_obj, x, z, new_type: String, scene) -> void:

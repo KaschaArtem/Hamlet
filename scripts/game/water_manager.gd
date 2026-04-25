@@ -3,6 +3,7 @@ extends Node3D
 
 class_name WaterManager
 
+@export var game: Node3D
 @onready var grid_manager = get_parent()
 
 @export_group("Textures")
@@ -99,8 +100,47 @@ func _update_cluster_visuals(cluster: Dictionary) -> void:
 			2: cluster.icon_node.texture = three_step_loading_2
 			1: cluster.icon_node.texture = three_step_loading_3
 	else:
+
+		var is_choosable = false
+		for cell in cluster["cells"]:
+			var tile_data = grid_manager.ground_grid[cell.y][cell.x]
+			if tile_data.has("node") and tile_data["node"] in grid_manager.allowed_water_tiles:
+				is_choosable = true
+				break
+		
+		if is_choosable:
+			for cell in cluster["cells"]:
+				var tile_data = grid_manager.ground_grid[cell.y][cell.x]
+				if tile_data.has("node"):
+					tile_data["node"].set_highlight(true)
+
 		cluster.icon_node.texture = fish_icon_texture
 		cluster.icon_node.visible = (current_water_cluster == cluster)
+
+func _validate_current_water_cluster() -> void:
+	if current_water_cluster == null:
+		return
+
+	var is_still_valid = false
+	
+	for cell in current_water_cluster["cells"]:
+		var tile_data = grid_manager.ground_grid[cell.y][cell.x]
+		if tile_data.has("node"):
+			var node_ref = tile_data["node"]
+			if grid_manager.allowed_water_tiles.has(node_ref):
+				is_still_valid = true
+				break
+	
+	if not is_still_valid:
+		for cell in current_water_cluster["cells"]:
+			var tile_data = grid_manager.ground_grid[cell.y][cell.x]
+			if tile_data.has("node"):
+				tile_data["node"].set_highlight(false)
+		
+		var cluster_to_reset = current_water_cluster
+		current_water_cluster = null
+		_update_cluster_visuals(cluster_to_reset)
+		water_changed.emit()
 
 func select_cluster(x: int, z: int) -> void:
 	var idx = water_map[z][x]
@@ -120,6 +160,44 @@ func select_cluster(x: int, z: int) -> void:
 	
 	water_changed.emit()
 
+func _update_allowed_water() -> Array:
+	var new_allowed_water_nodes = []
+	var added_clusters = {} 
+	
+	for z in range(grid_manager.GRID_SIZE):
+		for x in range(grid_manager.GRID_SIZE):
+			var tile = grid_manager.ground_grid[z][x]
+			
+			if tile["type"] == "fishing_station":
+				var radius = game.fishing_station_radius
+				
+				for dz in range(-radius, radius + 1):
+					for dx in range(-radius, radius + 1):
+						var nz = z + dz
+						var nx = x + dx
+						
+						if nx >= 0 and nx < grid_manager.GRID_SIZE and nz >= 0 and nz < grid_manager.GRID_SIZE:
+							var cluster_idx = water_map[nz][nx]
+							
+							if cluster_idx != -1 and not added_clusters.has(cluster_idx):
+								var cluster = water_clusters[cluster_idx]
+								
+								if cluster.cooldown == 0:
+									for cell in cluster["cells"]:
+										var water_tile_data = grid_manager.ground_grid[cell.y][cell.x]
+										if water_tile_data.has("node"):
+											new_allowed_water_nodes.append(water_tile_data["node"])
+									
+									added_clusters[cluster_idx] = true
+	
+	for water in grid_manager.allowed_water_tiles:
+		water.set_highlight(false)
+	
+	for water in new_allowed_water_nodes:
+		water.set_highlight(true)
+
+	return new_allowed_water_nodes
+
 func process_turn() -> void:
 	for cluster in water_clusters:
 		if cluster.cooldown > 0:
@@ -134,9 +212,15 @@ func get_water_bonus() -> float:
 func lock_water() -> void:
 	if current_water_cluster == null:
 		return
-		
+	
+	for cell in current_water_cluster["cells"]:
+		var tile_data = grid_manager.ground_grid[cell.y][cell.x]
+		if tile_data.has("node"):
+			tile_data["node"].set_highlight(false)
+
 	var cluster_to_lock = current_water_cluster
 	current_water_cluster = null
 	cluster_to_lock.cooldown = 4
+
 	_update_cluster_visuals(cluster_to_lock)
 	water_changed.emit()
