@@ -77,8 +77,9 @@ ground = NodePath("../../Ground")
 [node name="ResourcesUI" parent="UserInterface" unique_id=988245277 node_paths=PackedStringArray("game") instance=ExtResource("13_g6mbv")]
 game = NodePath("../..")
 
-[node name="BuildingsUI" parent="UserInterface" unique_id=139825313 node_paths=PackedStringArray("game") instance=ExtResource("12_7f75v")]
+[node name="BuildingsUI" parent="UserInterface" unique_id=139825313 node_paths=PackedStringArray("game", "toggle_ui") instance=ExtResource("12_7f75v")]
 game = NodePath("../..")
+toggle_ui = NodePath("../ShowHUDButton")
 
 [node name="TimeUI" parent="UserInterface" unique_id=1607769773 node_paths=PackedStringArray("game") instance=ExtResource("13_0eppp")]
 game = NodePath("../..")
@@ -192,3 +193,5 @@ shadow_opacity = 0.95
 shadow_blur = 1.6
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 20.0
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1110063609]

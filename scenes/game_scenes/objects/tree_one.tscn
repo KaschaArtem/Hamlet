@@ -22,9 +22,10 @@ material = SubResource("StandardMaterial3D_dmbon")
 [sub_resource type="BoxShape3D" id="BoxShape3D_dmbon"]
 size = Vector3(1, 0.001, 1)
 
-[node name="TreeOne" type="Node3D" unique_id=1429985191 node_paths=PackedStringArray("object", "axe_icon", "default", "winter")]
+[node name="TreeOne" type="Node3D" unique_id=1429985191 node_paths=PackedStringArray("object", "default_ground", "axe_icon", "default", "winter")]
 script = ExtResource("1_rjf6t")
 object = NodePath("Object")
+default_ground = NodePath("GroundDefault")
 axe_icon = NodePath("Object/AxeIcon")
 default = NodePath("Object/OneTreeDefault")
 winter = NodePath("Object/OneTreeWinter")
@@ -55,7 +56,7 @@ shape = SubResource("CylinderShape3D_rjf6t")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.77355874, 0)
 shape = SubResource("CylinderShape3D_gsm3n")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=633324391]
+[node name="GroundDefault" type="MeshInstance3D" parent="." unique_id=633324391]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = SubResource("BoxMesh_kupoo")
 

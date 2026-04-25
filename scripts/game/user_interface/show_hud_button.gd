@@ -11,20 +11,26 @@ extends Control
 
 @export var fade_duration: float = 0.1
 
+signal fade_out
+signal fade_in
+
 
 var is_hidden = false
 var tween: Tween
 
 
 func _on_button_pressed() -> void:
+	is_hidden = !is_hidden
 	toggle_ui()
+	match is_hidden:
+		true: fade_out.emit()
+		false: fade_in.emit()
 
 
 func toggle_ui() -> void:
 	if tween and tween.is_running():
 		tween.kill()
-	
-	is_hidden = !is_hidden
+
 	var target_alpha = 0.0 if is_hidden else 1.0
 	var ui_elements = [warnings_ui, resources_ui, buildings_ui, time_ui, people_control_ui, object_info_ui]
 	
@@ -34,7 +40,7 @@ func toggle_ui() -> void:
 		for ui in ui_elements:
 			if ui: 
 				ui.visible = true
-
+	
 	for ui in ui_elements:
 		if ui:
 			tween.tween_property(ui, "modulate:a", target_alpha, fade_duration)

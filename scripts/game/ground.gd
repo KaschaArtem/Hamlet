@@ -1,7 +1,7 @@
 extends Node3D
 
 
-@onready var game = get_parent()  
+@onready var game = get_parent()
 @onready var water_manager = $WaterManager
 
 @export_group("Object Scenes")
@@ -26,6 +26,8 @@ extends Node3D
 @export_range(-1.0, 1.0) var WATER_SPAWN: float = -0.67
 
 signal builded(building_action: String)
+signal sawmill_changed
+signal fishing_station_changed
 signal active_tree_changed
 signal active_water_changed
 
@@ -52,6 +54,8 @@ const GRID_CENTER = GRID_SIZE / 2
 
 var noise := FastNoiseLite.new()
 var ground_grid = []
+var allowed_tree_tiles = []
+var allowed_water_tiles = []
 
 var wood_amount = 0
 var water_amount = 0
@@ -148,8 +152,8 @@ func _spawn_tile_by_type(type: String, x: int, z: int) -> void:
 		var instance = scene.instantiate()
 		instance.position = pos
 		add_child(instance)
-		if type != "tile" and type != "main_tile": 
-			increase_tile_amount(type)
+		ground_grid[z][x]["node"] = instance
+		increase_tile_amount(type)
 
 func get_current_water_cluster():
 	return water_manager.current_water_cluster 
@@ -174,15 +178,23 @@ func get_city_bounds() -> Dictionary:
 				right = max(right, j)
 	return {"top": top, "bottom": bottom, "left": left, "right": right}
 
+func _validate_to_cut_tree() -> void:
+	if !allowed_tree_tiles.has(current_to_cut_tree) and current_to_cut_tree != null:
+		current_to_cut_tree.set_axe_icon(true)
+		current_to_cut_tree = null
+
 func select_to_cut_tree(to_cut_tree) -> void:
+	if !allowed_tree_tiles.has(to_cut_tree):
+		return
+
 	if current_to_cut_tree != null:
-		current_to_cut_tree.hide_axe_icon()
+		current_to_cut_tree.set_axe_icon(false)
 	
 	if current_to_cut_tree == to_cut_tree:
 		current_to_cut_tree = null
 	else:
 		current_to_cut_tree = to_cut_tree
-		current_to_cut_tree.show_axe_icon()
+		current_to_cut_tree.set_axe_icon(true)
 	active_tree_changed.emit()
 
 func remove_to_cut_tree() -> void:
@@ -242,9 +254,74 @@ func build_grid_tile(tile_object, building_action) -> void:
 		"tile":
 			if current_type == "tile": return
 			if !can_build_empty_tile(x, z): return
-			_replace_tile(tile_object, x, z, "tile", tile_scene)
+			_delete_tile(tile_object, x, z)
 			
 	builded.emit(building_action)
+
+func _update_allowed_trees() -> Array:
+	var new_allowed_tree_tiles = []
+	var visited = {} 
+	var queue = []
+
+	for z in range(ground_grid.size()):
+		for x in range(ground_grid[z].size()):
+			if ground_grid[z][x]["type"] == "sawmill":
+				var start_pos = Vector2(z, x)
+				queue.append({"pos": start_pos, "dist": 0})
+				visited[start_pos] = true
+
+	while queue.size() > 0:
+		var current = queue.pop_front()
+		var pos = current["pos"]
+		var dist = current["dist"]
+
+		var tile = ground_grid[pos.x][pos.y]
+
+		if tile["type"] == "tree":
+			var tree_instance = tile.get("node")
+			
+			if tree_instance and not new_allowed_tree_tiles.has(tree_instance):
+				new_allowed_tree_tiles.append(tree_instance)
+
+		if dist < 3:
+			var directions = [Vector2(1,0), Vector2(-1,0), Vector2(0,1), Vector2(0,-1)]
+			for dir in directions:
+				var next_pos = pos + dir
+				
+				if next_pos.x >= 0 and next_pos.x < ground_grid.size() and \
+				   next_pos.y >= 0 and next_pos.y < ground_grid.size():
+					
+					if not visited.has(next_pos):
+						visited[next_pos] = true
+						queue.append({"pos": next_pos, "dist": dist + 1})
+
+	for tree in allowed_tree_tiles:
+		if !new_allowed_tree_tiles.has(tree):
+			tree.set_highlight(false)
+		else:
+			tree.set_highlight(true)
+
+	for tree in new_allowed_tree_tiles:
+		tree.set_highlight(true)
+
+	return new_allowed_tree_tiles
+
+func _handle_sawmill_changed() -> void:
+	allowed_tree_tiles = _update_allowed_trees()
+	_validate_to_cut_tree()
+	sawmill_changed.emit()
+
+func _recount_allowed_water() -> Array:
+	var new_allowed_water_tiles = []
+	for tile in ground_grid:
+		if tile["type"] != "fishing_station":
+			continue
+	
+	return new_allowed_water_tiles
+
+func _handle_fishing_station_changed() -> void:
+	allowed_water_tiles = _recount_allowed_water()
+	fishing_station_changed.emit()
 
 func _replace_tile(old_obj, x, z, new_type: String, scene) -> void:
 	decrease_tile_amount(ground_grid[z][x]["type"])
@@ -255,6 +332,27 @@ func _replace_tile(old_obj, x, z, new_type: String, scene) -> void:
 	instance.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	add_child(instance)
 	increase_tile_amount(new_type)
+
+	if new_type == "sawmill":
+		_handle_sawmill_changed()
+	elif new_type == "fishing_station":
+		_handle_fishing_station_changed()
+
+func _delete_tile(old_obj, x, z) -> void:
+	var deleted_type = ground_grid[z][x]["type"]
+
+	decrease_tile_amount(deleted_type)
+	old_obj.queue_free()
+	ground_grid[z][x]["type"] = "tile"
+
+	var instance = tile_scene.instantiate()
+	instance.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
+	add_child(instance)
+
+	if deleted_type == "sawmill":
+		_handle_sawmill_changed()
+	elif deleted_type == "fishing_station":
+		_handle_fishing_station_changed()
 
 func remove_tile_at(x: int, z: int, tile_type: String) -> void:
 	ground_grid[z][x]["type"] = "tile"
@@ -322,16 +420,24 @@ func can_build_building_tile(x, z) -> bool:
 
 func increase_tile_amount(type: String) -> void:
 	match type:
-		"house": house_amount += 1
-		"field": field_amount += 1
-		"pasture": pasture_amount += 1
 		"tree": wood_amount += 1
 		"water": water_amount += 1
+		"house": house_amount += 1
+		"road": road_amount += 1
+		"field": field_amount += 1
+		"pasture": pasture_amount += 1
+		"sawmill": sawmill_amount += 1
+		"fishing_station": fishing_station_amount += 1
+
 
 func decrease_tile_amount(type: String) -> void:
 	match type:
-		"house": house_amount -= 1
-		"field": field_amount -= 1
-		"pasture": pasture_amount -= 1
 		"tree": wood_amount -= 1
 		"water": water_amount -= 1
+		"house": house_amount -= 1
+		"road": road_amount -= 1
+		"field": field_amount -= 1
+		"pasture": pasture_amount -= 1
+		"sawmill": sawmill_amount -= 1
+		"fishing_station": fishing_station_amount -= 1
+		

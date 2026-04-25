@@ -59,7 +59,7 @@ signal player_action_ended
 signal turn_ended
 
 var TILES_INFO = {
-	"tree": ["Tree", "Being cutted to get WOOD. Press F on this tile to choose this tree for cutting during next month. Tree tile will desappeared after this."],
+	"tree": ["Tree", "Being cutted to get WOOD. Press F on this tile if in sawmill radius to choose this tree for cutting during next month. Tree tile will desappeared after this."],
 	"water": ["Water", "Being used to get FISH. Press F on water cluster to choose it for fishing during next month. After fishing this water cluster will not be available for 3 months."],
 	"house": ["House", "Increasing max amount of PEOPLE, WOOD, FOOD. Allowing to build for its neighboor tiles."],
 	"road": ["Road", "Allowing to build for its neighboor tiles."],
@@ -365,6 +365,7 @@ func get_player_action() -> void:
 func start_first_month() -> void:
 	resources_changed.emit()
 	update_current_season()
+	await get_tree().create_timer(1.0).timeout
 	await get_player_action()
 	turn_ended.emit()
 

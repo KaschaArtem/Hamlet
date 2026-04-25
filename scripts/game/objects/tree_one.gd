@@ -2,10 +2,10 @@ extends Node3D
 
 
 @export var object: Node3D
-
+@export var default_ground: MeshInstance3D
 @export var axe_icon: Sprite3D
-@export var default: Node3D
-@export var winter: Node3D
+
+var highlight_shader_material = preload("res://shaders/material/tree/allowed_tree.tres")
 
 
 func _ready() -> void:
@@ -18,8 +18,19 @@ func _ready() -> void:
 	object.rotation_degrees.y = rotation_y
 	object.scale *= scale_mult
 
-func show_axe_icon() -> void:
-	axe_icon.visible = true
 
-func hide_axe_icon() -> void:
-	axe_icon.visible = false
+func set_highlight(active: bool) -> void:
+	var material_to_apply = highlight_shader_material if active else null
+	_apply_overlay(object, material_to_apply)
+
+func _apply_overlay(node: Node, mat: Material) -> void:
+	if node is MeshInstance3D:
+		node.material_overlay = mat
+	
+	for child in node.get_children():
+		_apply_overlay(child, mat)
+
+
+func set_axe_icon(active: bool) -> void:
+	if axe_icon:
+		axe_icon.visible = active
