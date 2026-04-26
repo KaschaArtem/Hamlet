@@ -52,3 +52,10 @@ func toggle_ui() -> void:
 					if ui: 
 						ui.visible = false
 		)
+
+
+func _on_button_mouse_exited() -> void:
+	GameManager.is_ui_hovered = false
+
+func _on_button_mouse_entered() -> void:
+	GameManager.is_ui_hovered = true

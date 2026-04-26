@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cv7yipq3omf46"]
+
+[ext_resource type="Shader" uid="uid://crjm67b254uvc" path="res://shaders/tile/possible_build_hover.gdshader" id="1_q81x3"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_q81x3")
+shader_parameter/line_color = Color(0.6862745, 0.6862745, 0.6862745, 1)
+shader_parameter/line_spacing = 5.0
+shader_parameter/line_width = 1.0
+shader_parameter/noise_scale = 0.035
+shader_parameter/noise_amplitude = 2.5
+shader_parameter/noise_speed = 0.6
+shader_parameter/real_time = 0.0

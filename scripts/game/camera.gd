@@ -198,7 +198,9 @@ func handle_build_selection() -> void:
 		return
 	if !GameManager.is_build_allowed:
 		return
-	if GameManager.building_action != "null" and GameManager.is_build_allowed != false:
+	if GameManager.is_ui_hovered:
+		return
+	if GameManager.building_action != "null":
 		ground.build_grid_tile(result, GameManager.building_action)
 
 func handle_resource_selection() -> void:

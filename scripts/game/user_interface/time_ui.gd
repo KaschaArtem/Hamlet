@@ -1,5 +1,6 @@
 extends Control
 
+
 @export var game: Node3D
 
 @export_group("Scenes Objects")
@@ -11,6 +12,7 @@ extends Control
 
 signal start_new_month
 
+
 const year_offset = 1207
 const month_offset = 2
 
@@ -18,8 +20,8 @@ var default_x_position: float
 var hide_offset = 200.0 
 var hover_offset = 6.0  
 
-# Переменная для хранения текущей анимации
 var move_tween: Tween
+
 
 func _ready() -> void:
 	game.player_action_started.connect(on_player_action_started)
@@ -31,7 +33,6 @@ func _ready() -> void:
 func on_player_action_started() -> void:
 	end_month_button.disabled = false
 	
-	# Останавливаем старую анимацию, если она была
 	if move_tween: move_tween.kill()
 	
 	move_tween = create_tween()
@@ -69,6 +70,16 @@ func trigger_hide_and_emit() -> void:
 	move_tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	move_tween.tween_property(button_node, "position:x", default_x_position + hide_offset, 0.3)
 
+func _on_start_month_button_mouse_exited() -> void:
+	if not end_month_button.disabled:
+		if move_tween: move_tween.kill()
+		
+		move_tween = create_tween()
+		move_tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		move_tween.tween_property(button_node, "position:x", default_x_position, 0.2)
+
+	GameManager.is_ui_hovered = false
+
 func _on_start_month_button_mouse_entered() -> void:
 	if not end_month_button.disabled:
 		if move_tween: move_tween.kill()
@@ -77,10 +88,4 @@ func _on_start_month_button_mouse_entered() -> void:
 		move_tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		move_tween.tween_property(button_node, "position:x", default_x_position - hover_offset, 0.2)
 
-func _on_start_month_button_mouse_exited() -> void:
-	if not end_month_button.disabled:
-		if move_tween: move_tween.kill()
-		
-		move_tween = create_tween()
-		move_tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		move_tween.tween_property(button_node, "position:x", default_x_position, 0.2)
+	GameManager.is_ui_hovered = true

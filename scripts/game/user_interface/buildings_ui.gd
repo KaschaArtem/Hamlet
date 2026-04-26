@@ -3,6 +3,7 @@ extends Control
 
 @export_group("Links")
 @export var game: Node3D
+@export var ground: Node3D
 @export var toggle_ui: Control
 
 @export_group("Buttons")
@@ -155,6 +156,7 @@ func select_building_action() -> void:
 	if GameManager.building_action == action:
 		clear_building_action()
 		return
+	ground.hover_possible_build_tiles()
 
 	for btn in all_buttons:
 		if btn != button:
@@ -166,6 +168,8 @@ func select_building_action() -> void:
 	show_info_logic(button_panels[button])
 
 func clear_building_action() -> void:
+	ground.unhover_possible_build_tiles()
+
 	GameManager.building_action = "none"
 	var old_btn = selected["button"]
 	clear_selected()
@@ -253,26 +257,26 @@ func clear_selected() -> void:
 	selected["panel"] = null
 
 
-func _on_house_button_mouse_entered() -> void: set_hovered(house_button, house_info); show_info()
-func _on_house_button_mouse_exited() -> void: clear_hovered(); hide_info()
+func _on_house_button_mouse_entered() -> void:set_hovered(house_button, house_info); show_info(); GameManager.is_ui_hovered = true
+func _on_house_button_mouse_exited() -> void: clear_hovered(); hide_info(); GameManager.is_ui_hovered = false
 
-func _on_road_button_mouse_entered() -> void: set_hovered(road_button, road_info); show_info()
-func _on_road_button_mouse_exited() -> void: clear_hovered(); hide_info()
+func _on_road_button_mouse_entered() -> void: set_hovered(road_button, road_info); show_info(); GameManager.is_ui_hovered = true
+func _on_road_button_mouse_exited() -> void: clear_hovered(); hide_info(); GameManager.is_ui_hovered = false
 
-func _on_field_button_mouse_entered() -> void: set_hovered(field_button, field_info); show_info()
-func _on_field_button_mouse_exited() -> void: clear_hovered(); hide_info()
+func _on_field_button_mouse_entered() -> void: set_hovered(field_button, field_info); show_info(); GameManager.is_ui_hovered = true
+func _on_field_button_mouse_exited() -> void: clear_hovered(); hide_info(); GameManager.is_ui_hovered = false
 
-func _on_pasture_button_mouse_entered() -> void: set_hovered(pasture_button, pasture_info); show_info()
-func _on_pasture_button_mouse_exited() -> void: clear_hovered(); hide_info()
+func _on_pasture_button_mouse_entered() -> void: set_hovered(pasture_button, pasture_info); show_info(); GameManager.is_ui_hovered = true
+func _on_pasture_button_mouse_exited() -> void: clear_hovered(); hide_info(); GameManager.is_ui_hovered = false
 
-func _on_sawmill_button_mouse_entered() -> void: set_hovered(sawmill_button, sawmill_info); show_info()
-func _on_sawmill_button_mouse_exited() -> void: clear_hovered(); hide_info()
+func _on_sawmill_button_mouse_entered() -> void: set_hovered(sawmill_button, sawmill_info); show_info(); GameManager.is_ui_hovered = true
+func _on_sawmill_button_mouse_exited() -> void: clear_hovered(); hide_info(); GameManager.is_ui_hovered = false
 
-func _on_fishing_station_button_mouse_entered() -> void: set_hovered(fishing_station_button, fishing_station_info); show_info()
-func _on_fishing_station_button_mouse_exited() -> void: clear_hovered(); hide_info()
+func _on_fishing_station_button_mouse_entered() -> void: set_hovered(fishing_station_button, fishing_station_info); show_info(); GameManager.is_ui_hovered = true
+func _on_fishing_station_button_mouse_exited() -> void: clear_hovered(); hide_info(); GameManager.is_ui_hovered = false
 
-func _on_delete_button_mouse_entered() -> void: set_hovered(delete_button, delete_info); show_info()
-func _on_delete_button_mouse_exited() -> void: clear_hovered(); hide_info()
+func _on_delete_button_mouse_entered() -> void: set_hovered(delete_button, delete_info); show_info(); GameManager.is_ui_hovered = true
+func _on_delete_button_mouse_exited() -> void: clear_hovered(); hide_info(); GameManager.is_ui_hovered = false
 
 func _on_house_button_pressed() -> void: set_selected(house_button, house_info); select_building_action()
 func _on_road_button_pressed() -> void: set_selected(road_button, road_info); select_building_action()
@@ -293,3 +297,4 @@ func _input(event):
 	elif Input.is_action_just_pressed("set_build_to_6"): _on_fishing_station_button_pressed()
 	elif Input.is_action_just_pressed("set_build_to_0"): _on_delete_button_pressed()
 	elif Input.is_action_just_pressed("clear_building_action"): clear_building_action()
+

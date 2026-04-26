@@ -126,6 +126,7 @@ func _ready() -> void:
 	player_action_ended.connect(on_player_action_ended)
 	ground.builded.connect(on_builded)
 	timer.end_month.connect(on_end_month)
+	GameManager.building_action = "none"
 	update_max_values()
 	start_first_month()
 

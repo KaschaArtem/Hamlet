@@ -33,6 +33,7 @@ signal active_water_changed
 
 
 const BUILD_TILES = ["house", "road", "field", "pasture", "sawmill", "fishing_station"]
+const ALLOWING_BUILD_TILES = ["house", "road"]
 const WORLD_TILES = ["tree", "water"]
 
 const TILE_TYPES = {
@@ -54,6 +55,7 @@ const GRID_CENTER = GRID_SIZE / 2
 
 var noise := FastNoiseLite.new()
 var ground_grid = []
+var possible_build_tiles = []
 var allowed_tree_tiles = []
 var allowed_water_tiles = []
 
@@ -65,7 +67,6 @@ var field_amount = 0
 var pasture_amount = 0
 var sawmill_amount = 0
 var fishing_station_amount = 0
-
 
 var current_to_cut_tree = null
 
@@ -128,11 +129,11 @@ func clean_water_artifacts() -> void:
 	ground_grid = new_grid
 
 func generate_grid() -> void:
-	for x in range(GRID_SIZE):
-		for z in range(GRID_SIZE):
-			_spawn_tile_by_type(ground_grid[z][x]["type"], x, z)
+	for z in range(GRID_SIZE):
+		for x in range(GRID_SIZE):
+			_spawn_tile_by_type(ground_grid[z][x]["type"], z, x)
 
-func _spawn_tile_by_type(type: String, x: int, z: int) -> void:
+func _spawn_tile_by_type(type: String, z: int, x: int) -> void:
 	var pos = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
 	var scene = null
 	
@@ -177,6 +178,35 @@ func get_city_bounds() -> Dictionary:
 				left = min(left, j)
 				right = max(right, j)
 	return {"top": top, "bottom": bottom, "left": left, "right": right}
+
+func clear_possible_build_tiles() -> void:
+	possible_build_tiles = []
+
+func unhover_possible_build_tiles() -> void:
+	for tile in possible_build_tiles:
+		if tile.has_method("set_highlight"):
+			tile.set_highlight(false) 
+	clear_possible_build_tiles()
+
+func update_possible_build_tiles() -> void:
+	clear_possible_build_tiles()
+	var directions = [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]
+	for z in range(GRID_SIZE):
+		for x in range(GRID_SIZE):
+			if ground_grid[z][x]["type"] == "tile":
+				for dir in directions:
+					var nx = x + dir.x
+					var nz = z + dir.y
+					if nx >= 0 and nx < GRID_SIZE and nz >= 0 and nz < GRID_SIZE:
+						if ground_grid[nz][nx]["type"] in ALLOWING_BUILD_TILES:
+							possible_build_tiles.append(ground_grid[z][x]["node"])
+							break
+
+func hover_possible_build_tiles() -> void:
+	update_possible_build_tiles()
+	for tile in possible_build_tiles:
+		if tile.has_method("set_highlight"):
+			tile.set_highlight(true)
 
 func _validate_to_cut_tree() -> void:
 	if !allowed_tree_tiles.has(current_to_cut_tree) and current_to_cut_tree != null:
@@ -234,6 +264,8 @@ func build_grid_tile(tile_object, building_action) -> void:
 	
 	if current_type == "main_tile" or WORLD_TILES.has(current_type):
 		return
+	if building_action == "none":
+		return
 
 	match building_action:
 		"house":
@@ -258,7 +290,9 @@ func build_grid_tile(tile_object, building_action) -> void:
 			if current_type == "tile": return
 			if !can_build_empty_tile(x, z): return
 			_delete_tile(tile_object, x, z)
-			
+	
+	unhover_possible_build_tiles()
+	hover_possible_build_tiles()
 	builded.emit(building_action)
 
 func _update_allowed_trees() -> Array:

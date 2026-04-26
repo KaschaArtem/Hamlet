@@ -77,8 +77,9 @@ ground = NodePath("../../Ground")
 [node name="ResourcesUI" parent="UserInterface" unique_id=988245277 node_paths=PackedStringArray("game") instance=ExtResource("13_g6mbv")]
 game = NodePath("../..")
 
-[node name="BuildingsUI" parent="UserInterface" unique_id=139825313 node_paths=PackedStringArray("game", "toggle_ui") instance=ExtResource("12_7f75v")]
+[node name="BuildingsUI" parent="UserInterface" unique_id=139825313 node_paths=PackedStringArray("game", "ground", "toggle_ui") instance=ExtResource("12_7f75v")]
 game = NodePath("../..")
+ground = NodePath("../../Ground")
 toggle_ui = NodePath("../ShowHUDButton")
 
 [node name="TimeUI" parent="UserInterface" unique_id=1607769773 node_paths=PackedStringArray("game") instance=ExtResource("13_0eppp")]

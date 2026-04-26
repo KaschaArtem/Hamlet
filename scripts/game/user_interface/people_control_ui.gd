@@ -292,3 +292,17 @@ func _on_animal_formula_mouse_exited() -> void: animate_info_panel(animal_formul
 
 func _on_fish_formula_mouse_entered() -> void: animate_info_panel(fish_formula_info, true)
 func _on_fish_formula_mouse_exited() -> void: animate_info_panel(fish_formula_info, false)
+
+
+
+func _on_panel_container_mouse_exited() -> void:
+	GameManager.is_ui_hovered = false
+
+func _on_panel_container_mouse_entered() -> void:
+	GameManager.is_ui_hovered = true
+
+func _on_open_close_mouse_exited() -> void:
+	GameManager.is_ui_hovered = false
+
+func _on_open_close_mouse_entered() -> void:
+	GameManager.is_ui_hovered = true
