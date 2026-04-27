@@ -391,7 +391,7 @@ func remove_tile_at(x: int, z: int, tile_type: String) -> void:
 			child.queue_free()
 			break
 	
-	_spawn_tile_by_type("tile", x, z)
+	_spawn_tile_by_type("tile", z, x)
 
 func can_build_empty_tile(x, z) -> bool:
 	var original_type = ground_grid[z][x]["type"]

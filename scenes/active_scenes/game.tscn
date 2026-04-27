@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://d1p02ukg7kcfy" path="res://scenes/game_scenes/objects/pasture.tscn" id="5_g754w"]
 [ext_resource type="PackedScene" uid="uid://dlure545d2ipp" path="res://scenes/game_scenes/objects/tree_one.tscn" id="8_inwm1"]
 [ext_resource type="PackedScene" uid="uid://bktngcc427rq0" path="res://scenes/game_scenes/objects/water.tscn" id="9_cq3oe"]
+[ext_resource type="PackedScene" uid="uid://c424audvu4560" path="res://scenes/game_scenes/user_interface/diet_control_ui.tscn" id="9_nqk4w"]
+[ext_resource type="Script" uid="uid://cg4ne03esvxy1" path="res://scripts/game/user_interface/diet_control_ui.gd" id="10_fgyba"]
 [ext_resource type="Script" uid="uid://m10xkivh4hxe" path="res://scripts/game/timer.gd" id="11_qektj"]
 [ext_resource type="PackedScene" uid="uid://dx75bnqqvdm21" path="res://scenes/game_scenes/user_interface/buildings_ui.tscn" id="12_7f75v"]
 [ext_resource type="PackedScene" uid="uid://duhr3mswrolme" path="res://scenes/game_scenes/user_interface/time_ui.tscn" id="13_0eppp"]
@@ -62,12 +64,13 @@ MenuUI = NodePath("MenuUI")
 
 [node name="UserInterface" type="CanvasLayer" parent="." unique_id=902251080]
 
-[node name="ShowHUDButton" parent="UserInterface" unique_id=661305752 node_paths=PackedStringArray("warnings_ui", "resources_ui", "buildings_ui", "time_ui", "people_control_ui", "object_info_ui") instance=ExtResource("2_nyxo7")]
+[node name="ShowHUDButton" parent="UserInterface" unique_id=661305752 node_paths=PackedStringArray("warnings_ui", "resources_ui", "buildings_ui", "time_ui", "people_control_ui", "diet_control_ui", "object_info_ui") instance=ExtResource("2_nyxo7")]
 warnings_ui = NodePath("../WarningsUI")
 resources_ui = NodePath("../ResourcesUI")
 buildings_ui = NodePath("../BuildingsUI")
 time_ui = NodePath("../TimeUI")
 people_control_ui = NodePath("../PeopleControlUI")
+diet_control_ui = NodePath("../DietControlUI")
 object_info_ui = NodePath("../ObjectInfoUI")
 
 [node name="WarningsUI" parent="UserInterface" unique_id=111395901 node_paths=PackedStringArray("game", "ground") instance=ExtResource("3_nyxo7")]
@@ -85,9 +88,15 @@ toggle_ui = NodePath("../ShowHUDButton")
 [node name="TimeUI" parent="UserInterface" unique_id=1607769773 node_paths=PackedStringArray("game") instance=ExtResource("13_0eppp")]
 game = NodePath("../..")
 
-[node name="PeopleControlUI" parent="UserInterface" unique_id=521716 node_paths=PackedStringArray("game", "ground") instance=ExtResource("14_0eppp")]
+[node name="PeopleControlUI" parent="UserInterface" unique_id=521716 node_paths=PackedStringArray("game", "ground", "diet_control_ui") instance=ExtResource("14_0eppp")]
 game = NodePath("../..")
 ground = NodePath("../../Ground")
+diet_control_ui = NodePath("../DietControlUI")
+
+[node name="DietControlUI" parent="UserInterface" unique_id=2119517837 node_paths=PackedStringArray("game", "people_control_ui") instance=ExtResource("9_nqk4w")]
+script = ExtResource("10_fgyba")
+game = NodePath("../..")
+people_control_ui = NodePath("../PeopleControlUI")
 
 [node name="ObjectInfoUI" parent="UserInterface" unique_id=1749104847 node_paths=PackedStringArray("game", "ground", "camera") instance=ExtResource("16_n4bim")]
 game = NodePath("../..")

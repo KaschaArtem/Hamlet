@@ -7,6 +7,7 @@ extends Control
 @export var buildings_ui: Control
 @export var time_ui: Control
 @export var people_control_ui: Control
+@export var diet_control_ui: Control
 @export var object_info_ui: Control
 
 @export var fade_duration: float = 0.1
@@ -32,7 +33,7 @@ func toggle_ui() -> void:
 		tween.kill()
 
 	var target_alpha = 0.0 if is_hidden else 1.0
-	var ui_elements = [warnings_ui, resources_ui, buildings_ui, time_ui, people_control_ui, object_info_ui]
+	var ui_elements = [warnings_ui, resources_ui, buildings_ui, time_ui, people_control_ui, diet_control_ui, object_info_ui]
 	
 	tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE)
 

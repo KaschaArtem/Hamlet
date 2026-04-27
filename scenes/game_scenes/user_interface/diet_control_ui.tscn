@@ -1,0 +1,383 @@
+[gd_scene format=3 uid="uid://c424audvu4560"]
+
+[ext_resource type="Script" uid="uid://cg4ne03esvxy1" path="res://scripts/game/user_interface/diet_control_ui.gd" id="1_21n3g"]
+[ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="1_jr1wm"]
+[ext_resource type="Theme" uid="uid://bylmv7yacf4xv" path="res://scenes/themes/people_control_button.tres" id="2_21n3g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yihad"]
+bg_color = Color(0, 0, 0, 0.49803922)
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1f5y"]
+bg_color = Color(0.24840015, 0.24840018, 0.24840015, 0.49803922)
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jr1wm"]
+bg_color = Color(0.12225223, 0.12225223, 0.12225223, 0.49803922)
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_21n3g"]
+bg_color = Color(0, 0, 0, 0)
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ikf7c"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0, 0, 0, 0.49803922)
+corner_radius_bottom_right = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m6tg5"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tx7ul"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aa7g6"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tl0ek"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0, 0, 0.49803922)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="DietControlUI" type="Control" unique_id=2119517837 node_paths=PackedStringArray("good_diet_button", "good_diet_amount_label", "good_diet_total_label", "normal_diet_button", "normal_diet_amount_label", "normal_diet_total_label", "saving_diet_button", "saving_diet_amount_label", "saving_diet_total_label", "progress_formula", "base", "people", "progress_mult", "total", "current_progress_label", "needed_progress_label", "progress_bar", "progress_formula_info", "panel", "open_close_button")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_21n3g")
+good_diet_button = NodePath("PanelContainer/VBoxContainer/Good/Good/GoodDietButton")
+good_diet_amount_label = NodePath("PanelContainer/VBoxContainer/Good/Info/Amount")
+good_diet_total_label = NodePath("PanelContainer/VBoxContainer/Good/Info/Total")
+normal_diet_button = NodePath("PanelContainer/VBoxContainer/Normal/Normal/NormalDietButton")
+normal_diet_amount_label = NodePath("PanelContainer/VBoxContainer/Normal/Info/Amount")
+normal_diet_total_label = NodePath("PanelContainer/VBoxContainer/Normal/Info/Total")
+saving_diet_button = NodePath("PanelContainer/VBoxContainer/Saving/Saving/SavingDietButton")
+saving_diet_amount_label = NodePath("PanelContainer/VBoxContainer/Saving/Info/Amount")
+saving_diet_total_label = NodePath("PanelContainer/VBoxContainer/Saving/Info/Total")
+progress_formula = NodePath("PanelContainer/VBoxContainer/ProgressFormula")
+base = NodePath("PanelContainer/VBoxContainer/ProgressFormula/Base")
+people = NodePath("PanelContainer/VBoxContainer/ProgressFormula/People")
+progress_mult = NodePath("PanelContainer/VBoxContainer/ProgressFormula/ProgressMult")
+total = NodePath("PanelContainer/VBoxContainer/ProgressFormula/Total")
+current_progress_label = NodePath("PanelContainer/VBoxContainer/NewHuman/CurrentProgressLabel")
+needed_progress_label = NodePath("PanelContainer/VBoxContainer/NewHuman/NeededProgressLabel")
+progress_bar = NodePath("PanelContainer/VBoxContainer/ProgressBar")
+progress_formula_info = NodePath("PanelContainer/Info/ProgressFormulaInfo")
+panel = NodePath("PanelContainer")
+open_close_button = NodePath("Open_Close")
+
+[node name="Open_Close" type="Button" parent="." unique_id=715790749]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 0
+offset_top = 96.0
+offset_right = 48.0
+offset_bottom = 144.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_yihad")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_k1f5y")
+theme_override_styles/hover = SubResource("StyleBoxFlat_jr1wm")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_21n3g")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=268791095]
+custom_minimum_size = Vector2(196, 0)
+layout_mode = 0
+offset_left = -196.0
+offset_top = 96.0
+offset_bottom = 120.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ikf7c")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=661220990]
+layout_mode = 2
+
+[node name="Good" type="VBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1275072953]
+layout_mode = 2
+
+[node name="Good" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Good" unique_id=652076370]
+layout_mode = 2
+
+[node name="GoodDietLabel" type="Label" parent="PanelContainer/VBoxContainer/Good/Good" unique_id=1452499279]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_jr1wm")
+text = "Good diet"
+
+[node name="GoodDietButton" type="Button" parent="PanelContainer/VBoxContainer/Good/Good" unique_id=775358241]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 1
+theme = ExtResource("2_21n3g")
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_m6tg5")
+
+[node name="Info" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Good" unique_id=130940925]
+layout_mode = 2
+
+[node name="Amount" type="Label" parent="PanelContainer/VBoxContainer/Good/Info" unique_id=1104236862]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "1.5"
+
+[node name="Label1" type="Label" parent="PanelContainer/VBoxContainer/Good/Info" unique_id=1416047244]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "food per human"
+
+[node name="Total" type="Label" parent="PanelContainer/VBoxContainer/Good/Info" unique_id=1505959763]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "6.0"
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/Good/Info" unique_id=277782491]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "total"
+
+[node name="Normal" type="VBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=425964174]
+layout_mode = 2
+
+[node name="Normal" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Normal" unique_id=1171199182]
+layout_mode = 2
+
+[node name="NormalDietLabel" type="Label" parent="PanelContainer/VBoxContainer/Normal/Normal" unique_id=1315547418]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_jr1wm")
+text = "Normal diet"
+
+[node name="NormalDietButton" type="Button" parent="PanelContainer/VBoxContainer/Normal/Normal" unique_id=414661879]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 1
+theme = ExtResource("2_21n3g")
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_tx7ul")
+
+[node name="Info" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Normal" unique_id=287307734]
+layout_mode = 2
+
+[node name="Amount" type="Label" parent="PanelContainer/VBoxContainer/Normal/Info" unique_id=86171276]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "1.0"
+
+[node name="Label1" type="Label" parent="PanelContainer/VBoxContainer/Normal/Info" unique_id=556984733]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "food per human"
+
+[node name="Total" type="Label" parent="PanelContainer/VBoxContainer/Normal/Info" unique_id=1876841909]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "4.0"
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/Normal/Info" unique_id=93334313]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "total"
+
+[node name="Saving" type="VBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1011929050]
+layout_mode = 2
+
+[node name="Saving" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Saving" unique_id=2020696142]
+layout_mode = 2
+
+[node name="SavingDietLabel" type="Label" parent="PanelContainer/VBoxContainer/Saving/Saving" unique_id=333807518]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_jr1wm")
+text = "Saving diet"
+
+[node name="SavingDietButton" type="Button" parent="PanelContainer/VBoxContainer/Saving/Saving" unique_id=1982388431]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 1
+theme = ExtResource("2_21n3g")
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_aa7g6")
+
+[node name="Info" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Saving" unique_id=1418430876]
+layout_mode = 2
+
+[node name="Amount" type="Label" parent="PanelContainer/VBoxContainer/Saving/Info" unique_id=1239849352]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "0.8"
+
+[node name="Label1" type="Label" parent="PanelContainer/VBoxContainer/Saving/Info" unique_id=1176029634]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "food per human"
+
+[node name="Total" type="Label" parent="PanelContainer/VBoxContainer/Saving/Info" unique_id=1429147137]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "3.2"
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/Saving/Info" unique_id=2112806335]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "total"
+
+[node name="Gap" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1202663672]
+layout_mode = 2
+
+[node name="ProgressFormula" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=505737686]
+layout_mode = 2
+
+[node name="Base" type="Label" parent="PanelContainer/VBoxContainer/ProgressFormula" unique_id=1187758983]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.69411767, 0.69411767, 0.69411767, 1)
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 12
+
+[node name="People" type="Label" parent="PanelContainer/VBoxContainer/ProgressFormula" unique_id=6061992]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 12
+
+[node name="ProgressMult" type="Label" parent="PanelContainer/VBoxContainer/ProgressFormula" unique_id=1469114894]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 12
+
+[node name="Total" type="Label" parent="PanelContainer/VBoxContainer/ProgressFormula" unique_id=1968928088]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 12
+
+[node name="NewHuman" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1403612545]
+layout_mode = 2
+
+[node name="PeopleProgressLabel" type="Label" parent="PanelContainer/VBoxContainer/NewHuman" unique_id=1585210393]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "New human progress"
+
+[node name="CurrentProgressLabel" type="Label" parent="PanelContainer/VBoxContainer/NewHuman" unique_id=1339629387]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "0"
+horizontal_alignment = 2
+
+[node name="SlashLabel" type="Label" parent="PanelContainer/VBoxContainer/NewHuman" unique_id=1448608638]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "/"
+horizontal_alignment = 2
+
+[node name="NeededProgressLabel" type="Label" parent="PanelContainer/VBoxContainer/NewHuman" unique_id=1701079874]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="ProgressBar" type="HSlider" parent="PanelContainer/VBoxContainer" unique_id=1617556440]
+layout_mode = 2
+theme_override_constants/grabber_offset = -2000
+max_value = 10.0
+editable = false
+scrollable = false
+
+[node name="Info" type="Label" parent="PanelContainer" unique_id=464235295]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="ProgressFormulaInfo" type="PanelContainer" parent="PanelContainer/Info" unique_id=1960122251]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 43.0
+offset_right = 176.0
+offset_bottom = 74.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tl0ek")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Info/ProgressFormulaInfo" unique_id=1803406932]
+layout_mode = 2
+alignment = 1
+
+[node name="Base" type="Label" parent="PanelContainer/Info/ProgressFormulaInfo/HBoxContainer" unique_id=1930787382]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.69411767, 0.69411767, 0.69411767, 1)
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 12
+text = "Base"
+
+[node name="People" type="Label" parent="PanelContainer/Info/ProgressFormulaInfo/HBoxContainer" unique_id=2104078667]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 12
+text = "* People"
+
+[node name="ProgressMult" type="Label" parent="PanelContainer/Info/ProgressFormulaInfo/HBoxContainer" unique_id=1180564167]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("1_jr1wm")
+theme_override_font_sizes/font_size = 12
+text = "* Progress mult."
+
+[connection signal="mouse_entered" from="Open_Close" to="." method="_on_open_close_mouse_entered"]
+[connection signal="mouse_exited" from="Open_Close" to="." method="_on_open_close_mouse_exited"]
+[connection signal="pressed" from="Open_Close" to="." method="_on_open_close_pressed"]
+[connection signal="mouse_entered" from="PanelContainer" to="." method="_on_panel_container_mouse_entered"]
+[connection signal="mouse_exited" from="PanelContainer" to="." method="_on_panel_container_mouse_exited"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Good/Good/GoodDietButton" to="." method="_on_good_diet_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Normal/Normal/NormalDietButton" to="." method="_on_normal_diet_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Saving/Saving/SavingDietButton" to="." method="_on_saving_diet_button_pressed"]
+[connection signal="mouse_entered" from="PanelContainer/VBoxContainer/ProgressFormula" to="." method="_on_progress_formula_mouse_entered"]
+[connection signal="mouse_exited" from="PanelContainer/VBoxContainer/ProgressFormula" to="." method="_on_progress_formula_mouse_exited"]

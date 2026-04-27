@@ -40,7 +40,18 @@ extends Node3D
 
 @export_group("Base Consumption")
 @export var base_wood_consumption: float = 2.0
-@export var base_food_consumption: float = 1.0
+@export var base_good_diet_food_consumption: float = 1.5
+@export var base_normal_diet_food_consumption: float = 1.0
+@export var base_saving_diet_food_consumption: float = 0.8
+
+@export_group("Base Goals")
+@export var needed_new_human_progress_value: int = 10
+
+@export_group("Mults")
+@export var new_human_progress_mult: float = 1.0
+@export var base_good_diet_mult: float = 0.5
+@export var base_normal_diet_mult: float = 0.2
+@export var base_saving_diet_mult: float = 0.0
 
 @export_group("Death Penalty")
 @export var wood_penalty: float = 5.0
@@ -53,7 +64,10 @@ extends Node3D
 @export var start_animal_food_resource = 8
 
 signal resources_changed
+signal people_changed
 signal people_assignment_changed
+signal people_diet_bases_changed
+signal new_human_progress_changed
 signal player_action_started
 signal player_action_ended
 signal turn_ended
@@ -107,6 +121,11 @@ var people_on_fish: int = 0:
 enum Season { SPRING, SUMMER, AUTUMN, WINTER }
 var month_count: int = 0
 var current_season: Season = Season.SPRING
+
+var current_human_progress: int = 0
+var current_food_consumpton: float = base_normal_diet_food_consumption
+var current_base_human_progress: float = base_normal_diet_mult
+
 
 func get_total_assigned() -> int:
 	return people_on_wood + people_on_plant + people_on_animal + people_on_fish
@@ -211,34 +230,101 @@ func handle_fish_production() -> void:
 	ground.lock_water()
 
 
+func change_good_diet_base(value: float) -> void:
+	base_good_diet_food_consumption += value
+	people_diet_bases_changed.emit()
+
+func change_normal_diet_base(value: float) -> void:
+	base_normal_diet_food_consumption += value
+	people_diet_bases_changed.emit()
+
+func change_diet_base(value: float) -> void:
+	base_saving_diet_food_consumption += value
+	people_diet_bases_changed.emit()
+
+func set_diet_to_good() -> void:
+	current_food_consumpton = base_good_diet_food_consumption
+	current_base_human_progress = base_good_diet_mult
+	resources_changed.emit()
+
+func set_diet_to_normal() -> void:
+	current_food_consumpton = base_normal_diet_food_consumption
+	current_base_human_progress = base_normal_diet_mult
+	resources_changed.emit()
+
+func set_diet_to_saving() -> void:
+	current_food_consumpton = base_saving_diet_food_consumption
+	current_base_human_progress = base_saving_diet_mult
+	resources_changed.emit()
+
+func get_new_human_progress() -> int:
+	return round(current_base_human_progress * human_resource * new_human_progress_mult)
+
+func handle_new_human_progress() -> void:
+	var progress = get_new_human_progress()
+	if progress == 0:
+		return
+	
+	current_human_progress += progress
+	if current_human_progress >= needed_new_human_progress_value:
+		var human_income = current_human_progress / needed_new_human_progress_value
+		var clamped_current_human_progress = current_human_progress % needed_new_human_progress_value
+
+		human_resource += human_income
+		current_human_progress = clamped_current_human_progress
+
+		people_changed.emit()
+	new_human_progress_changed.emit()
+
+
+func get_wood_consumption() -> float:
+	return snapped(human_resource * base_wood_consumption, 0.1)
+
 func is_enough_wood_consumption() -> bool:
 	if current_season != Season.WINTER:
 		return true
-	if wood_resource >= snapped(human_resource * base_wood_consumption, 0.1):
+	if wood_resource >= get_wood_consumption():
 		return true
 	else:
 		return false
 
-func calculate_wood_consumption() -> void:
-
-	wood_resource -= snapped(human_resource * base_wood_consumption, 0.1)
+func handle_wood_consumption() -> void:
+	wood_resource -= get_wood_consumption()
 
 	if wood_resource < 0:
 		human_resource -= int(round(wood_resource / wood_penalty))
+		people_changed.emit()
+
 		wood_resource = 0
 
+
+func get_total_food() -> float:
+	return snapped(plant_food_resource + animal_food_resource, 0.1)
+
+func get_good_diet_food_consumption() -> float:
+	return snapped(human_resource * base_good_diet_food_consumption, 0.1)
+
+func get_normal_diet_food_consumption() -> float:
+	return snapped(human_resource * base_normal_diet_food_consumption, 0.1)
+
+func get_saving_diet_food_consumption() -> float:
+	return snapped(human_resource * base_saving_diet_food_consumption, 0.1)
+
+func get_food_consumption() -> float:
+	return snapped(human_resource * current_food_consumpton, 0.1)
+
 func is_enough_food_consumption() -> bool:
-	var total_food = snapped(plant_food_resource + animal_food_resource, 0.1)
-	var food_consumption = snapped(human_resource * base_food_consumption, 0.1)
+	var total_food = get_total_food()
+	var food_consumption = get_food_consumption()
 
 	if total_food >= food_consumption:
 		return true
 	else:
 		return false
 
-func calculate_food_consumption() -> void:
-	var total_food = snapped(plant_food_resource + animal_food_resource, 0.1)
-	var food_consumption = snapped(human_resource * base_food_consumption, 0.1)
+func handle_food_consumption() -> void:
+	var total_food = get_total_food()
+	var food_consumption = get_food_consumption()
 
 	if total_food >= food_consumption:
 		if total_food > 0:
@@ -259,9 +345,11 @@ func calculate_food_consumption() -> void:
 		var loss = snapped(deficit / food_penalty, 0.1)
 		
 		human_resource = max(0.0, snapped(human_resource - loss, 0.1))
+		people_changed.emit()
 		
 		plant_food_resource = 0.0
 		animal_food_resource = 0.0
+
 
 func process_season() -> void:
 	match current_season:
@@ -284,7 +372,8 @@ func process_spring():
 	handle_food_production()
 	handle_fish_production()
 
-	calculate_food_consumption()
+	handle_new_human_progress()
+	handle_food_consumption()
 
 
 func process_summer():
@@ -297,7 +386,8 @@ func process_summer():
 	handle_food_production()
 	handle_fish_production()
 
-	calculate_food_consumption()
+	handle_new_human_progress()
+	handle_food_consumption()
 
 
 func process_autumn():
@@ -310,7 +400,8 @@ func process_autumn():
 	handle_food_production()
 	handle_fish_production()
 
-	calculate_food_consumption()
+	handle_new_human_progress()
+	handle_food_consumption()
 
 
 func process_winter():
@@ -323,8 +414,9 @@ func process_winter():
 	handle_food_production()
 	handle_fish_production()
 
-	calculate_wood_consumption()
-	calculate_food_consumption()
+	handle_new_human_progress()
+	handle_wood_consumption()
+	handle_food_consumption()
 
 
 func clamp_resources():

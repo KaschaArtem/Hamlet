@@ -4,6 +4,7 @@ extends Control
 @export_group("Links")
 @export var game: Node3D
 @export var ground: Node3D
+@export var diet_control_ui: Control
 
 @export_group("Wood UI")
 @export var less_5_wood: Button
@@ -272,13 +273,24 @@ func move_panel(target_x: float) -> void:
 	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(self, "position:x", target_x, 0.3)
 
+func disable_on_open() -> void:
+	if is_open:
+		move_panel(initial_pos_x)
+		is_open = !is_open
+	open_close_button.visible = false
+
+func enable_on_close() -> void:
+	open_close_button.visible = true
+
 func _on_open_close_pressed() -> void:
 	is_open = !is_open
 	
 	if is_open:
 		move_panel(initial_pos_x + target_offset)
+		diet_control_ui.disable_on_open()
 	else:
 		move_panel(initial_pos_x)
+		diet_control_ui.enable_on_close()
 
 
 func _on_wood_formula_mouse_entered() -> void: animate_info_panel(wood_formula_info, true)
