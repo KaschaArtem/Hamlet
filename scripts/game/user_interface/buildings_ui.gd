@@ -61,6 +61,7 @@ var is_ui_transitioning: bool = false
 func _ready() -> void:
 	game.player_action_started.connect(on_player_action_started)
 	game.player_action_ended.connect(on_player_action_ended)
+	ground.builded.connect(on_builded)
 	toggle_ui.fade_out.connect(on_fade_out)
 	toggle_ui.fade_in.connect(on_fade_in)
 	
@@ -104,10 +105,46 @@ func _create_clean_tween(node: Node) -> Tween:
 	active_tweens[node] = tween
 	return tween
 
+func update_button_availability() -> void:
+	var availability_map = {
+		house_button: game.is_house_build_allowed(),
+		road_button: game.is_road_build_allowed(),
+		field_button: game.is_field_build_allowed(),
+		pasture_button: game.is_pasture_build_allowed(),
+		sawmill_button: game.is_sawmill_build_allowed(),
+		fishing_station_button: game.is_fishing_station_build_allowed(),
+		delete_button: true
+	}
+	
+	for btn in availability_map:
+		if not btn: continue
+		
+		var is_affordable = availability_map[btn]
+		
+		btn.modulate.a = 1.0 if is_affordable else 0.4
+		
+		if selected["button"] == btn and not is_affordable:
+			clear_building_action()
+
+func is_btn_affordable(btn: Button) -> bool:
+	match btn:
+		house_button: return game.is_house_build_allowed()
+		road_button: return game.is_road_build_allowed()
+		field_button: return game.is_field_build_allowed()
+		pasture_button: return game.is_pasture_build_allowed()
+		sawmill_button: return game.is_sawmill_build_allowed()
+		fishing_station_button: return game.is_fishing_station_build_allowed()
+		delete_button: return true
+	return false
+
 func on_player_action_started() -> void:
-	var delay = 0.0
-	for btn in [house_button, road_button, field_button, pasture_button, sawmill_button, fishing_station_button, delete_button]:
+	for btn in all_buttons:
 		btn.disabled = false
+	
+	update_button_availability()
+
+	var delay = 0.0
+	for btn in all_buttons:
 		var tween = _create_clean_tween(btn)
 		tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		tween.tween_property(btn, "position:y", default_y_positions[btn], 0.4).set_delay(delay)
@@ -115,11 +152,14 @@ func on_player_action_started() -> void:
 
 func on_player_action_ended() -> void:
 	clear_building_action()
-	for btn in [house_button, road_button, field_button, pasture_button, sawmill_button, fishing_station_button, delete_button]:
+	for btn in all_buttons:
 		btn.disabled = true
 		var tween = _create_clean_tween(btn)
 		tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		tween.tween_property(btn, "position:y", default_y_positions[btn] + hide_offset, 0.3)
+
+func on_builded() -> void:
+	update_button_availability()
 
 func on_fade_out() -> void:
 	is_ui_transitioning = true
@@ -133,7 +173,14 @@ func on_fade_in() -> void:
 		animate_button_state(selected["button"], "selected")
 
 func select_building_action() -> void:
-	if GameManager.is_build_allowed == false or selected["button"] == null:
+	if selected["button"] == null: 
+		return
+	
+	if not is_btn_affordable(selected["button"]):
+		clear_building_action()
+		return
+
+	if GameManager.is_build_allowed == false:
 		return
 
 	if last_action_frame == Engine.get_frames_drawn():
@@ -186,8 +233,6 @@ func clear_building_action() -> void:
 
 func animate_button_state(button: Button, state: String) -> void:
 	if is_ui_transitioning or not is_visible_in_tree():
-		return
-	if button.disabled:
 		return
 		
 	var target_y = default_y_positions[button]

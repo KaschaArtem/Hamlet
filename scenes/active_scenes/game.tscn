@@ -14,7 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://dlure545d2ipp" path="res://scenes/game_scenes/objects/tree_one.tscn" id="8_inwm1"]
 [ext_resource type="PackedScene" uid="uid://bktngcc427rq0" path="res://scenes/game_scenes/objects/water.tscn" id="9_cq3oe"]
 [ext_resource type="PackedScene" uid="uid://c424audvu4560" path="res://scenes/game_scenes/user_interface/diet_control_ui.tscn" id="9_nqk4w"]
-[ext_resource type="Script" uid="uid://cg4ne03esvxy1" path="res://scripts/game/user_interface/diet_control_ui.gd" id="10_fgyba"]
 [ext_resource type="Script" uid="uid://m10xkivh4hxe" path="res://scripts/game/timer.gd" id="11_qektj"]
 [ext_resource type="PackedScene" uid="uid://dx75bnqqvdm21" path="res://scenes/game_scenes/user_interface/buildings_ui.tscn" id="12_7f75v"]
 [ext_resource type="PackedScene" uid="uid://duhr3mswrolme" path="res://scenes/game_scenes/user_interface/time_ui.tscn" id="13_0eppp"]
@@ -27,7 +26,6 @@
 [ext_resource type="PackedScene" uid="uid://brg34vd042q85" path="res://scenes/menu_scenes/game_main.tscn" id="17_wtb1e"]
 [ext_resource type="PackedScene" uid="uid://5irxa220xvl" path="res://scenes/game_scenes/objects/road.tscn" id="19_2f60l"]
 [ext_resource type="PackedScene" uid="uid://b6xioqnm5sgfo" path="res://scenes/menu_scenes/back_to_main_menu_confirm.tscn" id="19_n4bim"]
-[ext_resource type="Script" uid="uid://c3w05qcpb55cr" path="res://scripts/game/water_manager.gd" id="21_ijsuf"]
 [ext_resource type="Texture2D" uid="uid://chewv7cpiftx5" path="res://assets/icons/game_ui/3_step_loading_1.png" id="22_6g2ct"]
 [ext_resource type="PackedScene" uid="uid://ic4exuqo7pug" path="res://scenes/game_scenes/objects/sawmill.tscn" id="22_qg2av"]
 [ext_resource type="Texture2D" uid="uid://bjbn4fjrec81o" path="res://assets/icons/game_ui/3_step_loading_2.png" id="23_615p7"]
@@ -94,7 +92,6 @@ ground = NodePath("../../Ground")
 diet_control_ui = NodePath("../DietControlUI")
 
 [node name="DietControlUI" parent="UserInterface" unique_id=2119517837 node_paths=PackedStringArray("game", "people_control_ui") instance=ExtResource("9_nqk4w")]
-script = ExtResource("10_fgyba")
 game = NodePath("../..")
 people_control_ui = NodePath("../PeopleControlUI")
 
@@ -144,10 +141,6 @@ field_scene = ExtResource("3_6djtn")
 pasture_scene = ExtResource("5_g754w")
 sawmill_scene = ExtResource("22_qg2av")
 fishing_station_scene = ExtResource("23_nqk4w")
-
-[node name="WaterManager" type="Node3D" parent="Ground" unique_id=1115785555 node_paths=PackedStringArray("game")]
-script = ExtResource("21_ijsuf")
-game = NodePath("../..")
 three_step_loading_1 = ExtResource("22_6g2ct")
 three_step_loading_2 = ExtResource("23_615p7")
 three_step_loading_3 = ExtResource("24_uy67k")
@@ -194,6 +187,7 @@ directional_shadow_max_distance = 20.0
 
 [node name="Moon" type="DirectionalLight3D" parent="Timer/DayNightCycle" unique_id=157708246]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+visible = false
 light_color = Color(0.7019608, 0.81960785, 1, 1)
 light_energy = 0.2
 light_indirect_energy = 0.2
@@ -204,5 +198,3 @@ shadow_opacity = 0.95
 shadow_blur = 1.6
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 20.0
-
-[node name="Node3D" type="Node3D" parent="." unique_id=1110063609]

@@ -68,6 +68,7 @@ signal people_changed
 signal people_assignment_changed
 signal people_diet_bases_changed
 signal new_human_progress_changed
+signal season_changed
 signal player_action_started
 signal player_action_ended
 signal turn_ended
@@ -143,7 +144,6 @@ func update_max_values() -> void:
 func _ready() -> void:
 	player_action_started.connect(on_player_action_started)
 	player_action_ended.connect(on_player_action_ended)
-	ground.builded.connect(on_builded)
 	timer.end_month.connect(on_end_month)
 	GameManager.building_action = "none"
 	update_max_values()
@@ -169,7 +169,7 @@ func is_fishing_station_build_allowed() -> bool:
 	return fishing_station_cost <= wood_resource
 
 
-func on_builded(building_action) -> void:
+func subtract_building_cost(building_action) -> void:
 	match building_action:
 		"house":
 			wood_resource -= house_cost
@@ -363,11 +363,6 @@ func process_season() -> void:
 			process_winter()
 
 func process_spring():
-	plant_season_mod = 1.0
-	animal_season_mod = 1.0
-	fish_season_mod = 1.0
-	wood_season_mod = 1.0
-
 	handle_wood_production()
 	handle_food_production()
 	handle_fish_production()
@@ -377,11 +372,6 @@ func process_spring():
 
 
 func process_summer():
-	plant_season_mod = 1.5
-	animal_season_mod = 1.0
-	fish_season_mod = 1.2
-	wood_season_mod = 1.0
-
 	handle_wood_production()
 	handle_food_production()
 	handle_fish_production()
@@ -391,11 +381,6 @@ func process_summer():
 
 
 func process_autumn():
-	plant_season_mod = 0.8
-	animal_season_mod = 1.2
-	fish_season_mod = 1.0
-	wood_season_mod = 1.0
-
 	handle_wood_production()
 	handle_food_production()
 	handle_fish_production()
@@ -405,11 +390,6 @@ func process_autumn():
 
 
 func process_winter():
-	plant_season_mod = 0.0
-	animal_season_mod = 0.8
-	fish_season_mod = 0.6
-	wood_season_mod = 0.6
-
 	handle_wood_production()
 	handle_food_production()
 	handle_fish_production()
@@ -464,14 +444,35 @@ func start_first_month() -> void:
 
 func update_current_season() -> void:
 	var month = month_count % 12
+	var new_season
 	if month >= 0 and month <= 2:
-		current_season = Season.SPRING
+		new_season = Season.SPRING
+		plant_season_mod = 1.0
+		animal_season_mod = 1.0
+		fish_season_mod = 1.0
+		wood_season_mod = 1.0
 	elif month >= 3 and month <= 5:
-		current_season = Season.SUMMER
+		new_season = Season.SUMMER
+		plant_season_mod = 1.5
+		animal_season_mod = 1.0
+		fish_season_mod = 1.2
+		wood_season_mod = 1.0
 	elif month >= 6 and month <= 8:
-		current_season = Season.AUTUMN
+		new_season = Season.AUTUMN
+		plant_season_mod = 0.8
+		animal_season_mod = 1.2
+		fish_season_mod = 1.0
+		wood_season_mod = 1.0
 	elif month >= 9 and month <= 11:
-		current_season = Season.WINTER
+		new_season = Season.WINTER
+		plant_season_mod = 0.0
+		animal_season_mod = 0.8
+		fish_season_mod = 0.6
+		wood_season_mod = 0.6
+	
+	if current_season != new_season:
+		current_season = new_season
+		season_changed.emit()
 
 func on_end_month() -> void:
 	update_current_season()

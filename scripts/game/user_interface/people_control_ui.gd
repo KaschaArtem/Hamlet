@@ -72,10 +72,13 @@ extends Control
 @export var open_close_button: Button
 
 
+var disabled_buttons = []
+
 var tween: Tween
 var active_tweens: Dictionary = {}
 var initial_pos_x: float
 var target_offset: float = 316.0
+
 var is_open: bool = false
 
 
@@ -84,6 +87,7 @@ func _ready() -> void:
 	
 	game.player_action_started.connect(on_player_action_started)
 	game.player_action_ended.connect(on_player_action_ended)
+	game.season_changed.connect(on_season_changed)
 	ground.builded.connect(on_builded)
 	ground.active_tree_changed.connect(on_active_tree_changed)
 	ground.active_water_changed.connect(on_active_water_changed)
@@ -202,7 +206,7 @@ func on_player_action_ended() -> void:
 		move_panel(initial_pos_x)
 
 
-func on_builded(_build_index) -> void:
+func on_builded() -> void:
 	update_plant_formula()
 	update_animal_formula()
 
@@ -211,6 +215,10 @@ func on_active_tree_changed() -> void:
 
 func on_active_water_changed() -> void:
 	update_fish_formula() 
+
+func on_season_changed() -> void:
+	update_plant_formula()
+	update_animal_formula()
 
 
 func _on_less_5_wood_pressed() -> void: 
