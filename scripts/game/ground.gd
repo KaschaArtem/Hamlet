@@ -86,6 +86,7 @@ var current_water_cluster = null
 
 func _ready() -> void:
 	game.player_action_started.connect(on_player_action_started)
+	game.season_changed.connect(on_season_changed)
 	init_ground_grid()
 	init_water()
 	generate_grid()
@@ -660,13 +661,50 @@ func _handle_fishing_station_changed() -> void:
 	fishing_station_changed.emit()
 
 
-# Turn Processing & Utilities
+# Turn Processing
 func on_player_action_started() -> void:
 	for cluster in water_clusters:
 		if cluster.cooldown > 0:
 			cluster.cooldown -= 1
 			_update_cluster_visuals(cluster)
 
+func on_season_changed() -> void:
+	match game.current_season:
+		game.Season.SPRING: 
+			_update_map_for_spring()
+		game.Season.SUMMER:
+			_update_map_for_summer()
+		game.Season.AUTUMN:
+			_update_map_for_autumn()
+		game.Season.WINTER:
+			_update_map_for_winter()
+
+func _update_map_for_spring() -> void:
+	for z in range(GRID_SIZE):
+		for x in range(GRID_SIZE):
+			if ground_grid[z][x]["type"] == "tile" or ground_grid[z][x]["type"] == "tree":
+				ground_grid[z][x]["node"].set_season_material("spring")
+
+func _update_map_for_summer() -> void:
+	for z in range(GRID_SIZE):
+		for x in range(GRID_SIZE):
+			if ground_grid[z][x]["type"] == "tile" or ground_grid[z][x]["type"] == "tree":
+				ground_grid[z][x]["node"].set_season_material("summer")
+
+func _update_map_for_autumn() -> void:
+	for z in range(GRID_SIZE):
+		for x in range(GRID_SIZE):
+			if ground_grid[z][x]["type"] == "tile" or ground_grid[z][x]["type"] == "tree":
+				ground_grid[z][x]["node"].set_season_material("autumn")
+
+func _update_map_for_winter() -> void:
+	for z in range(GRID_SIZE):
+		for x in range(GRID_SIZE):
+			if ground_grid[z][x]["type"] == "tile" or ground_grid[z][x]["type"] == "tree":
+				ground_grid[z][x]["node"].set_season_material("winter")
+
+
+# Utilities
 func get_tile_type_name(tile: Node) -> String:
 	if tile == null:
 		return "null"

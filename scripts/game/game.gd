@@ -119,9 +119,9 @@ var people_on_fish: int = 0:
 		people_on_fish = _clamp_resource_value(people_on_fish, v)
 		people_assignment_changed.emit()
 
-enum Season { SPRING, SUMMER, AUTUMN, WINTER }
+enum Season { SPRING, SUMMER, AUTUMN, WINTER, NONE }
 var month_count: int = 0
-var current_season: Season = Season.SPRING
+var current_season: Season = Season.NONE
 
 var current_human_progress: int = 0
 var current_food_consumpton: float = base_normal_diet_food_consumption
@@ -465,13 +465,6 @@ func get_player_action() -> void:
 	player_action_ended.emit()
 
 
-func start_first_month() -> void:
-	resources_changed.emit()
-	update_current_season()
-	await get_tree().create_timer(1.0).timeout
-	await get_player_action()
-	turn_ended.emit()
-
 func update_current_season() -> void:
 	var month = month_count % 12
 	var new_season
@@ -505,6 +498,14 @@ func update_current_season() -> void:
 		season_changed.emit()
 		if new_season == Season.SPRING:
 			current_wood_penalty = 0.0
+
+
+func start_first_month() -> void:
+	resources_changed.emit()
+	update_current_season()
+	await get_tree().create_timer(1.0).timeout
+	await get_player_action()
+	turn_ended.emit()
 
 func on_end_month() -> void:
 	update_current_season()

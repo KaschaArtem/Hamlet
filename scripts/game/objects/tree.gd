@@ -4,9 +4,18 @@ extends Node3D
 @export var ground: MeshInstance3D
 
 @export var object: Node3D
+
+@export var default: Node3D
+@export var winter: Node3D
+
 @export var axe_icon: Sprite3D
 
 var highlight_shader_material = preload("res://materials/tree/allowed_tree.tres")
+
+var spring_material = preload("res://materials/tile/seasons/spring_tile.tres")
+var summer_material = preload("res://materials/tile/seasons/summer_tile.tres")
+var autumn_material = preload("res://materials/tile/seasons/autumn_tile.tres")
+var winter_material = preload("res://materials/tile/seasons/winter_tile.tres")
 
 
 func _ready() -> void:
@@ -35,3 +44,17 @@ func _apply_overlay(node: Node, mat: Material) -> void:
 func set_axe_icon(active: bool) -> void:
 	if axe_icon:
 		axe_icon.visible = active
+
+
+func set_season_material(season: String) -> void:
+	match season:
+		"spring": 
+			ground.material_override = spring_material
+			winter.visible = false
+			default.visible = true
+		"summer": ground.material_override = summer_material
+		"autumn": ground.material_override = autumn_material
+		"winter": 
+			ground.material_override = winter_material
+			winter.visible = true
+			default.visible = false
