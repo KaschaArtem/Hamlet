@@ -19,8 +19,9 @@ material = SubResource("StandardMaterial3D_5hv1e")
 [sub_resource type="BoxShape3D" id="BoxShape3D_mhpnm"]
 size = Vector3(1, 0.001, 1)
 
-[node name="House" type="Node3D" unique_id=1078763312 node_paths=PackedStringArray("object", "default", "winter")]
+[node name="House" type="Node3D" unique_id=1078763312 node_paths=PackedStringArray("ground", "object", "default", "winter")]
 script = ExtResource("1_0vpon")
+ground = NodePath("Ground")
 object = NodePath("Object")
 default = NodePath("Object/HouseDefault")
 winter = NodePath("Object/HouseWinter")

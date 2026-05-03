@@ -55,7 +55,7 @@ extends Node3D
 
 @export_group("Death Penalty")
 @export var wood_penalty: float = 5.0
-@export var food_penalty: float = 1.0
+@export var food_penalty: float = 1.2
 
 @export_group("Start Resources")
 @export var start_human_resource = 4
@@ -127,6 +127,9 @@ var current_human_progress: int = 0
 var current_food_consumpton: float = base_normal_diet_food_consumption
 var current_base_human_progress: float = base_normal_diet_mult
 
+var current_wood_penalty: float = 0.0
+var current_food_penalty: float = 0.0
+
 
 func get_total_assigned() -> int:
 	return people_on_wood + people_on_plant + people_on_animal + people_on_fish
@@ -187,11 +190,13 @@ func subtract_building_cost(building_action) -> void:
 	resources_changed.emit()
 
 
-func get_people_coeff(people_on, pow_value) -> float:
-	var people_coeff = 0.0
+func get_people_coeff(people_on: int, base_eff: float = 1.0, step: float = 0.1, min_eff: float = 0.1) -> float:
+	var total_coeff = 0.0
 	for i in range(people_on):
-		people_coeff += pow(pow_value, i)
-	return snapped(people_coeff, 0.1)
+		var current_person_eff = base_eff - (i * step)
+		current_person_eff = max(current_person_eff, min_eff)
+		total_coeff += current_person_eff
+	return snapped(total_coeff, 0.1)
 
 func get_wood_production() -> float:
 	return snapped(base_wood_income * get_people_coeff(people_on_wood, people_on_wood_eff) * wood_season_mod, 0.1)
@@ -204,13 +209,29 @@ func handle_wood_production() -> void:
 
 	wood_resource += get_wood_production()
 	ground.remove_to_cut_tree()
-	
+
+
+func get_field_coeff(base_eff: float = 0.8, step: float = 0.1, min_eff: float = 0.2) -> float:
+	var total_coeff = 0.0
+	for i in range(ground.field_amount):
+		var current_field_eff = base_eff - (i * step)
+		current_field_eff = max(current_field_eff, min_eff)
+		total_coeff += current_field_eff
+	return snapped(total_coeff, 0.1)
 
 func get_plant_food_production() -> float:
-	return snapped(base_plant_food_income * get_people_coeff(people_on_plant, people_on_plant_eff) * ground.field_amount * plant_season_mod, 0.1)
+	return snapped(base_plant_food_income * get_people_coeff(people_on_plant, people_on_plant_eff) * get_field_coeff() * plant_season_mod, 0.1)
+
+func get_pasture_coeff(base_eff: float = 0.8, step: float = 0.1, min_eff: float = 0.2) -> float:
+	var total_coeff = 0.0
+	for i in range(ground.pasture_amount):
+		var current_pasture_eff = base_eff - (i * step)
+		current_pasture_eff = max(current_pasture_eff, min_eff)
+		total_coeff += current_pasture_eff
+	return snapped(total_coeff, 0.1)
 
 func get_animal_food_production() -> float:
-	return snapped(base_animal_food_income * get_people_coeff(people_on_animal, people_on_animal_eff) * ground.pasture_amount * animal_season_mod, 0.1)
+	return snapped(base_animal_food_income * get_people_coeff(people_on_animal, people_on_animal_eff) * get_pasture_coeff() * animal_season_mod, 0.1)
 
 func handle_food_production() -> void:
 	plant_food_resource += get_plant_food_production()
@@ -292,8 +313,14 @@ func handle_wood_consumption() -> void:
 	wood_resource -= get_wood_consumption()
 
 	if wood_resource < 0:
-		human_resource -= int(round(wood_resource / wood_penalty))
-		people_changed.emit()
+		var new_penalty = abs(snapped(wood_resource, 0.1))
+		current_wood_penalty += new_penalty
+		var integer = int(current_wood_penalty / wood_penalty)
+		if integer != 0:
+			human_resource -= integer
+			human_resource = max(human_resource, 0)
+			people_changed.emit()
+			current_wood_penalty = snapped(current_wood_penalty - wood_penalty * integer, 0.1)
 
 		wood_resource = 0
 
@@ -341,12 +368,15 @@ func handle_food_consumption() -> void:
 			animal_food_resource = max(0.0, snapped(animal_food_resource - animal_to_take, 0.1))
 			
 	else:
-		var deficit = snapped(human_resource - total_food, 0.1)
-		var loss = snapped(deficit / food_penalty, 0.1)
-		
-		human_resource = max(0.0, snapped(human_resource - loss, 0.1))
-		people_changed.emit()
-		
+		var new_penalty = abs(snapped(total_food - food_consumption, 0.1))
+		current_food_penalty += new_penalty
+		var integer = int(current_food_penalty / food_penalty)
+		if integer != 0:
+			human_resource -= integer
+			human_resource = max(human_resource, 0)
+			people_changed.emit()
+			current_food_penalty = current_food_penalty - food_penalty * integer
+
 		plant_food_resource = 0.0
 		animal_food_resource = 0.0
 
@@ -473,6 +503,8 @@ func update_current_season() -> void:
 	if current_season != new_season:
 		current_season = new_season
 		season_changed.emit()
+		if new_season == Season.SPRING:
+			current_wood_penalty = 0.0
 
 func on_end_month() -> void:
 	update_current_season()

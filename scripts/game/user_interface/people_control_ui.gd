@@ -138,14 +138,14 @@ func update_wood_formula() -> void:
 func update_plant_formula() -> void:
 	plant_base.text = str(game.base_plant_food_income)
 	plant_people.text = " * " + str(game.get_people_coeff(game.people_on_plant, game.people_on_plant_eff))
-	plant_fields.text = " * " + str(ground.field_amount)
+	plant_fields.text = " * " + str(game.get_field_coeff())
 	plant_season.text = " * " + str(game.plant_season_mod)
 	plant_total.text = " = " + str(game.get_plant_food_production())
 
 func update_animal_formula() -> void:
 	animal_base.text = str(game.base_animal_food_income)
 	animal_people.text = " * " + str(game.get_people_coeff(game.people_on_animal, game.people_on_animal_eff))
-	animal_pastures.text = " * " + str(ground.pasture_amount)
+	animal_pastures.text = " * " + str(game.get_pasture_coeff())
 	animal_season.text = " * " + str(game.animal_season_mod)
 	animal_total.text = " = " + str(game.get_animal_food_production())
 

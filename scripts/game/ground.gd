@@ -89,6 +89,9 @@ func _ready() -> void:
 	init_ground_grid()
 	init_water()
 	generate_grid()
+	
+	_update_possible_build_tiles()
+	_update_possible_destroy_tiles()
 
 
 func init_ground_grid() -> void:
@@ -253,7 +256,6 @@ func unhover_possible_build_tiles() -> void:
 
 func hover_possible_build_tiles() -> void:
 	unhover_possible_destroy_tiles()
-	_update_possible_build_tiles()
 	for tile in possible_build_tiles:
 		if tile:
 			tile.set_build_highlight(true)
@@ -277,11 +279,11 @@ func _update_possible_build_tiles() -> void:
 func unhover_possible_destroy_tiles() -> void:
 	for tile in possible_destroy_tiles:
 		if tile:
-			tile.set_destroy_highlight(false)
+			if tile.has_method("set_destroy_highlight"):
+				tile.set_destroy_highlight(false)
 
 func hover_possible_destroy_tiles() -> void:
 	unhover_possible_build_tiles()
-	_update_possible_destroy_tiles()
 	for tile in possible_destroy_tiles:
 		if tile:
 			if tile.has_method("set_destroy_highlight"):
@@ -407,6 +409,8 @@ func _replace_tile(old_obj, x, z, new_type: String, scene) -> void:
 	ground_grid[z][x]["node"] = instance
 	increase_tile_amount(new_type)
 
+	_update_possible_build_tiles()
+	_update_possible_destroy_tiles()
 	if new_type == "sawmill":
 		_handle_sawmill_changed()
 	elif new_type == "fishing_station":
@@ -424,6 +428,8 @@ func _delete_tile(old_obj, x, z) -> void:
 	add_child(instance)
 	ground_grid[z][x]["node"] = instance
 
+	_update_possible_build_tiles()
+	_update_possible_destroy_tiles()
 	if deleted_type == "sawmill":
 		_handle_sawmill_changed()
 	elif deleted_type == "fishing_station":
