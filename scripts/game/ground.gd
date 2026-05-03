@@ -285,7 +285,6 @@ func unhover_possible_destroy_tiles() -> void:
 
 func hover_possible_destroy_tiles() -> void:
 	unhover_possible_build_tiles()
-	print(possible_destroy_tiles)
 	for tile in possible_destroy_tiles:
 		if tile:
 			if tile.has_method("set_destroy_highlight"):

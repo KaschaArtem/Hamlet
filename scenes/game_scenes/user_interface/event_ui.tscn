@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://dhwsyha3tdcpi"]
+
+[ext_resource type="FontFile" uid="uid://t21r113ttfg2" path="res://assets/fonts/GFSDidot-Regular.ttf" id="1_ioyco"]
+[ext_resource type="Script" uid="uid://dmofdldu623kx" path="res://scripts/game/user_interface/event_ui.gd" id="1_vrhuq"]
+[ext_resource type="Theme" uid="uid://dlld6ql02vwn0" path="res://scenes/themes/event_button.tres" id="2_hifco"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hifco"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0, 0, 0.49803922)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="EventUI" type="Control" unique_id=605317171 node_paths=PackedStringArray("event_name", "event_info", "option_1", "option_2", "option_3")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vrhuq")
+event_name = NodePath("PanelContainer/EventInfo/Name")
+event_info = NodePath("PanelContainer/EventInfo/Info")
+option_1 = NodePath("PanelContainer/EventButtons/Option1")
+option_2 = NodePath("PanelContainer/EventButtons/Option2")
+option_3 = NodePath("PanelContainer/EventButtons/Option3")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=782503396]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.1254902)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1481858286]
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hifco")
+
+[node name="EventInfo" type="VBoxContainer" parent="PanelContainer" unique_id=1066241810]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Name" type="Label" parent="PanelContainer/EventInfo" unique_id=2131657190]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("1_ioyco")
+text = "Event Name"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Info" type="Label" parent="PanelContainer/EventInfo" unique_id=80991162]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("1_ioyco")
+theme_override_font_sizes/font_size = 12
+text = "Event Info"
+autowrap_mode = 2
+
+[node name="EventButtons" type="VBoxContainer" parent="PanelContainer" unique_id=1313940893]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Option1" type="Button" parent="PanelContainer/EventButtons" unique_id=1461290828]
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("2_hifco")
+theme_override_fonts/font = ExtResource("1_ioyco")
+text = "Option 1"
+alignment = 0
+autowrap_mode = 2
+
+[node name="Option2" type="Button" parent="PanelContainer/EventButtons" unique_id=1591226]
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("2_hifco")
+theme_override_fonts/font = ExtResource("1_ioyco")
+text = "Option 2"
+alignment = 0
+autowrap_mode = 2
+
+[node name="Option3" type="Button" parent="PanelContainer/EventButtons" unique_id=552184431]
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("2_hifco")
+theme_override_fonts/font = ExtResource("1_ioyco")
+text = "Option 3"
+alignment = 0
+autowrap_mode = 2
+
+[connection signal="pressed" from="PanelContainer/EventButtons/Option1" to="." method="_on_option_1_pressed"]
+[connection signal="pressed" from="PanelContainer/EventButtons/Option2" to="." method="_on_option_2_pressed"]
+[connection signal="pressed" from="PanelContainer/EventButtons/Option3" to="." method="_on_option_3_pressed"]

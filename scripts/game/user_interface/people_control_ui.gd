@@ -87,6 +87,7 @@ func _ready() -> void:
 	
 	game.player_action_started.connect(on_player_action_started)
 	game.player_action_ended.connect(on_player_action_ended)
+	game.base_income_changed.connect(on_base_income_changed)
 	game.season_changed.connect(on_season_changed)
 	ground.builded.connect(on_builded)
 	ground.active_tree_changed.connect(on_active_tree_changed)
@@ -205,6 +206,11 @@ func on_player_action_ended() -> void:
 		is_open = !is_open
 		move_panel(initial_pos_x)
 
+func on_base_income_changed() -> void:
+	update_wood_formula()
+	update_plant_formula()
+	update_animal_formula()
+	update_fish_formula()
 
 func on_builded() -> void:
 	update_plant_formula()

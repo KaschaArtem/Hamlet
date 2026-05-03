@@ -65,6 +65,7 @@ extends Node3D
 
 signal resources_changed
 signal people_changed
+signal base_income_changed
 signal people_assignment_changed
 signal people_diet_bases_changed
 signal new_human_progress_changed
@@ -529,6 +530,9 @@ func on_end_month() -> void:
 
 	await get_player_action()
 	turn_ended.emit()
+
+func invoke_base_income_changed() -> void:
+	base_income_changed.emit()
 
 
 func _input(event) -> void:

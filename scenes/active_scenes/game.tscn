@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://dlure545d2ipp" path="res://scenes/game_scenes/objects/tree.tscn" id="8_inwm1"]
 [ext_resource type="PackedScene" uid="uid://bktngcc427rq0" path="res://scenes/game_scenes/objects/water.tscn" id="9_cq3oe"]
 [ext_resource type="PackedScene" uid="uid://c424audvu4560" path="res://scenes/game_scenes/user_interface/diet_control_ui.tscn" id="9_nqk4w"]
+[ext_resource type="PackedScene" uid="uid://dhwsyha3tdcpi" path="res://scenes/game_scenes/user_interface/event_ui.tscn" id="10_qg2av"]
 [ext_resource type="Script" uid="uid://m10xkivh4hxe" path="res://scripts/game/timer.gd" id="11_qektj"]
 [ext_resource type="PackedScene" uid="uid://dx75bnqqvdm21" path="res://scenes/game_scenes/user_interface/buildings_ui.tscn" id="12_7f75v"]
 [ext_resource type="PackedScene" uid="uid://duhr3mswrolme" path="res://scenes/game_scenes/user_interface/time_ui.tscn" id="13_0eppp"]
@@ -31,6 +32,7 @@
 [ext_resource type="Texture2D" uid="uid://bjbn4fjrec81o" path="res://assets/icons/game_ui/3_step_loading_2.png" id="23_615p7"]
 [ext_resource type="PackedScene" uid="uid://c881dbea6vg24" path="res://scenes/game_scenes/objects/fishing_station.tscn" id="23_nqk4w"]
 [ext_resource type="Texture2D" uid="uid://yv3ms638c5g2" path="res://assets/icons/game_ui/3_step_loading_3.png" id="24_uy67k"]
+[ext_resource type="Script" uid="uid://dutsecjbg03ao" path="res://scripts/game/event_generator.gd" id="33_nqk4w"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ggqa2"]
 sky_top_color = Color(0.050760232, 0.07049177, 0.096773066, 1)
@@ -100,6 +102,8 @@ game = NodePath("../..")
 ground = NodePath("../../Ground")
 camera = NodePath("../../Camera")
 
+[node name="EventUI" parent="UserInterface" unique_id=605317171 instance=ExtResource("10_qg2av")]
+
 [node name="MenuUI" type="CanvasLayer" parent="." unique_id=1374243532 node_paths=PackedStringArray("main", "settings", "back_to_main_menu_confirm")]
 process_mode = 2
 visible = false
@@ -156,9 +160,10 @@ projection = 2
 fov = 60.0
 size = 0.06
 
-[node name="Timer" type="Node3D" parent="." unique_id=1136563278 node_paths=PackedStringArray("day_night_cycle")]
+[node name="Timer" type="Node3D" parent="." unique_id=1136563278 node_paths=PackedStringArray("day_night_cycle", "event_generator")]
 script = ExtResource("11_qektj")
 day_night_cycle = NodePath("DayNightCycle")
+event_generator = NodePath("EventGenerator")
 month_time = 2.0
 
 [node name="DayNightCycle" type="Node3D" parent="Timer" unique_id=402077858 node_paths=PackedStringArray("world_env", "sun_light", "moon_light")]
@@ -198,3 +203,9 @@ shadow_opacity = 0.95
 shadow_blur = 1.6
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 20.0
+
+[node name="EventGenerator" type="Node3D" parent="Timer" unique_id=440671221 node_paths=PackedStringArray("game", "ground", "event_ui")]
+script = ExtResource("33_nqk4w")
+game = NodePath("../..")
+ground = NodePath("../../Ground")
+event_ui = NodePath("../../UserInterface/EventUI")
