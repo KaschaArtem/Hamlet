@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cyudhaskykfyy"]
+
+[ext_resource type="Shader" uid="uid://y1f43a2wbj4j" path="res://shaders/tile/possible_destroy_hover.gdshader" id="1_gi2k1"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_gi2k1")
+shader_parameter/line_color = Color(1, 0.24524, 0.18784568, 1)
+shader_parameter/line_spacing = 5.0
+shader_parameter/line_width = 1.0
+shader_parameter/noise_scale = 0.035
+shader_parameter/noise_amplitude = 2.5
+shader_parameter/noise_speed = 0.6
+shader_parameter/real_time = 0.0

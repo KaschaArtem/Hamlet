@@ -15,8 +15,9 @@ material = SubResource("StandardMaterial3D_yi4hv")
 [sub_resource type="BoxShape3D" id="BoxShape3D_uw3wk"]
 size = Vector3(1, 0.001, 1)
 
-[node name="Field" type="Node3D" unique_id=2120491092 node_paths=PackedStringArray("object", "default")]
+[node name="Field" type="Node3D" unique_id=2120491092 node_paths=PackedStringArray("ground", "object", "default")]
 script = ExtResource("1_4t4q4")
+ground = NodePath("Ground")
 object = NodePath("Object")
 default = NodePath("Object/FieldDefault")
 

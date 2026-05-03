@@ -172,17 +172,17 @@ func is_fishing_station_build_allowed() -> bool:
 func subtract_building_cost(building_action) -> void:
 	match building_action:
 		"house":
-			wood_resource -= house_cost
+			wood_resource = snapped(wood_resource - house_cost, 0.1)
 		"road":
-			wood_resource -= road_cost
+			wood_resource = snapped(wood_resource - road_cost, 0.1)
 		"field":
-			wood_resource -= field_cost
+			wood_resource = snapped(wood_resource - field_cost, 0.1)
 		"pasture":
-			wood_resource -= pasture_cost
+			wood_resource = snapped(wood_resource - pasture_cost, 0.1)
 		"sawmill":
-			wood_resource -= sawmill_cost
+			wood_resource = snapped(wood_resource - sawmill_cost, 0.1)
 		"fishing_station":
-			wood_resource -= fishing_station_cost
+			wood_resource = snapped(wood_resource - fishing_station_cost, 0.1)
 	update_max_values()
 	resources_changed.emit()
 
@@ -495,6 +495,9 @@ func _input(event) -> void:
 		return
 	if Input.is_action_just_pressed("reload_game_scene"):
 		SceneManager.load_scene("res://scenes/active_scenes/game.tscn")
+	if Input.is_action_just_pressed("cheat_wood"):
+		wood_resource = max_wood_resource
+		resources_changed.emit()
 	if !GameManager.is_input_allowed:
 		return
 	if Input.is_action_just_pressed("ui_cancel"):

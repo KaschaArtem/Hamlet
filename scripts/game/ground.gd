@@ -5,7 +5,7 @@ extends Node3D
 
 @export_group("Object Scenes")
 @export var tile_scene: PackedScene
-@export var tree_one_scene: PackedScene
+@export var tree_scene: PackedScene
 @export var water_scene: PackedScene
 @export var main_tile_scene: PackedScene
 @export var house_scene: PackedScene
@@ -42,7 +42,7 @@ const WORLD_TILES = ["tree", "water"]
 
 const TILE_TYPES = {
 	"res://scenes/game_scenes/objects/tile.tscn": "tile",
-	"res://scenes/game_scenes/objects/tree_one.tscn": "tree",
+	"res://scenes/game_scenes/objects/tree.tscn": "tree",
 	"res://scenes/game_scenes/objects/water.tscn": "water",
 	"res://scenes/game_scenes/objects/main_tile.tscn": "main_tile",
 	"res://scenes/game_scenes/objects/house.tscn": "house",
@@ -61,6 +61,7 @@ const GRID_CENTER = GRID_SIZE / 2
 var noise := FastNoiseLite.new()
 var ground_grid = []
 var possible_build_tiles = []
+var possible_destroy_tiles = []
 var allowed_tree_tiles = []
 var allowed_water_tiles = []
 
@@ -86,17 +87,12 @@ var current_water_cluster = null
 func _ready() -> void:
 	game.player_action_started.connect(on_player_action_started)
 	init_ground_grid()
-	initialize_water_clusters()
+	init_water()
 	generate_grid()
 
-func setup_noise() -> void:
-	noise.seed = randi()
-	noise.frequency = NOISE_FREQUENCY
-	noise.fractal_octaves = NOISE_FRACTAL_OCTAVES
-	noise.fractal_gain = NOISE_FRACTAL_GAIN
 
 func init_ground_grid() -> void:
-	setup_noise()
+	_setup_noise()
 	for z in range(GRID_SIZE):
 		ground_grid.append([])
 		for x in range(GRID_SIZE):
@@ -119,9 +115,15 @@ func init_ground_grid() -> void:
 	ground_grid[GRID_CENTER + 1][GRID_CENTER] = {"type": "road"}
 	ground_grid[GRID_CENTER][GRID_CENTER - 1] = {"type": "road"}
 	ground_grid[GRID_CENTER][GRID_CENTER + 1] = {"type": "road"}
-	clean_water_artifacts()
+	_clean_water_artifacts()
 
-func clean_water_artifacts() -> void:
+func _setup_noise() -> void:
+	noise.seed = randi()
+	noise.frequency = NOISE_FREQUENCY
+	noise.fractal_octaves = NOISE_FRACTAL_OCTAVES
+	noise.fractal_gain = NOISE_FRACTAL_GAIN
+
+func _clean_water_artifacts() -> void:
 	var new_grid = ground_grid.duplicate(true)
 	for z in range(GRID_SIZE):
 		for x in range(GRID_SIZE):
@@ -138,8 +140,9 @@ func clean_water_artifacts() -> void:
 				new_grid[z][x]["type"] = "tile"
 	ground_grid = new_grid
 
-# Water Initialization & Flood Fill
-func initialize_water_clusters() -> void:
+
+# Water Initialization
+func init_water() -> void:
 	water_clusters.clear()
 	water_map = []
 	var visited = []
@@ -186,6 +189,14 @@ func _flood_fill(start_x: int, start_z: int, visited: Array, cluster_idx: int) -
 					queue.append(Vector2i(nx, nz))
 	return cluster_cells
 
+func _calculate_world_center(cells: Array) -> Vector3:
+	var sum_x = 0.0
+	var sum_z = 0.0
+	for cell in cells:
+		sum_x += cell.x
+		sum_z += cell.y
+	return Vector3((sum_x / cells.size()) + 0.5, 0, (sum_z / cells.size()) + 0.5)
+
 func _calculate_diminishing_value(size: int) -> float:
 	var total = 0.0
 	for i in range(size):
@@ -203,15 +214,8 @@ func _create_cluster_icon(pos: Vector3) -> Sprite3D:
 	add_child(sprite)
 	return sprite
 
-func _calculate_world_center(cells: Array) -> Vector3:
-	var sum_x = 0.0
-	var sum_z = 0.0
-	for cell in cells:
-		sum_x += cell.x
-		sum_z += cell.y
-	return Vector3((sum_x / cells.size()) + 0.5, 0, (sum_z / cells.size()) + 0.5)
 
-# Spawning & Grid Construction
+# Grid Construction
 func generate_grid() -> void:
 	for z in range(GRID_SIZE):
 		for x in range(GRID_SIZE):
@@ -223,7 +227,7 @@ func _spawn_tile_by_type(type: String, z: int, x: int) -> void:
 	
 	match type:
 		"tile":      scene = tile_scene
-		"tree":      scene = tree_one_scene
+		"tree":      scene = tree_scene
 		"water":     scene = water_scene
 		"main_tile": scene = main_tile_scene
 		"house":     scene = house_scene
@@ -240,18 +244,22 @@ func _spawn_tile_by_type(type: String, z: int, x: int) -> void:
 		ground_grid[z][x]["node"] = instance
 		increase_tile_amount(type)
 
-# Building Placement & Mechanics
-func clear_possible_build_tiles() -> void:
-	possible_build_tiles = []
 
+# Possible build tiles handling
 func unhover_possible_build_tiles() -> void:
 	for tile in possible_build_tiles:
 		if tile:
-			tile.set_highlight(false) 
-	clear_possible_build_tiles()
+			tile.set_build_highlight(false)
 
-func update_possible_build_tiles() -> void:
-	clear_possible_build_tiles()
+func hover_possible_build_tiles() -> void:
+	unhover_possible_destroy_tiles()
+	_update_possible_build_tiles()
+	for tile in possible_build_tiles:
+		if tile:
+			tile.set_build_highlight(true)
+
+func _update_possible_build_tiles() -> void:
+	possible_build_tiles.clear()
 	var directions = [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]
 	for z in range(GRID_SIZE):
 		for x in range(GRID_SIZE):
@@ -264,18 +272,85 @@ func update_possible_build_tiles() -> void:
 							possible_build_tiles.append(ground_grid[z][x]["node"])
 							break
 
-func hover_possible_build_tiles() -> void:
-	update_possible_build_tiles()
-	for tile in possible_build_tiles:
-		if tile:
-			tile.set_highlight(true)
 
+# Possible destroy tiles handling
+func unhover_possible_destroy_tiles() -> void:
+	for tile in possible_destroy_tiles:
+		if tile:
+			tile.set_destroy_highlight(false)
+
+func hover_possible_destroy_tiles() -> void:
+	unhover_possible_build_tiles()
+	_update_possible_destroy_tiles()
+	for tile in possible_destroy_tiles:
+		if tile:
+			if tile.has_method("set_destroy_highlight"):
+				tile.set_destroy_highlight(true)
+
+func _update_possible_destroy_tiles() -> void:
+	possible_destroy_tiles.clear()
+	
+	var all_buildings = []
+	var total_count = 0
+	for z in range(GRID_SIZE):
+		for x in range(GRID_SIZE):
+			var type = ground_grid[z][x]["type"]
+			if type in BUILD_TILES or type == "main_tile":
+				all_buildings.append(Vector2i(x, z))
+				total_count += 1
+	
+	for coord in all_buildings:
+		var tile_data = ground_grid[coord.y][coord.x]
+		
+		if tile_data["type"] == "main_tile":
+			continue
+			
+		var original_type = tile_data["type"]
+		
+		tile_data["type"] = "empty"
+		
+		if _is_fully_connected(total_count - 1):
+			if tile_data.has("node"):
+				possible_destroy_tiles.append(tile_data["node"])
+		
+		tile_data["type"] = original_type
+
+func _is_fully_connected(target_count: int) -> bool:
+	if target_count == 0: return true
+	
+	var visited = []
+	for i in range(GRID_SIZE):
+		var row = []
+		row.resize(GRID_SIZE)
+		row.fill(false)
+		visited.append(row)
+		
+	var queue = [Vector2i(GRID_CENTER, GRID_CENTER)]
+	visited[GRID_CENTER][GRID_CENTER] = true
+	var count = 0
+	
+	while queue.size() > 0:
+		var curr = queue.pop_front()
+		count += 1
+		
+		for dir in [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]:
+			var n = curr + dir
+			if n.x >= 0 and n.x < GRID_SIZE and n.y >= 0 and n.y < GRID_SIZE:
+				if not visited[n.y][n.x]:
+					var n_type = ground_grid[n.y][n.x]["type"]
+					if n_type in BUILD_TILES or n_type == "main_tile":
+						visited[n.y][n.x] = true
+						queue.append(n)
+						
+	return count == target_count
+
+
+# Build handling
 func build_grid_tile(tile_object, building_action) -> void:
 	var x = int(tile_object.position.x / TILE_SIZE)
 	var z = int(tile_object.position.z / TILE_SIZE)
-	
 	var current_type = ground_grid[z][x]["type"]
-	
+
 	if current_type == "main_tile" or WORLD_TILES.has(current_type):
 		return
 	if building_action == "none":
@@ -283,30 +358,40 @@ func build_grid_tile(tile_object, building_action) -> void:
 
 	match building_action:
 		"house":
-			if !can_build_building_tile(x, z) or !game.is_house_build_allowed(): return
+			if !possible_build_tiles.has(tile_object) or !game.is_house_build_allowed(): return
 			_replace_tile(tile_object, x, z, "house", house_scene)
+			unhover_possible_build_tiles()
+			hover_possible_build_tiles()
 		"road":
-			if !can_build_building_tile(x, z) or !game.is_road_build_allowed(): return
+			if !possible_build_tiles.has(tile_object) or !game.is_road_build_allowed(): return
 			_replace_tile(tile_object, x, z, "road", road_scene)
+			unhover_possible_build_tiles()
+			hover_possible_build_tiles()
 		"field":
-			if !can_build_building_tile(x, z) or !game.is_field_build_allowed(): return
+			if !possible_build_tiles.has(tile_object) or !game.is_field_build_allowed(): return
 			_replace_tile(tile_object, x, z, "field", field_scene)
+			unhover_possible_build_tiles()
+			hover_possible_build_tiles()
 		"pasture":
-			if !can_build_building_tile(x, z) or !game.is_pasture_build_allowed(): return
+			if !possible_build_tiles.has(tile_object) or !game.is_pasture_build_allowed(): return
 			_replace_tile(tile_object, x, z, "pasture", pasture_scene)
+			unhover_possible_build_tiles()
+			hover_possible_build_tiles()
 		"sawmill":
-			if !can_build_building_tile(x, z) or !game.is_sawmill_build_allowed(): return
+			if !possible_build_tiles.has(tile_object) or !game.is_sawmill_build_allowed(): return
 			_replace_tile(tile_object, x, z, "sawmill", sawmill_scene)
+			unhover_possible_build_tiles()
+			hover_possible_build_tiles()
 		"fishing_station":
-			if !can_build_building_tile(x, z) or !game.is_fishing_station_build_allowed(): return
+			if !possible_build_tiles.has(tile_object) or !game.is_fishing_station_build_allowed(): return
 			_replace_tile(tile_object, x, z, "fishing_station", fishing_station_scene)
+			unhover_possible_build_tiles()
+			hover_possible_build_tiles()
 		"tile":
-			if current_type == "tile": return
-			if !can_build_empty_tile(x, z): return
+			if !possible_destroy_tiles.has(tile_object) or current_type == "tile": return
 			_delete_tile(tile_object, x, z)
-	
-	unhover_possible_build_tiles()
-	hover_possible_build_tiles()
+			unhover_possible_destroy_tiles()
+			hover_possible_destroy_tiles()
 
 	game.subtract_building_cost(building_action)
 	builded.emit()
@@ -344,69 +429,6 @@ func _delete_tile(old_obj, x, z) -> void:
 	elif deleted_type == "fishing_station":
 		_handle_fishing_station_changed()
 
-func remove_tile_at(x: int, z: int, tile_type: String) -> void:
-	ground_grid[z][x]["type"] = "tile"
-	decrease_tile_amount(tile_type)
-
-	var world_pos = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
-	for child in get_children():
-		if child is Node3D and child.position.is_equal_approx(world_pos):
-			child.queue_free()
-			break
-	
-	_spawn_tile_by_type("tile", z, x)
-
-func can_build_empty_tile(x, z) -> bool:
-	var original_type = ground_grid[z][x]["type"]
-	var total_buildings = 0
-	for r in ground_grid:
-		for c in r: 
-			if c["type"] in BUILD_TILES or c["type"] == "main_tile": 
-				total_buildings += 1
-			
-	ground_grid[z][x]["type"] = "tile"
-	var reachable = _count_reachable_buildings()
-	ground_grid[z][x]["type"] = original_type
-	
-	return reachable == (total_buildings - 1)
-
-func can_build_building_tile(x, z) -> bool:
-	if ground_grid[z][x]["type"] != "tile": return false
-	for dir in [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]:
-		var nx = x + dir.x
-		var nz = z + dir.y
-		if nx >= 0 and nx < GRID_SIZE and nz >= 0 and nz < GRID_SIZE:
-			var type = ground_grid[nz][nx]["type"]
-			if type == "main_tile" or type == "house" or type == "road": return true
-	return false
-
-func _count_reachable_buildings() -> int:
-	var visited = []
-	for i in range(GRID_SIZE):
-		var row = []
-		row.resize(GRID_SIZE)
-		row.fill(false)
-		visited.append(row)
-	
-	var queue = [Vector2i(GRID_CENTER, GRID_CENTER)]
-	visited[GRID_CENTER][GRID_CENTER] = true
-	var count = 0
-	
-	while queue.size() > 0:
-		var curr = queue.pop_front()
-		var type = ground_grid[curr.y][curr.x]["type"]
-		
-		if type in BUILD_TILES or type == "main_tile": 
-			count += 1
-		
-		for dir in [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]:
-			var n = curr + dir
-			if n.x >= 0 and n.x < GRID_SIZE and n.y >= 0 and n.y < GRID_SIZE:
-				var n_type = ground_grid[n.y][n.x]["type"]
-				if not visited[n.y][n.x] and (n_type in BUILD_TILES or n_type == "main_tile"):
-					visited[n.y][n.x] = true
-					queue.append(n)
-	return count
 
 # Trees & Sawmill Logic
 func _validate_to_cut_tree() -> void:
@@ -430,8 +452,9 @@ func select_to_cut_tree(to_cut_tree) -> void:
 
 func remove_to_cut_tree() -> void:
 	if current_to_cut_tree:
-		var pos = current_to_cut_tree.global_position
-		remove_tile_at(int(pos.x), int(pos.z), "tree")
+		var x = int(current_to_cut_tree.position.x / TILE_SIZE)
+		var z = int(current_to_cut_tree.position.z / TILE_SIZE)
+		_delete_tile(current_to_cut_tree, x, z)
 		current_to_cut_tree = null
 		active_tree_changed.emit()
 
@@ -629,6 +652,7 @@ func _handle_fishing_station_changed() -> void:
 	allowed_water_tiles = _update_allowed_water()
 	_validate_current_water_cluster()
 	fishing_station_changed.emit()
+
 
 # Turn Processing & Utilities
 func on_player_action_started() -> void:

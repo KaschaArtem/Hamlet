@@ -16,8 +16,9 @@ albedo_color = Color(0.7607843, 0.69803923, 0.5019608, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_2ust3"]
 material = SubResource("StandardMaterial3D_eshkd")
 
-[node name="Pasture" type="Node3D" unique_id=678543669 node_paths=PackedStringArray("object", "default", "winter")]
+[node name="Pasture" type="Node3D" unique_id=678543669 node_paths=PackedStringArray("ground", "object", "default", "winter")]
 script = ExtResource("1_25ok1")
+ground = NodePath("Ground")
 object = NodePath("Object")
 default = NodePath("Object/BarnDefault")
 winter = NodePath("Object/BarnWinter")

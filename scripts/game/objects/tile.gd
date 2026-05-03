@@ -10,7 +10,7 @@ func _ready() -> void:
 	pass
 
 
-func set_highlight(active: bool) -> void:
+func set_build_highlight(active: bool) -> void:
 	if active:
 		tile.material_overlay = possible_build_hover
 	else:

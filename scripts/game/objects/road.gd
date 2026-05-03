@@ -1,20 +1,13 @@
-extends Node
+extends Node3D
 
 
 @export var ground: Node3D
-
-@export var object: Node3D
-
-@export var default: Node3D
-@export var winter: Node3D
 
 var possible_destroy_hover = preload("res://materials/tile/possible_destroy_hover.tres")
 
 
 func _ready() -> void:
-	var rotation_y = randi_range(0, 3) * 90.0
-
-	object.rotation_degrees.y = rotation_y
+	pass
 
 func set_destroy_highlight(active: bool) -> void:
 	if active:

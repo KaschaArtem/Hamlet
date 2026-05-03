@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dncobx6fil0al" path="res://scenes/game_scenes/objects/house.tscn" id="4_5uvhb"]
 [ext_resource type="PackedScene" uid="uid://cjxhndyn3jg3" path="res://scenes/game_scenes/objects/main_tile.tscn" id="4_g754w"]
 [ext_resource type="PackedScene" uid="uid://d1p02ukg7kcfy" path="res://scenes/game_scenes/objects/pasture.tscn" id="5_g754w"]
-[ext_resource type="PackedScene" uid="uid://dlure545d2ipp" path="res://scenes/game_scenes/objects/tree_one.tscn" id="8_inwm1"]
+[ext_resource type="PackedScene" uid="uid://dlure545d2ipp" path="res://scenes/game_scenes/objects/tree.tscn" id="8_inwm1"]
 [ext_resource type="PackedScene" uid="uid://bktngcc427rq0" path="res://scenes/game_scenes/objects/water.tscn" id="9_cq3oe"]
 [ext_resource type="PackedScene" uid="uid://c424audvu4560" path="res://scenes/game_scenes/user_interface/diet_control_ui.tscn" id="9_nqk4w"]
 [ext_resource type="Script" uid="uid://m10xkivh4hxe" path="res://scripts/game/timer.gd" id="11_qektj"]
@@ -132,7 +132,7 @@ main = NodePath("../GameMain")
 [node name="Ground" type="Node3D" parent="." unique_id=1711545239]
 script = ExtResource("1_r0i7r")
 tile_scene = ExtResource("2_amqpi")
-tree_one_scene = ExtResource("8_inwm1")
+tree_scene = ExtResource("8_inwm1")
 water_scene = ExtResource("9_cq3oe")
 main_tile_scene = ExtResource("4_g754w")
 house_scene = ExtResource("4_5uvhb")

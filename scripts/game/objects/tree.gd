@@ -1,8 +1,9 @@
 extends Node3D
 
 
+@export var ground: MeshInstance3D
+
 @export var object: Node3D
-@export var default_ground: MeshInstance3D
 @export var axe_icon: Sprite3D
 
 var highlight_shader_material = preload("res://materials/tree/allowed_tree.tres")

@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://5irxa220xvl"]
 
+[ext_resource type="Script" uid="uid://c50ius3r5m05x" path="res://scripts/game/objects/road.gd" id="1_nso5w"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_njml2"]
 albedo_color = Color(0.7607843, 0.69803923, 0.5019608, 1)
 
@@ -9,7 +11,9 @@ material = SubResource("StandardMaterial3D_njml2")
 [sub_resource type="BoxShape3D" id="BoxShape3D_um6u6"]
 size = Vector3(1, 0.001, 1)
 
-[node name="Road" type="Node3D" unique_id=609646956]
+[node name="Road" type="Node3D" unique_id=609646956 node_paths=PackedStringArray("ground")]
+script = ExtResource("1_nso5w")
+ground = NodePath("Ground")
 
 [node name="Ground" type="MeshInstance3D" parent="." unique_id=158365116]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)

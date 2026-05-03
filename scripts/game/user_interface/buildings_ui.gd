@@ -203,7 +203,11 @@ func select_building_action() -> void:
 	if GameManager.building_action == action:
 		clear_building_action()
 		return
-	ground.hover_possible_build_tiles()
+
+	if action == "tile":
+		ground.hover_possible_destroy_tiles()
+	else:
+		ground.hover_possible_build_tiles()
 
 	for btn in all_buttons:
 		if btn != button:
@@ -216,6 +220,7 @@ func select_building_action() -> void:
 
 func clear_building_action() -> void:
 	ground.unhover_possible_build_tiles()
+	ground.unhover_possible_destroy_tiles()
 
 	GameManager.building_action = "none"
 	var old_btn = selected["button"]
@@ -342,4 +347,3 @@ func _input(event):
 	elif Input.is_action_just_pressed("set_build_to_6"): _on_fishing_station_button_pressed()
 	elif Input.is_action_just_pressed("set_build_to_0"): _on_delete_button_pressed()
 	elif Input.is_action_just_pressed("clear_building_action"): clear_building_action()
-
