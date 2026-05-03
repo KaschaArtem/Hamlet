@@ -57,6 +57,8 @@ var select_offset = 16.0
 var active_tweens = {}
 
 var is_ui_transitioning: bool = false
+var is_turn_active: bool = false
+
 
 func _ready() -> void:
 	game.player_action_started.connect(on_player_action_started)
@@ -138,6 +140,7 @@ func is_btn_affordable(btn: Button) -> bool:
 	return false
 
 func on_player_action_started() -> void:
+	is_turn_active = true
 	for btn in all_buttons:
 		btn.disabled = false
 	
@@ -151,6 +154,7 @@ func on_player_action_started() -> void:
 		delay += 0.05
 
 func on_player_action_ended() -> void:
+	is_turn_active = false
 	clear_building_action()
 	for btn in all_buttons:
 		btn.disabled = true
@@ -237,7 +241,7 @@ func clear_building_action() -> void:
 			show_info_logic(button_panels[btn])
 
 func animate_button_state(button: Button, state: String) -> void:
-	if is_ui_transitioning or not is_visible_in_tree():
+	if is_ui_transitioning or not is_visible_in_tree() or not is_turn_active:
 		return
 		
 	var target_y = default_y_positions[button]

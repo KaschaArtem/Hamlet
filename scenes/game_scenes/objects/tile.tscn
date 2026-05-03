@@ -2,11 +2,7 @@
 
 [ext_resource type="Script" uid="uid://iv3w0emqylcf" path="res://scripts/game/objects/tile.gd" id="1_xvgrg"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_apjkf"]
-albedo_color = Color(0, 0.39215687, 0, 1)
-
 [sub_resource type="BoxMesh" id="BoxMesh_46dey"]
-material = SubResource("StandardMaterial3D_apjkf")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_46dey"]
 size = Vector3(1, 0.001, 1)

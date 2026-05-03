@@ -465,6 +465,14 @@ func get_player_action() -> void:
 	player_action_ended.emit()
 
 
+func get_season_name() -> String:
+	match current_season:
+		Season.SPRING: return "spring"
+		Season.SUMMER: return "summer"
+		Season.AUTUMN: return "autumn"
+		Season.WINTER: return "winter"
+	return "spring"
+
 func update_current_season() -> void:
 	var month = month_count % 12
 	var new_season

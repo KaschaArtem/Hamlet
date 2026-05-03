@@ -13,18 +13,14 @@ radius = 0.40185547
 height = 0.5673828
 radius = 0.29638672
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dmbon"]
-albedo_color = Color(0, 0.39215687, 0, 1)
-
 [sub_resource type="BoxMesh" id="BoxMesh_kupoo"]
-material = SubResource("StandardMaterial3D_dmbon")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dmbon"]
 size = Vector3(1, 0.001, 1)
 
 [node name="Tree" type="Node3D" unique_id=1429985191 node_paths=PackedStringArray("ground", "object", "default", "winter", "axe_icon")]
 script = ExtResource("1_rjf6t")
-ground = NodePath("GroundDefault")
+ground = NodePath("Ground")
 object = NodePath("Object")
 default = NodePath("Object/OneTreeDefault")
 winter = NodePath("Object/OneTreeWinter")
@@ -56,11 +52,12 @@ shape = SubResource("CylinderShape3D_rjf6t")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.77355874, 0)
 shape = SubResource("CylinderShape3D_gsm3n")
 
-[node name="GroundDefault" type="MeshInstance3D" parent="." unique_id=633324391]
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=633324391]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = SubResource("BoxMesh_kupoo")
 
-[node name="StaticBodyGround" type="StaticBody3D" parent="." unique_id=555810292]
+[node name="StaticBodyGround" type="StaticBody3D" parent="Ground" unique_id=555810292]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBodyGround" unique_id=1931180998]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBodyGround" unique_id=1931180998]
 shape = SubResource("BoxShape3D_dmbon")

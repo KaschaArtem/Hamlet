@@ -285,6 +285,7 @@ func unhover_possible_destroy_tiles() -> void:
 
 func hover_possible_destroy_tiles() -> void:
 	unhover_possible_build_tiles()
+	print(possible_destroy_tiles)
 	for tile in possible_destroy_tiles:
 		if tile:
 			if tile.has_method("set_destroy_highlight"):
@@ -406,6 +407,8 @@ func _replace_tile(old_obj, x, z, new_type: String, scene) -> void:
 
 	var instance = scene.instantiate()
 	instance.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
+	if instance.has_method("set_season_material"):
+		instance.set_season_material(game.get_season_name())
 	add_child(instance)
 	ground_grid[z][x]["node"] = instance
 	increase_tile_amount(new_type)
@@ -426,6 +429,7 @@ func _delete_tile(old_obj, x, z) -> void:
 
 	var instance = tile_scene.instantiate()
 	instance.position = Vector3(x * TILE_SIZE, 0, z * TILE_SIZE)
+	instance.set_season_material(game.get_season_name())
 	add_child(instance)
 	ground_grid[z][x]["node"] = instance
 
