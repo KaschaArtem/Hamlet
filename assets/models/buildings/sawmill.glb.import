@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cc0qv5gsq2avm"
-path="res://.godot/imported/church.glb-6be161e065a43bce7a9b073c55979e6a.scn"
+uid="uid://c4nc3r6i0py1r"
+path="res://.godot/imported/sawmill.glb-ae364f0cfc5311514a7b4c57d8330a16.scn"
 
 [deps]
 
-source_file="res://assets/models/buildings/church.glb"
-dest_files=["res://.godot/imported/church.glb-6be161e065a43bce7a9b073c55979e6a.scn"]
+source_file="res://assets/models/buildings/sawmill.glb"
+dest_files=["res://.godot/imported/sawmill.glb-ae364f0cfc5311514a7b4c57d8330a16.scn"]
 
 [params]
 

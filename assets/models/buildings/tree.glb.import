@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cst8vwhli72gv"
-path="res://.godot/imported/barn.glb-58f6e263ff00f0ab0ac17d8ed8b0230b.scn"
+uid="uid://6uohryfp8wh2"
+path="res://.godot/imported/tree.glb-8d769cd8fc39976e3d87b79ea0a886ab.scn"
 
 [deps]
 
-source_file="res://assets/models/buildings/barn.glb"
-dest_files=["res://.godot/imported/barn.glb-58f6e263ff00f0ab0ac17d8ed8b0230b.scn"]
+source_file="res://assets/models/buildings/tree.glb"
+dest_files=["res://.godot/imported/tree.glb-8d769cd8fc39976e3d87b79ea0a886ab.scn"]
 
 [params]
 

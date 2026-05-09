@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk73utyfqanwt"
-path.s3tc="res://.godot/imported/field_carrot.png-c67ce37b35ec6406f36de3c8e23889a9.s3tc.ctex"
+uid="uid://dmedfltjatdjd"
+path.s3tc="res://.godot/imported/field_winter_carrot_winter.png-03e5fa095848c399a1ffebfad324e7fd.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "431c26e6d4a7c090438343e34433f997"
+"md5": "d89aecd8c9f988a55fdf43da44b0d828"
 }
 
 [deps]
 
-source_file="res://assets/models/buildings/field_carrot.png"
-dest_files=["res://.godot/imported/field_carrot.png-c67ce37b35ec6406f36de3c8e23889a9.s3tc.ctex"]
+source_file="res://assets/models/buildings/field_winter_carrot_winter.png"
+dest_files=["res://.godot/imported/field_winter_carrot_winter.png-03e5fa095848c399a1ffebfad324e7fd.s3tc.ctex"]
 
 [params]
 

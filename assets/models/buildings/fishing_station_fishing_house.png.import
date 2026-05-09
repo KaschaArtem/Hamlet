@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clebulryhjr21"
-path.s3tc="res://.godot/imported/house_winter_house_color.png-8c65fc3a6550c65231035c019c81d20b.s3tc.ctex"
+uid="uid://c0fgcrk2hpgek"
+path.s3tc="res://.godot/imported/fishing_station_fishing_house.png-4cd982de39de250c25ef401f9371bec1.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "1e036c27ae077757b7e6b5569baf06b0"
+"md5": "eed41cdbd320b34cad245892e28fbd3a"
 }
 
 [deps]
 
-source_file="res://assets/models/buildings/house_winter_house_color.png"
-dest_files=["res://.godot/imported/house_winter_house_color.png-8c65fc3a6550c65231035c019c81d20b.s3tc.ctex"]
+source_file="res://assets/models/buildings/fishing_station_fishing_house.png"
+dest_files=["res://.godot/imported/fishing_station_fishing_house.png-4cd982de39de250c25ef401f9371bec1.s3tc.ctex"]
 
 [params]
 

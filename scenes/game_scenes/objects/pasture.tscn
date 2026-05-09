@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://d1p02ukg7kcfy"]
 
 [ext_resource type="Script" uid="uid://8gd0vxjgextb" path="res://scripts/game/objects/pasture.gd" id="1_25ok1"]
-[ext_resource type="PackedScene" uid="uid://cst8vwhli72gv" path="res://assets/models/buildings/barn.glb" id="1_t13lb"]
-[ext_resource type="PackedScene" uid="uid://b8kgucfp5j1qk" path="res://assets/models/buildings/barn_winter.glb" id="2_25ok1"]
+[ext_resource type="PackedScene" uid="uid://cjjvu1w40dbd1" path="res://assets/models/buildings/pasture.glb" id="2_25ok1"]
+[ext_resource type="PackedScene" uid="uid://cculeu3bwgsfg" path="res://assets/models/buildings/pasture_winter.glb" id="3_ftro3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a8q6g"]
 size = Vector3(0.81, 0.8913281, 0.61)
@@ -20,16 +20,16 @@ material = SubResource("StandardMaterial3D_eshkd")
 script = ExtResource("1_25ok1")
 ground = NodePath("Ground")
 object = NodePath("Object")
-default = NodePath("Object/BarnDefault")
-winter = NodePath("Object/BarnWinter")
+default = NodePath("Object/Default")
+winter = NodePath("Object/Winter")
 
 [node name="Object" type="Node3D" parent="." unique_id=2011150026]
 
-[node name="BarnDefault" parent="Object" unique_id=2135587875 instance=ExtResource("1_t13lb")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+[node name="Default" parent="Object" unique_id=1984807057 instance=ExtResource("2_25ok1")]
+transform = Transform3D(0.38, 0, 0, 0, 0.38, 0, 0, 0, 0.38, 0, 0, 0)
 
-[node name="BarnWinter" parent="Object" unique_id=570289530 instance=ExtResource("2_25ok1")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+[node name="Winter" parent="Object" unique_id=736415245 instance=ExtResource("3_ftro3")]
+transform = Transform3D(0.38, 0, 0, 0, 0.38, 0, 0, 0, 0.38, 0, 0, 0)
 visible = false
 
 [node name="StaticBodyPasture" type="StaticBody3D" parent="Object" unique_id=1663396438]

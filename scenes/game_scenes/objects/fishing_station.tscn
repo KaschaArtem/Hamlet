@@ -1,13 +1,7 @@
 [gd_scene format=3 uid="uid://c881dbea6vg24"]
 
 [ext_resource type="Script" uid="uid://dv7w6sd4ib2e1" path="res://scripts/game/objects/fishing_station.gd" id="1_o4y1m"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4sbq1"]
-albedo_color = Color(0, 1, 1, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_o4y1m"]
-material = SubResource("StandardMaterial3D_4sbq1")
-size = Vector3(0.5, 0.5, 0.5)
+[ext_resource type="PackedScene" uid="uid://c7uvvaonmcu3q" path="res://assets/models/buildings/fishing_station.glb" id="2_2ybni"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ybni"]
 albedo_color = Color(0.7607843, 0.69803923, 0.5019608, 1)
@@ -18,13 +12,16 @@ material = SubResource("StandardMaterial3D_2ybni")
 [sub_resource type="BoxShape3D" id="BoxShape3D_j3qdc"]
 size = Vector3(1, 0.001, 1)
 
-[node name="FishingStation" type="Node3D" unique_id=188046561 node_paths=PackedStringArray("ground", "object")]
+[node name="FishingStation" type="Node3D" unique_id=188046561 node_paths=PackedStringArray("ground", "object", "default")]
 script = ExtResource("1_o4y1m")
 ground = NodePath("Ground")
-object = NodePath("MeshInstance3D")
+object = NodePath("Object")
+default = NodePath("Object/Default")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=326000173]
-mesh = SubResource("BoxMesh_o4y1m")
+[node name="Object" type="Node3D" parent="." unique_id=750780356]
+
+[node name="Default" parent="Object" unique_id=586911883 instance=ExtResource("2_2ybni")]
+transform = Transform3D(0.205, 0, 0, 0, 0.205, 0, 0, 0, 0.205, 0, 0, 0)
 
 [node name="Ground" type="MeshInstance3D" parent="." unique_id=900156013]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)

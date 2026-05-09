@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dncobx6fil0al"]
 
 [ext_resource type="Script" uid="uid://dey2ixaxnj0px" path="res://scripts/game/objects/house.gd" id="1_0vpon"]
-[ext_resource type="PackedScene" uid="uid://celpjn8lr8pul" path="res://assets/models/buildings/house.glb" id="1_k47um"]
-[ext_resource type="PackedScene" uid="uid://duwrh0xw5moc0" path="res://assets/models/buildings/house_winter.glb" id="2_mhpnm"]
+[ext_resource type="PackedScene" uid="uid://dqsej3htqic8v" path="res://assets/models/buildings/house.glb" id="1_k47um"]
+[ext_resource type="PackedScene" uid="uid://d12dmxfsn35ei" path="res://assets/models/buildings/house_winter.glb" id="2_mhpnm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_st5od"]
 size = Vector3(0.6, 0.8, 0.9)

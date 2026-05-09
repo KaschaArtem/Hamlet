@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dlure545d2ipp"]
 
-[ext_resource type="PackedScene" uid="uid://b067wcs12kstw" path="res://assets/models/buildings/one_tree.glb" id="1_l73gh"]
 [ext_resource type="Script" uid="uid://cetrdjl2axfdy" path="res://scripts/game/objects/tree.gd" id="1_rjf6t"]
 [ext_resource type="Texture2D" uid="uid://dgsmnn3w43it5" path="res://assets/icons/game_ui/axe-tool.png" id="2_gsm3n"]
-[ext_resource type="PackedScene" uid="uid://caj0l2nkipk8b" path="res://assets/models/buildings/one_tree_winter.glb" id="2_rjf6t"]
+[ext_resource type="PackedScene" uid="uid://6uohryfp8wh2" path="res://assets/models/buildings/tree.glb" id="3_hy0ao"]
+[ext_resource type="PackedScene" uid="uid://c1foy8kwhl2dy" path="res://assets/models/buildings/tree_winter.glb" id="4_kauty"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_rjf6t"]
 height = 0.5097046
@@ -22,8 +22,8 @@ size = Vector3(1, 0.001, 1)
 script = ExtResource("1_rjf6t")
 ground = NodePath("Ground")
 object = NodePath("Object")
-default = NodePath("Object/OneTreeDefault")
-winter = NodePath("Object/OneTreeWinter")
+default = NodePath("Object/Default")
+winter = NodePath("Object/Winter")
 axe_icon = NodePath("Object/AxeIcon")
 
 [node name="Object" type="Node3D" parent="." unique_id=1065697323]
@@ -35,10 +35,10 @@ modulate = Color(0.7490196, 0.7490196, 0.7490196, 0.7490196)
 billboard = 1
 texture = ExtResource("2_gsm3n")
 
-[node name="OneTreeDefault" parent="Object" unique_id=175852873 instance=ExtResource("1_l73gh")]
+[node name="Default" parent="Object" unique_id=1859756530 instance=ExtResource("3_hy0ao")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
-[node name="OneTreeWinter" parent="Object" unique_id=290537735 instance=ExtResource("2_rjf6t")]
+[node name="Winter" parent="Object" unique_id=97140680 instance=ExtResource("4_kauty")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 visible = false
 

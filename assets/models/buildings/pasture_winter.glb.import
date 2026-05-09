@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cc0qv5gsq2avm"
-path="res://.godot/imported/church.glb-6be161e065a43bce7a9b073c55979e6a.scn"
+uid="uid://cculeu3bwgsfg"
+path="res://.godot/imported/pasture_winter.glb-22ca398a02f0c3fdfdbfd286c720cc60.scn"
 
 [deps]
 
-source_file="res://assets/models/buildings/church.glb"
-dest_files=["res://.godot/imported/church.glb-6be161e065a43bce7a9b073c55979e6a.scn"]
+source_file="res://assets/models/buildings/pasture_winter.glb"
+dest_files=["res://.godot/imported/pasture_winter.glb-22ca398a02f0c3fdfdbfd286c720cc60.scn"]
 
 [params]
 

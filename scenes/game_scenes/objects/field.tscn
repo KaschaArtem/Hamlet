@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://w5ckrpu1yclv"]
 
 [ext_resource type="Script" uid="uid://yje0uobffd3a" path="res://scripts/game/objects/field.gd" id="1_4t4q4"]
-[ext_resource type="PackedScene" uid="uid://c1djpreyni4lp" path="res://assets/models/buildings/field.glb" id="1_qeuco"]
+[ext_resource type="PackedScene" uid="uid://dajq4yvg7vtlx" path="res://assets/models/buildings/field.glb" id="1_qeuco"]
+[ext_resource type="PackedScene" uid="uid://c1nuirr6tl6gs" path="res://assets/models/buildings/field_winter.glb" id="3_qy0t6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4t4q4"]
 size = Vector3(0.75, 0.05, 0.75)
@@ -19,12 +20,16 @@ size = Vector3(1, 0.001, 1)
 script = ExtResource("1_4t4q4")
 ground = NodePath("Ground")
 object = NodePath("Object")
-default = NodePath("Object/FieldDefault")
+default = NodePath("Object/Default")
 
 [node name="Object" type="Node3D" parent="." unique_id=2124503757]
 
-[node name="FieldDefault" parent="Object" unique_id=904206283 instance=ExtResource("1_qeuco")]
-transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, -0.25, 0, 0.25)
+[node name="Default" parent="Object" unique_id=657663419 instance=ExtResource("1_qeuco")]
+transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.12, 0, 0.05, 0)
+
+[node name="Winter" parent="Object" unique_id=1025537530 instance=ExtResource("3_qy0t6")]
+transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.12, 0, 0.05, 0)
+visible = false
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Object" unique_id=1927599596]
 

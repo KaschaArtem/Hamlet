@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk73utyfqanwt"
-path.s3tc="res://.godot/imported/field_carrot.png-c67ce37b35ec6406f36de3c8e23889a9.s3tc.ctex"
+uid="uid://buwuywqvqkh0"
+path.s3tc="res://.godot/imported/sawmill_winter_lesopilka_winter.png-b8aaefe2d99983516564cce2ce6576a4.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "431c26e6d4a7c090438343e34433f997"
+"md5": "d942e82a91cfcebe44b7fc9362322094"
 }
 
 [deps]
 
-source_file="res://assets/models/buildings/field_carrot.png"
-dest_files=["res://.godot/imported/field_carrot.png-c67ce37b35ec6406f36de3c8e23889a9.s3tc.ctex"]
+source_file="res://assets/models/buildings/sawmill_winter_lesopilka_winter.png"
+dest_files=["res://.godot/imported/sawmill_winter_lesopilka_winter.png-b8aaefe2d99983516564cce2ce6576a4.s3tc.ctex"]
 
 [params]
 

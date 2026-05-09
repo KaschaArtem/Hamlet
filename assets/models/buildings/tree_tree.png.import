@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6en6xb62hw4x"
-path.s3tc="res://.godot/imported/carrot_carrot.png-d23d14f738efe69975e3b830c262ebb6.s3tc.ctex"
+uid="uid://b27abi0pcfyjf"
+path.s3tc="res://.godot/imported/tree_tree.png-969082512fbbc4734d71bb95f5ed7d6d.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "8cd5a3b3bee78f4dff0ad400dca17aa0"
+"md5": "c617a424560fb9b13733ba5fc43452a1"
 }
 
 [deps]
 
-source_file="res://assets/models/buildings/carrot_carrot.png"
-dest_files=["res://.godot/imported/carrot_carrot.png-d23d14f738efe69975e3b830c262ebb6.s3tc.ctex"]
+source_file="res://assets/models/buildings/tree_tree.png"
+dest_files=["res://.godot/imported/tree_tree.png-969082512fbbc4734d71bb95f5ed7d6d.s3tc.ctex"]
 
 [params]
 

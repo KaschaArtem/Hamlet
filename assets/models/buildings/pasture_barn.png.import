@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://co3pokwj7ayu0"
-path.s3tc="res://.godot/imported/barn_winter_barn.png-ba09ce64805964397a70295d1d52860f.s3tc.ctex"
+uid="uid://ca5mbsp1c6mlq"
+path.s3tc="res://.godot/imported/pasture_barn.png-7b9575384289ed2766208a451b8993ae.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "a68865635627493ae8c050a6f9d3ac2d"
+"md5": "269b50007fde0c1644352901efaa43b8"
 }
 
 [deps]
 
-source_file="res://assets/models/buildings/barn_winter_barn.png"
-dest_files=["res://.godot/imported/barn_winter_barn.png-ba09ce64805964397a70295d1d52860f.s3tc.ctex"]
+source_file="res://assets/models/buildings/pasture_barn.png"
+dest_files=["res://.godot/imported/pasture_barn.png-7b9575384289ed2766208a451b8993ae.s3tc.ctex"]
 
 [params]
 

@@ -2,24 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk73utyfqanwt"
-path.s3tc="res://.godot/imported/field_carrot.png-c67ce37b35ec6406f36de3c8e23889a9.s3tc.ctex"
+uid="uid://jqhh1eymkkie"
+path="res://.godot/imported/fishing_station.png-2bd5153061cc763e1d5b349a44015f7d.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
-}
-generator_parameters={
-"md5": "431c26e6d4a7c090438343e34433f997"
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/models/buildings/field_carrot.png"
-dest_files=["res://.godot/imported/field_carrot.png-c67ce37b35ec6406f36de3c8e23889a9.s3tc.ctex"]
+source_file="res://assets/icons/buildings/fishing_station.png"
+dest_files=["res://.godot/imported/fishing_station.png-2bd5153061cc763e1d5b349a44015f7d.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -27,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -41,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

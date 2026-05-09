@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://caj0l2nkipk8b"
-path="res://.godot/imported/one_tree_winter.glb-76861722deb0f54c241f7d124de103c2.scn"
+uid="uid://c1nuirr6tl6gs"
+path="res://.godot/imported/field_winter.glb-83f857931181ea0e01fd30384aebd430.scn"
 
 [deps]
 
-source_file="res://assets/models/buildings/one_tree_winter.glb"
-dest_files=["res://.godot/imported/one_tree_winter.glb-76861722deb0f54c241f7d124de103c2.scn"]
+source_file="res://assets/models/buildings/field_winter.glb"
+dest_files=["res://.godot/imported/field_winter.glb-83f857931181ea0e01fd30384aebd430.scn"]
 
 [params]
 

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b8kgucfp5j1qk"
-path="res://.godot/imported/barn_winter.glb-0f39fefad1aa2be44bc5b706ea5dfa6e.scn"
+uid="uid://c7uvvaonmcu3q"
+path="res://.godot/imported/fishing_station.glb-a12a705a67e3eed289c5c34854e006f7.scn"
 
 [deps]
 
-source_file="res://assets/models/buildings/barn_winter.glb"
-dest_files=["res://.godot/imported/barn_winter.glb-0f39fefad1aa2be44bc5b706ea5dfa6e.scn"]
+source_file="res://assets/models/buildings/fishing_station.glb"
+dest_files=["res://.godot/imported/fishing_station.glb-a12a705a67e3eed289c5c34854e006f7.scn"]
 
 [params]
 
